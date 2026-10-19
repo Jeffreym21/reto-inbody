@@ -165,6 +165,37 @@
   .auth-wrap{position:relative;width:100%;max-width:420px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:28px;}
   .auth-badge{width:52px;height:52px;border-radius:16px;display:flex;align-items:center;justify-content:center;color:#08080B;font-weight:800;font-size:20px;background:var(--violet);box-shadow:0 10px 28px -8px rgba(139,124,251,.65);}
   .auth-card{background:rgba(19,19,25,.72);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.09);border-radius:20px;padding:28px;width:100%;box-shadow:0 24px 60px -20px rgba(0,0,0,.65);}
+  /* ---------- INBODY: capas de color + reporte ---------- */
+  .seg-toggle{display:inline-flex;gap:2px;padding:3px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;}
+  .seg-toggle button{font-size:11.5px;font-weight:600;padding:5px 11px;border-radius:7px;color:var(--ink-soft);background:transparent;border:0;cursor:pointer;transition:background .15s,color .15s;}
+  .seg-toggle button:hover{color:var(--ink);}
+  .seg-toggle button.active{background:var(--surface-3);color:#fff;}
+  .seg-toggle button:focus-visible{outline:2px solid var(--violet);outline-offset:1px;}
+  .layer-legend{display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;font-size:11px;color:var(--ink-soft);}
+  .layer-legend span{display:inline-flex;align-items:center;gap:6px;}
+  .layer-legend i{width:9px;height:9px;border-radius:50%;display:inline-block;}
+  .ib-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;margin-top:16px;}
+  .ib-tile{background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:12px 14px 11px;}
+  .ib-lbl{font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-faint);font-weight:600;}
+  .ib-val{font-family:'IBM Plex Mono',monospace;font-size:21px;font-weight:700;margin-top:3px;font-variant-numeric:tabular-nums;}
+  .ib-val small{font-size:11px;font-weight:500;color:var(--ink-soft);margin-left:4px;}
+  .ib-range{position:relative;height:6px;border-radius:4px;background:var(--surface-3);margin-top:10px;}
+  .ib-range .band{position:absolute;top:0;bottom:0;border-radius:4px;background:rgba(78,229,151,.38);}
+  .ib-range .mark{position:absolute;top:-3px;width:3px;height:12px;border-radius:2px;background:#fff;transform:translateX(-50%);box-shadow:0 0 0 2px var(--surface-2);}
+  .ib-sub{display:flex;justify-content:space-between;gap:6px;margin-top:8px;font-size:10.5px;color:var(--ink-faint);font-family:'IBM Plex Mono',monospace;white-space:nowrap;}
+  .ib-sub .ok{color:var(--green);}
+  .ib-sub .off{color:var(--gold);}
+  .ib-seg{border:1px solid var(--border);border-radius:12px;padding:14px 16px;background:var(--surface-2);transition:border-color .15s;}
+  .ib-seg.active{border-color:var(--violet);}
+  .ib-seg-title{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:13px;margin-bottom:6px;}
+  .ib-seg-title span{font-family:'IBM Plex Mono',monospace;font-weight:400;font-size:10px;color:var(--ink-faint);}
+  .ib-seg table{width:100%;border-collapse:collapse;font-size:12.5px;}
+  .ib-seg td{padding:6px 2px;border-bottom:1px solid var(--border);}
+  .ib-seg tr:last-child td{border-bottom:0;}
+  .ib-seg td:first-child{color:var(--ink-soft);}
+  .ib-seg td:nth-child(2),.ib-seg td:nth-child(3){font-family:'IBM Plex Mono',monospace;text-align:right;font-variant-numeric:tabular-nums;}
+  .ib-seg td:last-child{text-align:right;}
+  .ib-chip{display:inline-block;font-size:10.5px;font-weight:700;padding:2px 9px;border-radius:20px;font-family:'IBM Plex Mono',monospace;}
 </style>
 </head>
 <body class="antialiased">
@@ -393,16 +424,36 @@
           </div>
         </div>
         <div class="card p-6 mb-5 reveal">
-          <h2 class="text-[15px] font-bold display mb-1">Vista 3D</h2>
-          <p class="text-[12px] mb-4" style="color:var(--ink-soft);">Gira sola y responde al scroll de la página</p>
+          <div class="flex items-start justify-between gap-3 flex-wrap mb-4">
+            <div>
+              <h2 class="text-[15px] font-bold display mb-1">Vista 3D</h2>
+              <p class="text-[12px]" style="color:var(--ink-soft);">Gira sola y responde al scroll de la página</p>
+            </div>
+            <div data-layer-ctl style="display:none;"></div>
+          </div>
           <div class="body3d-wrap" id="body3dWrap">
             <div class="body3d-caption">arrastra para orbitar</div>
           </div>
+          <div class="layer-legend" data-layer-legend style="display:none;margin-top:10px;"></div>
+        </div>
+        <div class="card p-6 mb-5 reveal" id="inbodyCard" style="display:none;">
+          <div class="flex items-start justify-between gap-3 flex-wrap">
+            <div>
+              <h2 class="text-[15px] font-bold display mb-1">Tu InBody</h2>
+              <p class="text-[12px]" style="color:var(--ink-soft);" id="inbodySub"></p>
+            </div>
+            <span class="badge-chip good">Oficial</span>
+          </div>
+          <div class="ib-grid" id="inbodyMetrics"></div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4" id="inbodySegments"></div>
+          <p class="text-[12px] mt-4" style="color:var(--ink-soft);line-height:1.6;" id="inbodyNote"></p>
         </div>
         <div class="grid grid-cols-1 lg:grid-cols-[0.85fr_1.15fr] gap-5">
           <div class="card p-6 reveal">
             <h2 class="text-[15px] font-bold display mb-1">Registra medidas</h2>
             <p class="text-[12px] mb-4" style="color:var(--ink-soft);">Toca un punto para registrar una medida de hoy</p>
+            <div data-layer-ctl class="mb-3" style="display:none;"></div>
+            <div class="layer-legend" data-layer-legend style="display:none;margin-bottom:16px;"></div>
             <div class="flex gap-6 flex-wrap justify-center">
               <svg viewBox="0 0 240 460" class="body-illustration flex-none" style="width:190px;">
                 <defs>
@@ -413,27 +464,27 @@
                 </defs>
                 <circle cx="120" cy="32" r="21" class="body-fill" stroke="rgba(66,198,255,.35)" stroke-width="1.2"/>
                 <rect x="112" y="50" width="16" height="18" rx="4" class="body-fill" stroke="rgba(66,198,255,.35)" stroke-width="1.2"/>
-                <path class="body-fill" stroke="rgba(66,198,255,.35)" stroke-width="1.2" d="
+                <path class="body-fill" data-seg="trunk" stroke="rgba(66,198,255,.35)" stroke-width="1.2" d="
                   M84,68 C100,60 140,60 156,68 C170,80 173,102 166,122 C160,140 150,150 148,163
                   C150,177 161,184 169,195 L169,202 C160,208 80,208 71,202 L71,195
                   C79,184 90,177 92,163 C90,150 80,140 74,122 C67,102 70,80 84,68 Z"/>
                 <path class="body-detail" d="M120,90 L120,160 M96,110 Q120,118 144,110 M96,132 Q120,140 144,132 M100,152 Q120,158 140,152"/>
-                <path class="body-fill" stroke="rgba(66,198,255,.35)" stroke-width="1.2" d="
+                <path class="body-fill" data-seg="arm_l" stroke="rgba(66,198,255,.35)" stroke-width="1.2" d="
                   M82,72 C70,84 58,104 52,135 C48,158 48,180 50,203 L36,203
                   C34,178 33,155 36,130 C39,102 50,80 66,68 Z"/>
-                <ellipse cx="43" cy="215" rx="11" ry="15" class="body-fill" stroke="rgba(66,198,255,.35)" stroke-width="1.2"/>
-                <path class="body-fill" stroke="rgba(66,198,255,.35)" stroke-width="1.2" d="
+                <ellipse cx="43" cy="215" rx="11" ry="15" class="body-fill" data-seg="arm_l" stroke="rgba(66,198,255,.35)" stroke-width="1.2"/>
+                <path class="body-fill" data-seg="arm_r" stroke="rgba(66,198,255,.35)" stroke-width="1.2" d="
                   M158,72 C170,84 182,104 188,135 C192,158 192,180 190,203 L204,203
                   C206,178 207,155 204,130 C201,102 190,80 174,68 Z"/>
-                <ellipse cx="197" cy="215" rx="11" ry="15" class="body-fill" stroke="rgba(66,198,255,.35)" stroke-width="1.2"/>
-                <path class="body-fill" stroke="rgba(66,198,255,.35)" stroke-width="1.2" d="
+                <ellipse cx="197" cy="215" rx="11" ry="15" class="body-fill" data-seg="arm_r" stroke="rgba(66,198,255,.35)" stroke-width="1.2"/>
+                <path class="body-fill" data-seg="leg_l" stroke="rgba(66,198,255,.35)" stroke-width="1.2" d="
                   M98,205 C93,230 90,260 88,300 C87,330 86,365 86,395 L54,395
                   C54,365 53,330 54,300 C56,260 60,230 74,205 Z"/>
-                <ellipse cx="68" cy="410" rx="18" ry="11" class="body-fill" stroke="rgba(66,198,255,.35)" stroke-width="1.2"/>
-                <path class="body-fill" stroke="rgba(66,198,255,.35)" stroke-width="1.2" d="
+                <ellipse cx="68" cy="410" rx="18" ry="11" class="body-fill" data-seg="leg_l" stroke="rgba(66,198,255,.35)" stroke-width="1.2"/>
+                <path class="body-fill" data-seg="leg_r" stroke="rgba(66,198,255,.35)" stroke-width="1.2" d="
                   M142,205 C147,230 150,260 152,300 C153,330 154,365 154,395 L186,395
                   C186,365 187,330 186,300 C184,260 180,230 166,205 Z"/>
-                <ellipse cx="172" cy="410" rx="18" ry="11" class="body-fill" stroke="rgba(66,198,255,.35)" stroke-width="1.2"/>
+                <ellipse cx="172" cy="410" rx="18" ry="11" class="body-fill" data-seg="leg_r" stroke="rgba(66,198,255,.35)" stroke-width="1.2"/>
                 <g class="zone-hot" data-zone="chest" data-label="Pecho" transform="translate(120,105)"><circle class="ring" r="10"/><circle class="dot" r="5"/></g>
                 <g class="zone-hot" data-zone="waist" data-label="Cintura" transform="translate(120,165)"><circle class="ring" r="10"/><circle class="dot" r="5"/></g>
                 <g class="zone-hot" data-zone="armL" data-label="Brazo izquierdo" transform="translate(60,150)"><circle class="ring" r="10"/><circle class="dot" r="5"/></g>
@@ -543,7 +594,7 @@ const QUOTES = {
   nutricion:['El progreso no siempre se ve en el espejo, se ve en el plato.','Come para el entreno de mañana, no solo para hoy.','Proteína en cada comida, no solo en la última.'],
   progreso:['Mide en las mismas condiciones y confía en la tendencia.','Los números fluctúan, la dirección es lo que importa.','El sábado es una foto; esta curva es la película.']
 };
-let state = {settings:{examDate:null, waterGoal:2.5, weightGoal:null}, measurements:[], daylogs:{}, week:null};
+let state = {settings:{examDate:null, waterGoal:2.5, weightGoal:null}, measurements:[], daylogs:{}, week:null, inbodyReports:[], inbody:null};
 const todayISO = () => new Date().toISOString().slice(0,10);
 let currentDate = todayISO();
 let activeZone = null;
@@ -679,6 +730,11 @@ async function loadAll(){
     });
     if(!Object.keys(state.week).length) state.week = JSON.parse(JSON.stringify(DEFAULT_WEEK));
   }catch(e){ state.week=JSON.parse(JSON.stringify(DEFAULT_WEEK)); }
+  try{
+    const { data } = await sb.from('inbody_reports').select('*').eq('user_id', currentUser.id).order('measured_on', {ascending:true});
+    state.inbodyReports = data || [];
+    state.inbody = state.inbodyReports.length ? state.inbodyReports[state.inbodyReports.length-1] : null;
+  }catch(e){ state.inbodyReports=[]; state.inbody=null; }
   if(!state.settings.examDate){ state.settings.examDate = nextExamDate(); await saveSettings(); }
   if(state.settings.waterGoal===undefined) state.settings.waterGoal = 2.5;
   document.getElementById('examDate').value = state.settings.examDate;
@@ -692,6 +748,9 @@ async function loadAll(){
   renderChart();
   renderKPIs();
   renderComplianceBars();
+  bodyLayer = state.inbody ? 'lean' : 'off';
+  renderInbody();
+  applyBodyLayer();
   initBody3D();
 }
 function nextExamDate(){
@@ -1051,6 +1110,118 @@ function renderComplianceBars(){
     wrap.appendChild(col);
   });
 }
+/* ---------- INBODY: reporte completo + capas de color del cuerpo ---------- */
+const SEGMENTS = ['arm_l','arm_r','trunk','leg_l','leg_r'];
+const SEG_LABELS = {arm_l:'Brazo izq.', arm_r:'Brazo der.', trunk:'Tronco', leg_l:'Pierna izq.', leg_r:'Pierna der.'};
+const EVAL_LABELS = {low:'Bajo', normal:'Normal', high:'Alto'};
+// verde = dentro de lo normal · naranja = desviación a vigilar · cian = por encima (masa magra) / por debajo (grasa)
+const LAYER_COLORS = {
+  lean: {low:'#FF7A57', normal:'#4EE597', high:'#42C6FF'},
+  fat:  {low:'#42C6FF', normal:'#4EE597', high:'#FF7A57'}
+};
+const LAYER_NAMES = {lean:'Masa magra', fat:'Grasa', off:'Neutro'};
+let bodyLayer = 'off';
+let body3D = null;
+const IB_TILES = [
+  {key:'weight_kg', lbl:'Peso', unit:'kg', d:1, range:'weight'},
+  {key:'skeletal_muscle_kg', lbl:'Músculo esquelético', unit:'kg', d:1},
+  {key:'body_fat_kg', lbl:'Masa grasa', unit:'kg', d:1, range:'body_fat_kg'},
+  {key:'body_fat_pct', lbl:'% Grasa', unit:'%', d:1, range:'body_fat_pct'},
+  {key:'bmi', lbl:'IMC', unit:'kg/m²', d:1, range:'bmi'},
+  {key:'total_body_water_l', lbl:'Agua corporal', unit:'L', d:1, range:'water'},
+  {key:'protein_kg', lbl:'Proteínas', unit:'kg', d:1, range:'protein'},
+  {key:'minerals_kg', lbl:'Minerales', unit:'kg', d:2, range:'minerals'},
+  {key:'fat_free_mass_kg', lbl:'Masa libre de grasa', unit:'kg', d:1},
+  {key:'bmr_kcal', lbl:'Metabolismo basal', unit:'kcal', d:0, range:'bmr'},
+  {key:'visceral_fat_level', lbl:'Grasa visceral', unit:'nivel', d:0, range:'visceral'},
+  {key:'waist_hip_ratio', lbl:'Cintura-cadera', unit:'', d:2, range:'whr'}
+];
+function fmtNum(v, d){ return Number(v).toFixed(d).replace('.', ','); }
+function ibFmt(v, d){ const s = fmtNum(v, d); return d===0 ? s.replace(/\B(?=(\d{3})+(?!\d))/g, '.') : s; }
+function fmtDateEs(iso){ const p = String(iso||'').split('-'); return p.length===3 ? p[2]+'/'+p[1]+'/'+p[0] : ''; }
+function hexToRgba(hex, a){
+  const m = /^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec(hex||'');
+  return m ? `rgba(${parseInt(m[1],16)},${parseInt(m[2],16)},${parseInt(m[3],16)},${a})` : 'rgba(255,255,255,.08)';
+}
+function segmentItem(layer, seg){
+  const rep = state.inbody; if(!rep) return null;
+  const block = layer==='lean' ? rep.segmental_lean : layer==='fat' ? rep.segmental_fat : null;
+  const item = block && block[seg];
+  return item && LAYER_COLORS[layer] && LAYER_COLORS[layer][item.eval] ? item : null;
+}
+function segmentColor(layer, seg){ const it = segmentItem(layer, seg); return it ? LAYER_COLORS[layer][it.eval] : null; }
+function ibTile(t, rep){
+  const raw = rep[t.key]; if(raw==null) return '';
+  const v = Number(raw);
+  const r = rep.ranges && t.range ? rep.ranges[t.range] : null;
+  let bar = '', sub = '';
+  if(r && isFinite(r.min) && isFinite(r.max)){
+    const span = (r.max - r.min) || 1;
+    const lo = r.min - span*0.6, hi = r.max + span*0.6;
+    const pos = x => Math.max(2, Math.min(98, (x-lo)/(hi-lo)*100));
+    const st = v < r.min ? 'low' : v > r.max ? 'high' : 'normal';
+    bar = `<div class="ib-range"><span class="band" style="left:${pos(r.min)}%;width:${pos(r.max)-pos(r.min)}%;"></span><span class="mark" style="left:${pos(v)}%;"></span></div>`;
+    sub = `<div class="ib-sub"><span>${ibFmt(r.min,t.d)}–${ibFmt(r.max,t.d)}</span><span class="${st==='normal'?'ok':'off'}">${EVAL_LABELS[st]}</span></div>`;
+  }
+  return `<div class="ib-tile"><div class="ib-lbl">${t.lbl}</div><div class="ib-val">${ibFmt(v,t.d)}<small>${t.unit}</small></div>${bar}${sub}</div>`;
+}
+function renderInbodySegments(){
+  const rep = state.inbody, box = document.getElementById('inbodySegments');
+  if(!rep || !box) return;
+  const block = (layer, title, hint, kgDec) => {
+    const data = layer==='lean' ? rep.segmental_lean : rep.segmental_fat;
+    const rows = SEGMENTS.map(seg=>{
+      const it = data && data[seg]; if(!it) return '';
+      const col = LAYER_COLORS[layer][it.eval] || null;
+      const chip = `<span class="ib-chip" style="color:${col||'var(--ink-faint)'};background:${hexToRgba(col,.14)};">${EVAL_LABELS[it.eval]||'—'}</span>`;
+      return `<tr><td>${SEG_LABELS[seg]}</td><td>${fmtNum(it.kg,kgDec)} kg</td><td>${fmtNum(it.pct,1)} %</td><td>${chip}</td></tr>`;
+    }).join('');
+    return `<div class="ib-seg ${bodyLayer===layer?'active':''}"><div class="ib-seg-title">${title}<span>${hint}</span></div><table>${rows}</table></div>`;
+  };
+  box.innerHTML = block('lean','Masa magra','% del ideal',2) + block('fat','Grasa','% de grasa del segmento',1);
+}
+function renderInbody(){
+  const rep = state.inbody, card = document.getElementById('inbodyCard');
+  if(!card) return;
+  if(!rep){ card.style.display = 'none'; return; }
+  card.style.display = '';
+  const time = rep.tested_at ? ' '+String(rep.tested_at).slice(11,16) : '';
+  const bits = [rep.device ? escapeHtml(rep.device) : null, rep.height_cm ? fmtNum(rep.height_cm,0)+' cm' : null, rep.age_years ? Number(rep.age_years)+' años' : null].filter(Boolean).join(' · ');
+  document.getElementById('inbodySub').innerHTML = fmtDateEs(rep.measured_on) + escapeHtml(time) + (bits ? ' · '+bits : '');
+  document.getElementById('inbodyMetrics').innerHTML = IB_TILES.map(t=>ibTile(t, rep)).join('');
+  renderInbodySegments();
+  const parts = [];
+  if(rep.ideal_weight_kg!=null) parts.push('Peso ideal según el InBody: <b>'+fmtNum(rep.ideal_weight_kg,1)+' kg</b>');
+  if(rep.fat_control_kg!=null && Number(rep.fat_control_kg)!==0) parts.push((Number(rep.fat_control_kg)<0?'bajar ':'subir ')+fmtNum(Math.abs(rep.fat_control_kg),1)+' kg de grasa');
+  if(rep.muscle_control_kg!=null) parts.push('músculo '+(Number(rep.muscle_control_kg)===0 ? 'sin cambio' : (Number(rep.muscle_control_kg)>0?'+':'')+fmtNum(rep.muscle_control_kg,1)+' kg'));
+  if(state.settings.weightGoal) parts.push('tu meta actual: <b>'+fmtNum(state.settings.weightGoal,1)+' kg</b>');
+  document.getElementById('inbodyNote').innerHTML = parts.join(' · ');
+}
+// aplica la capa activa (masa magra / grasa / neutro) a toggles, leyendas, diagrama plano y cuerpo 3D
+function applyBodyLayer(){
+  const has = !!state.inbody;
+  if(!has) bodyLayer = 'off';
+  document.querySelectorAll('[data-layer-ctl]').forEach(el=>{
+    el.style.display = has ? '' : 'none';
+    el.innerHTML = has ? `<div class="seg-toggle" role="group" aria-label="Capa del cuerpo">${['lean','fat','off'].map(k=>`<button type="button" class="${bodyLayer===k?'active':''}" aria-pressed="${bodyLayer===k}" onclick="setBodyLayer('${k}')">${LAYER_NAMES[k]}</button>`).join('')}</div>` : '';
+  });
+  document.querySelectorAll('[data-layer-legend]').forEach(el=>{
+    if(!has || bodyLayer==='off'){ el.innerHTML = ''; el.style.display = 'none'; return; }
+    const c = LAYER_COLORS[bodyLayer];
+    el.style.display = '';
+    el.innerHTML = ['low','normal','high'].map(k=>`<span><i style="background:${c[k]}"></i>${EVAL_LABELS[k]}</span>`).join('') + `<span style="color:var(--ink-faint);">· ${LAYER_NAMES[bodyLayer].toLowerCase()} por segmento · InBody del ${fmtDateEs(state.inbody.measured_on)}</span>`;
+  });
+  document.querySelectorAll('.body-illustration [data-seg]').forEach(el=>{
+    const c = bodyLayer!=='off' ? segmentColor(bodyLayer, el.dataset.seg) : null;
+    if(c){ el.style.fill = c; el.style.fillOpacity = '.5'; el.style.stroke = c; } else { el.style.fill = ''; el.style.fillOpacity = ''; el.style.stroke = ''; }
+  });
+  if(body3D) body3D.update();
+  renderInbodySegments();
+}
+window.setBodyLayer = function(layer){
+  bodyLayer = (layer==='lean' || layer==='fat') ? layer : 'off';
+  applyBodyLayer();
+};
 /* ---------- 3D BODY (Three.js) ---------- */
 function initBody3D(){
   const wrap = document.getElementById('body3dWrap');
@@ -1063,8 +1234,7 @@ function initBody3D(){
   renderer.setSize(w, h); renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
   wrap.appendChild(renderer.domElement);
   const group = new THREE.Group();
-  const mat = new THREE.ShaderMaterial({
-    vertexShader: `
+  const VERT_SRC = `
       varying vec3 vWorldPos;
       varying vec3 vNormalW;
       void main(){
@@ -1073,15 +1243,19 @@ function initBody3D(){
         vNormalW = normalize(mat3(modelMatrix) * normal);
         gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
       }
-    `,
-    fragmentShader: `
+    `;
+  // uMix=0 → degradado azul→amarillo por altura (look original); uMix=1 → color del segmento (InBody)
+  const FRAG_SRC = `
+      uniform vec3 uTint;
+      uniform float uMix;
+      uniform float uDim;
       varying vec3 vWorldPos;
       varying vec3 vNormalW;
       void main(){
         float t = clamp((vWorldPos.y + 1.55) / 3.6, 0.0, 1.0);
         vec3 blue = vec3(0.16, 0.55, 0.98);
         vec3 yellow = vec3(0.97, 0.92, 0.30);
-        vec3 lineColor = mix(blue, yellow, t);
+        vec3 lineColor = mix(mix(blue, yellow, t), uTint, uMix) * uDim;
         float bands = fract(vWorldPos.y * 38.0);
         float d = min(bands, 1.0 - bands);
         float line = 1.0 - smoothstep(0.0, 0.09, d);
@@ -1091,16 +1265,24 @@ function initBody3D(){
         vec3 col = mix(base, lineColor, line);
         gl_FragColor = vec4(col, 1.0);
       }
-    `
-  });
-  function lathe(profile, x,y,z, rx=0,ry=0,rz=0){
+    `;
+  // un material por segmento: cada parte del cuerpo puede teñirse según el análisis segmental
+  const mats = {};
+  function matFor(seg){
+    if(!mats[seg]) mats[seg] = new THREE.ShaderMaterial({
+      uniforms: { uTint:{value:new THREE.Color(0x42C6FF)}, uMix:{value:0}, uDim:{value:1} },
+      vertexShader: VERT_SRC, fragmentShader: FRAG_SRC
+    });
+    return mats[seg];
+  }
+  function lathe(seg, profile, x,y,z, rx=0,ry=0,rz=0){
     const pts = profile.map(p=>new THREE.Vector2(p[0], p[1]));
-    const m = new THREE.Mesh(new THREE.LatheGeometry(pts, 28), mat);
+    const m = new THREE.Mesh(new THREE.LatheGeometry(pts, 28), matFor(seg));
     m.position.set(x,y,z); m.rotation.set(rx,ry,rz); group.add(m);
     return m;
   }
-  function blob(r, x,y,z, sx=1,sy=1,sz=1){
-    const m = new THREE.Mesh(new THREE.SphereGeometry(r,16,16), mat);
+  function blob(seg, r, x,y,z, sx=1,sy=1,sz=1){
+    const m = new THREE.Mesh(new THREE.SphereGeometry(r,16,16), matFor(seg));
     m.position.set(x,y,z); m.scale.set(sx,sy,sz); group.add(m);
     return m;
   }
@@ -1108,29 +1290,40 @@ function initBody3D(){
   const FOREARM = [[0.085,-0.29],[0.078,-0.05],[0.065,0.15],[0.05,0.29]];
   const THIGH = [[0.185,-0.39],[0.195,-0.20],[0.16,0.05],[0.135,0.39]];
   const SHIN = [[0.125,-0.36],[0.115,-0.15],[0.095,0.10],[0.07,0.36]];
-  // head + neck
-  blob(0.26, 0,1.78,0, 0.92,1.08,0.96);
-  lathe([[0.09,-0.09],[0.095,0],[0.08,0.09]], 0,1.55,0);
+  // head + neck ('neutral': no tienen dato segmental)
+  blob('neutral', 0.26, 0,1.78,0, 0.92,1.08,0.96);
+  lathe('neutral', [[0.09,-0.09],[0.095,0],[0.08,0.09]], 0,1.55,0);
   // torso + hips (one smooth silhouette: waist taper + chest + hip curve)
-  lathe([
+  lathe('trunk', [
     [0.27,-0.78],[0.29,-0.60],[0.305,-0.48],[0.26,-0.32],[0.225,-0.16],
     [0.25,0.00],[0.305,0.18],[0.29,0.34],[0.22,0.46],[0.15,0.56],[0.10,0.60]
   ], 0,0.85,0);
-  // arms + hands
-  lathe(ARM, -0.30,1.18,0, 0,0,0.32);
-  lathe(FOREARM, -0.44,0.66,0, 0,0,0.18);
-  blob(0.075, -0.48,0.36,0.03, 1.1,1.3,0.85);
-  lathe(ARM, 0.30,1.18,0, 0,0,-0.32);
-  lathe(FOREARM, 0.44,0.66,0, 0,0,-0.18);
-  blob(0.075, 0.48,0.36,0.03, 1.1,1.3,0.85);
+  // arms + hands (x negativo = izquierdo, igual que el diagrama plano)
+  lathe('arm_l', ARM, -0.30,1.18,0, 0,0,0.32);
+  lathe('arm_l', FOREARM, -0.44,0.66,0, 0,0,0.18);
+  blob('arm_l', 0.075, -0.48,0.36,0.03, 1.1,1.3,0.85);
+  lathe('arm_r', ARM, 0.30,1.18,0, 0,0,-0.32);
+  lathe('arm_r', FOREARM, 0.44,0.66,0, 0,0,-0.18);
+  blob('arm_r', 0.075, 0.48,0.36,0.03, 1.1,1.3,0.85);
   // legs + feet
-  lathe(THIGH, -0.19,-0.32,0);
-  lathe(SHIN, -0.19,-1.05,0);
-  blob(0.09, -0.19,-1.43,0.09, 1.0,0.55,1.6);
-  lathe(THIGH, 0.19,-0.32,0);
-  lathe(SHIN, 0.19,-1.05,0);
-  blob(0.09, 0.19,-1.43,0.09, 1.0,0.55,1.6);
+  lathe('leg_l', THIGH, -0.19,-0.32,0);
+  lathe('leg_l', SHIN, -0.19,-1.05,0);
+  blob('leg_l', 0.09, -0.19,-1.43,0.09, 1.0,0.55,1.6);
+  lathe('leg_r', THIGH, 0.19,-0.32,0);
+  lathe('leg_r', SHIN, 0.19,-1.05,0);
+  blob('leg_r', 0.09, 0.19,-1.43,0.09, 1.0,0.55,1.6);
   scene.add(group);
+  // tiñe cada segmento según la capa activa (masa magra / grasa) del último InBody
+  function updateLayer(){
+    SEGMENTS.forEach(seg=>{
+      const m = mats[seg]; if(!m) return;
+      const c = bodyLayer!=='off' ? segmentColor(bodyLayer, seg) : null;
+      if(c){ m.uniforms.uTint.value.set(c); m.uniforms.uMix.value = 1; } else { m.uniforms.uMix.value = 0; }
+    });
+    if(mats.neutral) mats.neutral.uniforms.uDim.value = (bodyLayer!=='off' && state.inbody) ? 0.45 : 1;
+  }
+  body3D = { update: updateLayer };
+  updateLayer();
   let dragging=false, lastX=0, userRotY=0;
   renderer.domElement.style.cursor='grab';
   renderer.domElement.addEventListener('pointerdown', e=>{dragging=true; lastX=e.clientX; renderer.domElement.style.cursor='grabbing';});
