@@ -15,10 +15,14 @@ reto-inbody-backend/
 │       │                                  day_logs, week_plan_days,
 │       │                                  week_plan_exercises
 │       ├── 0002_rls_policies.sql       → RLS: cada usuario solo ve sus datos
-│       └── 0003_functions_triggers.sql → updated_at automático + siembra
-│                                          de la plantilla semanal al
-│                                          registrarse (igual al
-│                                          DEFAULT_WEEK del HTML)
+│       ├── 0003_functions_triggers.sql → updated_at automático + siembra
+│       │                                  de la plantilla semanal al
+│       │                                  registrarse (igual al
+│       │                                  DEFAULT_WEEK del HTML)
+│       └── 0004_inbody_reports.sql     → reporte InBody completo (tabla
+│                                          inbody_reports) con RLS, mínimo
+│                                          privilegio y trigger que refleja
+│                                          peso/% grasa/músculo en measurements
 └── .github/workflows/
     ├── supabase-migrate.yml   → aplica migraciones a Supabase en cada push
     └── pages-deploy.yml       → publica reto-inbody.html en GitHub Pages
@@ -33,6 +37,11 @@ reto-inbody-backend/
 | `day_logs`               | desayuno/almuerzo/cena/snacks + agua — 1 fila por día              |
 | `week_plan_days`         | tu plantilla semanal (triserie/carrera/descanso)                   |
 | `week_plan_exercises`    | los ejercicios de cada día, con su checkbox de completado          |
+| `inbody_reports`         | el reporte InBody completo de cada examen (composición, agua/proteínas/minerales, metabolismo basal, grasa visceral, cintura-cadera, control de peso y análisis segmental de masa magra y grasa) — 1 fila por examen y día. Un trigger refleja peso, % grasa y músculo esquelético en `measurements` (`source='inbody'`, `is_official=true`) |
+
+`inbody_reports` es además la única tabla con **mínimo privilegio explícito**:
+`anon` no tiene acceso y `authenticated` no tiene `TRUNCATE` (que no pasa por RLS).
+Los valores de cada examen se cargan fuera del repositorio — este solo contiene esquema.
 
 Todas las tablas tienen `user_id` y Row Level Security: nadie, ni tú viendo
 la base desde el panel de otro participante, puede leer o escribir datos que
