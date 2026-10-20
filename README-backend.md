@@ -19,10 +19,16 @@ reto-inbody-backend/
 │       │                                  de la plantilla semanal al
 │       │                                  registrarse (igual al
 │       │                                  DEFAULT_WEEK del HTML)
-│       └── 0004_inbody_reports.sql     → reporte InBody completo (tabla
-│                                          inbody_reports) con RLS, mínimo
-│                                          privilegio y trigger que refleja
-│                                          peso/% grasa/músculo en measurements
+│       ├── 0004_inbody_reports.sql     → reporte InBody completo (tabla
+│       │                                  inbody_reports) con RLS, mínimo
+│       │                                  privilegio y trigger que refleja
+│       │                                  peso/% grasa/músculo en measurements
+│       └── 0005_training_plan.sql      → plan de entrenamiento completo
+│                                          (prescripción, indicaciones,
+│                                          alternativas, variante A/B),
+│                                          evento objetivo (maratón) y la tabla
+│                                          workout_completions (cumplimiento
+│                                          por fecha); FK compuestas por dueño
 └── .github/workflows/
     ├── supabase-migrate.yml   → aplica migraciones a Supabase en cada push
     └── pages-deploy.yml       → publica reto-inbody.html en GitHub Pages
@@ -32,16 +38,24 @@ reto-inbody-backend/
 
 | Tabla                  | Qué guarda                                                        |
 |-------------------------|--------------------------------------------------------------------|
-| `settings`              | fecha del examen InBody, meta de agua, meta de peso (1 fila/usuario) |
+| `settings`              | fecha del examen InBody, meta de agua, meta de peso, nombre y fecha de inicio del plan (un lunes), notas del plan y evento objetivo (nombre + fecha) (1 fila/usuario) |
 | `measurements`          | peso, % grasa, masa muscular, medidas por zona — 1 fila por día. `source`/`is_official` distinguen tus autorregistros del InBody real del 26/09 |
 | `day_logs`               | desayuno/almuerzo/cena/snacks + agua — 1 fila por día              |
-| `week_plan_days`         | tu plantilla semanal (triserie/carrera/descanso)                   |
-| `week_plan_exercises`    | los ejercicios de cada día, con su checkbox de completado          |
+| `week_plan_days`         | tu plantilla semanal (triserie/fuerza/carrera/descanso), con objetivo, duración e instrucciones del día |
+| `week_plan_exercises`    | los bloques de cada día: prescripción (series × reps o duración), indicaciones, alternativas, referencias, grupo (biserie), si es opcional y la variante A/B (semanas alternas). `is_done` quedó en desuso |
+| `workout_completions`    | bloques marcados como hechos **por fecha** (1 fila por usuario, bloque y día): el historial real semana a semana |
 | `inbody_reports`         | el reporte InBody completo de cada examen (composición, agua/proteínas/minerales, metabolismo basal, grasa visceral, cintura-cadera, control de peso y análisis segmental de masa magra y grasa) — 1 fila por examen y día. Un trigger refleja peso, % grasa y músculo esquelético en `measurements` (`source='inbody'`, `is_official=true`) |
 
-`inbody_reports` es además la única tabla con **mínimo privilegio explícito**:
-`anon` no tiene acceso y `authenticated` no tiene `TRUNCATE` (que no pasa por RLS).
-Los valores de cada examen se cargan fuera del repositorio — este solo contiene esquema.
+`inbody_reports` y `workout_completions` son además las tablas con **mínimo
+privilegio explícito**: `anon` no tiene acceso y `authenticated` no tiene
+`TRUNCATE` (que no pasa por RLS).
+Los valores de cada examen y el contenido de cada plan se cargan fuera del
+repositorio — este solo contiene esquema.
+
+Las claves foráneas `week_plan_exercises → week_plan_days` y
+`workout_completions → week_plan_exercises` son **compuestas con `user_id`**:
+un usuario no puede colgar filas en el día o el ejercicio de otro, aunque
+adivine un `id` (la FK simple solo comprobaba que el `id` existiera).
 
 Todas las tablas tienen `user_id` y Row Level Security: nadie, ni tú viendo
 la base desde el panel de otro participante, puede leer o escribir datos que
@@ -99,11 +113,16 @@ No lo hice en este paso porque es un cambio de frontend en sí mismo (no solo
 "backend"), pero el modelo de datos ya está pensado 1:1 para que ese mapeo
 sea directo. Dime si quieres que lo haga ahora y seguimos.
 
-## Limitación conocida (heredada del front-end actual)
+## Cumplimiento por fecha (antes era una limitación)
 
-`week_plan_exercises.is_done` se marca por *día de la semana*, no por fecha
-específica — igual que hoy en `window.storage`. Si en algún momento quieres
-historial real semana a semana (ej. "hice Triserie A la semana del 18 y la
-del 25, pero no la del 11"), se agrega una tabla `workout_completions
-(user_id, exercise_id, completed_on date)`. Está fuera de este alcance por
-ahora para no romper el comportamiento actual del dashboard.
+`week_plan_exercises.is_done` se marcaba por *día de la semana*, sin fecha, así
+que no había historial ("hice la sesión de la semana del 18 pero no la del 11").
+Desde la migración `0005` el cumplimiento se guarda en `workout_completions
+(user_id, exercise_id, completed_on date)`, con `unique (user_id, exercise_id,
+completed_on)`. La adherencia semanal del dashboard se calcula con esa tabla;
+`is_done` ya no se usa.
+
+El plan puede alternar **semana A / semana B**: las filas de `week_plan_exercises`
+con `variant = 'A'` o `'B'` solo se muestran en esas semanas, contadas desde
+`settings.plan_start_date` (que debe ser un lunes). Las filas con `variant`
+nulo aplican todas las semanas.
