@@ -196,6 +196,59 @@
   .ib-seg td:nth-child(2),.ib-seg td:nth-child(3){font-family:'IBM Plex Mono',monospace;text-align:right;font-variant-numeric:tabular-nums;}
   .ib-seg td:last-child{text-align:right;}
   .ib-chip{display:inline-block;font-size:10.5px;font-weight:700;padding:2px 9px;border-radius:20px;font-family:'IBM Plex Mono',monospace;}
+  /* ---------- ENTRENAMIENTO: plan por fecha ---------- */
+  .tag.str{background:rgba(255,122,87,.14);color:var(--orange);}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);}
+  .day-card.sum{min-height:128px;cursor:pointer;gap:6px;}
+  .day-card.sum:focus-visible{outline:2px solid var(--violet);outline-offset:2px;}
+  .day-card.sel{border-color:var(--violet);box-shadow:0 0 0 1px var(--violet);}
+  .day-card.today.sel{border-color:var(--orange);box-shadow:0 0 0 1px var(--orange),0 0 0 4px rgba(139,124,251,.35);}
+  .d-date{font-weight:500;color:var(--ink-faint);margin-left:3px;}
+  .d-title{font-size:12px;font-weight:600;color:var(--ink);line-height:1.25;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
+  .d-meta{font-size:10.5px;color:var(--ink-soft);}
+  .d-status{margin-top:auto;font-size:10.5px;font-weight:700;font-family:'IBM Plex Mono',monospace;color:var(--ink-faint);}
+  .d-status.done{color:var(--green);}
+  .d-status.partial{color:var(--gold);}
+  .d-status.today{color:var(--orange);}
+  .d-status.missed{color:var(--red);}
+  .progress{height:6px;border-radius:4px;background:var(--surface-3);overflow:hidden;}
+  .progress i{display:block;height:100%;background:var(--green);border-radius:4px;transition:width .25s;}
+  .session-ins{font-size:12.5px;line-height:1.6;color:var(--ink-soft);margin:14px 0 0;padding:12px 14px;background:var(--surface-2);border:1px solid var(--border);border-radius:12px;}
+  .grp-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;margin:18px 0 8px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:13px;color:var(--ink);}
+  .grp-head span{font-family:'IBM Plex Mono',monospace;font-weight:400;font-size:10.5px;color:var(--ink-faint);}
+  .blk{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;margin-bottom:8px;border:1px solid var(--border);border-radius:12px;background:var(--surface-2);transition:border-color .15s,background .15s;}
+  .blk.done{border-color:rgba(78,229,151,.45);background:rgba(78,229,151,.06);}
+  .blk.opt{border-style:dashed;}
+  .blk input[type=checkbox]{accent-color:var(--green);width:18px;height:18px;margin-top:3px;flex:none;cursor:pointer;}
+  .blk input[type=checkbox]:disabled{cursor:not-allowed;opacity:.45;}
+  .blk input[type=checkbox]:focus-visible{outline:2px solid var(--violet);outline-offset:2px;}
+  @media (max-width:640px){ .blk input[type=checkbox]{width:24px;height:24px;margin-top:1px;} }
+  .blk .ex-icon{margin-top:1px;}
+  .blk-main{flex:1;min-width:0;}
+  .blk-top{display:flex;flex-wrap:wrap;align-items:center;gap:5px 8px;}
+  .blk-tag{font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:700;padding:1px 7px;border-radius:6px;background:var(--surface-3);color:var(--ink-soft);}
+  .blk-name{font-weight:600;font-size:13.5px;color:var(--ink);}
+  .blk-name-input{font-size:13.5px;font-weight:600;color:var(--ink);background:#0d0d12;border:1px solid var(--violet);border-radius:7px;padding:2px 8px;min-width:200px;max-width:100%;}
+  .blk-edit{background:transparent;border:0;color:var(--ink-faint);font-size:12px;cursor:pointer;padding:0 3px;border-radius:5px;line-height:1;}
+  .blk-edit:hover{color:var(--violet);}
+  .blk-edit:focus-visible{outline:2px solid var(--violet);}
+  .chip-x{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;background:rgba(139,124,251,.16);color:var(--violet);white-space:nowrap;}
+  .chip-rest{font-family:'IBM Plex Mono',monospace;font-size:10.5px;padding:2px 8px;border-radius:20px;background:rgba(66,198,255,.12);color:var(--cyan);white-space:nowrap;}
+  .chip-opt{font-family:'IBM Plex Mono',monospace;font-size:10.5px;padding:2px 8px;border-radius:20px;background:var(--surface-3);color:var(--ink-faint);}
+  .blk-detail{font-size:11.5px;color:var(--ink-soft);margin-top:4px;}
+  .blk-cue{font-size:12px;line-height:1.55;color:var(--ink-soft);margin-top:5px;}
+  .alt{margin-top:8px;font-size:11.5px;color:var(--ink-soft);}
+  .alt summary{cursor:pointer;color:var(--cyan);font-weight:600;width:fit-content;}
+  .alt summary:focus-visible{outline:2px solid var(--violet);outline-offset:2px;border-radius:4px;}
+  .alt p{margin:6px 0 0;line-height:1.5;}
+  .refs{display:flex;flex-wrap:wrap;gap:4px 12px;margin-top:6px;}
+  .refs a,.img-link{color:var(--cyan);font-size:11px;text-decoration:none;}
+  .refs a:hover,.img-link:hover{text-decoration:underline;}
+  .img-link{display:inline-block;margin-top:7px;}
+  .note-blk{margin:10px 0 8px;padding:12px 14px;border-left:3px solid var(--cyan);background:rgba(66,198,255,.07);border-radius:0 12px 12px 0;}
+  .note-t{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:12.5px;color:var(--ink);}
+  .bar-fill.partial{background:var(--gold);opacity:.8;}
+  .bar-fill.pending{background:transparent;border:1px dashed var(--ink-faint);border-bottom:0;}
 </style>
 </head>
 <body class="antialiased">
@@ -256,6 +309,7 @@
       <div class="border-t pt-4" style="border-color:var(--border);">
         <div class="text-[10.5px] mb-1" style="color:var(--ink-faint);">Examen InBody</div>
         <div id="sidebarExam" class="text-white font-mono text-xs">--</div>
+        <div id="sidebarEvent" class="text-white font-mono text-xs mt-2" style="display:none;"></div>
       </div>
     </div>
   </aside>
@@ -284,12 +338,19 @@
               <h1 class="hero-title">Que cada<br>día cuente.</h1>
               <p class="hero-quote" id="quote-dashboard"></p>
             </div>
-            <div class="hero-stat">
-              <div class="num" id="daysLeft">--</div>
-              <div class="lbl">días para el InBody</div>
+            <div class="flex gap-3 flex-wrap">
+              <div class="hero-stat" id="eventStat" style="display:none;">
+                <div class="num" id="eventDays">--</div>
+                <div class="lbl" id="eventLbl"></div>
+              </div>
+              <div class="hero-stat">
+                <div class="num" id="daysLeft">--</div>
+                <div class="lbl">días para el InBody</div>
+              </div>
             </div>
           </div>
         </div>
+        <div class="card p-5 mb-6 reveal" id="todayCard" style="display:none;"></div>
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
           <div class="card p-4 flex items-center gap-3 reveal">
             <svg class="kpi-gauge" width="52" height="52" viewBox="0 0 56 56" id="gaugeAdherence"></svg>
@@ -335,7 +396,7 @@
         <div class="tab-hero orange reveal">
           <div class="hero-flex">
             <div>
-              <div class="hero-eyebrow">Triseries · 3-4×/semana</div>
+              <div class="hero-eyebrow" id="trainEyebrow">Triseries · 3-4×/semana</div>
               <h1 class="hero-title">Entrena con<br>intención.</h1>
               <p class="hero-quote" id="quote-entrenamiento"></p>
             </div>
@@ -343,15 +404,18 @@
           </div>
         </div>
         <div class="grid grid-cols-1 lg:grid-cols-[1.35fr_0.65fr] gap-5">
-          <div class="card p-6 reveal">
-            <h2 class="text-[15px] font-bold display mb-1">Semana de entrenamiento</h2>
-            <p class="text-[12px] mb-4" style="color:var(--ink-soft);">Cada día muestra solo los ejercicios de su propia sesión</p>
-            <div class="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-7 gap-2.5" id="weekBoard"></div>
+          <div class="flex flex-col gap-5 min-w-0">
+            <div class="card p-6 reveal">
+              <h2 class="text-[15px] font-bold display mb-1">Semana de entrenamiento</h2>
+              <p class="text-[12px] mb-4" style="color:var(--ink-soft);">Toca un día para ver su sesión completa; lo que marques se guarda por fecha</p>
+              <div class="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-7 gap-2.5" id="weekBoard"></div>
+            </div>
+            <div class="card p-6 reveal" id="sessionCard" style="display:none;"></div>
           </div>
-          <div class="card p-6 reveal">
-            <h2 class="text-[15px] font-bold display mb-1">Sugerencias y tips</h2>
-            <p class="text-[12px] mb-4" style="color:var(--ink-soft);">Para tu esquema de triseries + carrera</p>
-            <div class="flex flex-col gap-2.5">
+          <div class="card p-6 reveal self-start lg:sticky lg:top-20">
+            <h2 class="text-[15px] font-bold display mb-1" id="tipsTitle">Sugerencias y tips</h2>
+            <p class="text-[12px] mb-4" style="color:var(--ink-soft);" id="tipsSub">Para tu esquema de triseries + carrera</p>
+            <div class="flex flex-col gap-2.5" id="tipsList">
               <div class="tip">
                 <h3>Ordena tus triseries por prioridad</h3>
                 <p>Abre cada sesión con el movimiento compuesto más exigente antes de la triserie, cuando tienes más energía.</p>
@@ -568,7 +632,7 @@ function mapExerciseIcon(name){
   if(t.includes('remo')) return 'row';
   if(t.includes('jalón')||t.includes('jalon')||t.includes('dominada')||t.includes('face pull')) return 'pull';
   if(t.includes('muerto')||t.includes('hip thrust')||t.includes('femoral')) return 'hinge';
-  if(t.includes('militar')||t.includes('elevaci')) return 'overhead';
+  if(t.includes('militar')||t.includes('elevaci')||t.includes('shoulder')||t.includes('hombro')) return 'overhead';
   if(t.includes('curl')||t.includes('antebrazo')||t.includes('tríceps')||t.includes('tricep')||t.includes('gemelo')) return 'curl';
   if(t.includes('carrera')||t.includes('correr')) return 'run';
   return 'default';
@@ -594,9 +658,17 @@ const QUOTES = {
   nutricion:['El progreso no siempre se ve en el espejo, se ve en el plato.','Come para el entreno de mañana, no solo para hoy.','Proteína en cada comida, no solo en la última.'],
   progreso:['Mide en las mismas condiciones y confía en la tendencia.','Los números fluctúan, la dirección es lo que importa.','El sábado es una foto; esta curva es la película.']
 };
-let state = {settings:{examDate:null, waterGoal:2.5, weightGoal:null}, measurements:[], daylogs:{}, week:null, inbodyReports:[], inbody:null};
-const todayISO = () => new Date().toISOString().slice(0,10);
+let state = {settings:{examDate:null, waterGoal:2.5, weightGoal:null, planName:null, planStart:null, planNotes:null, eventName:null, eventDate:null}, measurements:[], daylogs:{}, week:null, completions:new Set(), inbodyReports:[], inbody:null};
+/* ---------- FECHAS: siempre en hora local (toISOString() usa UTC y de noche cae en el día siguiente) ---------- */
+function isoLocal(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function parseISO(iso){ const p = String(iso).split('-').map(Number); return new Date(p[0], p[1]-1, p[2]); }
+function addDays(iso, n){ const d = parseISO(iso); d.setDate(d.getDate()+n); return isoLocal(d); }
+function mondayOf(iso){ const d = parseISO(iso); d.setDate(d.getDate() - ((d.getDay()+6)%7)); return isoLocal(d); }
+function weekDates(iso){ const mon = mondayOf(iso); return [0,1,2,3,4,5,6].map(i=>addDays(mon,i)); }   // lunes → domingo
+const WEEK_ORDER = [1,2,3,4,5,6,0];   // índices getDay() en orden lunes → domingo
+const todayISO = () => isoLocal(new Date());
 let currentDate = todayISO();
+let selectedDow = new Date().getDay();
 let activeZone = null;
 /* ================= SUPABASE / AUTH ================= */
 const SUPABASE_URL = 'https://olrncjnpsvbfrhfkzmyl.supabase.co';
@@ -708,7 +780,8 @@ async function saveDayLog(dateISO, dayObj){
 async function loadAll(){
   try{
     const { data } = await sb.from('settings').select('*').eq('user_id', currentUser.id).maybeSingle();
-    if(data) state.settings = { examDate: data.exam_date, waterGoal: data.water_goal_l!=null?Number(data.water_goal_l):2.5, weightGoal: data.weight_goal_kg!=null?Number(data.weight_goal_kg):null };
+    if(data) state.settings = { examDate: data.exam_date, waterGoal: data.water_goal_l!=null?Number(data.water_goal_l):2.5, weightGoal: data.weight_goal_kg!=null?Number(data.weight_goal_kg):null,
+      planName: data.plan_name||null, planStart: data.plan_start_date||null, planNotes: Array.isArray(data.plan_notes)?data.plan_notes:null, eventName: data.event_name||null, eventDate: data.event_date||null };
   }catch(e){}
   try{
     const { data } = await sb.from('measurements').select('*').eq('user_id', currentUser.id).order('measured_on', {ascending:true});
@@ -721,15 +794,10 @@ async function loadAll(){
   }catch(e){ state.daylogs={}; }
   try{
     const { data } = await sb.from('week_plan_days').select('*, week_plan_exercises(*)').eq('user_id', currentUser.id);
-    state.week = {};
-    (data||[]).forEach(d=>{
-      const exs = (d.week_plan_exercises||[]).slice().sort((a,b)=>a.position-b.position);
-      const done = {};
-      exs.forEach((e,i)=>{ if(e.is_done) done[i]=true; });
-      state.week[d.day_of_week] = { type:d.day_type, label:d.label, ex:exs.map(e=>e.name), done, _ids:exs.map(e=>e.id) };
-    });
-    if(!Object.keys(state.week).length) state.week = JSON.parse(JSON.stringify(DEFAULT_WEEK));
-  }catch(e){ state.week=JSON.parse(JSON.stringify(DEFAULT_WEEK)); }
+    state.week = normalizeWeekRows(data);
+    if(!Object.keys(state.week).length) state.week = defaultWeek();
+  }catch(e){ state.week = defaultWeek(); }
+  await loadCompletions();
   try{
     const { data } = await sb.from('inbody_reports').select('*').eq('user_id', currentUser.id).order('measured_on', {ascending:true});
     state.inbodyReports = data || [];
@@ -743,11 +811,9 @@ async function loadAll(){
   document.getElementById('waterGoalLbl').textContent = state.settings.waterGoal;
   renderCountdown();
   renderBody();
-  renderWeek();
   renderDay();
   renderChart();
-  renderKPIs();
-  renderComplianceBars();
+  renderTraining();
   bodyLayer = state.inbody ? 'lean' : 'off';
   renderInbody();
   applyBodyLayer();
@@ -757,7 +823,7 @@ function nextExamDate(){
   const now = new Date(); let year = now.getFullYear();
   let d = new Date(year,9,0); while(d.getDay() !== 6){ d.setDate(d.getDate()-1); }
   if(d < now){ d = new Date(year+1,9,0); while(d.getDay() !== 6){ d.setDate(d.getDate()-1); } }
-  return d.toISOString().slice(0,10);
+  return isoLocal(d);
 }
 function renderCountdown(){
   const exam = new Date(state.settings.examDate+'T00:00:00');
@@ -849,73 +915,271 @@ function renderBody(){
   } else { rows.push(['Sin registros aún','—']); }
   document.getElementById('metricsTable').innerHTML = rows.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join('');
 }
-/* ---------- WEEK BOARD (con iconos por ejercicio, solo en su día) ---------- */
+/* ---------- ENTRENAMIENTO: plan por fecha ---------- */
+const REQUIRED_KINDS = ['strength','core','run'];   // 'note' no cuenta; los bloques opcionales tampoco
+function normalizeWeekRows(rows){
+  const week = {};
+  (rows||[]).forEach(d=>{
+    const exs = (d.week_plan_exercises||[]).slice().sort((a,b)=>a.position-b.position).map(e=>({
+      id:e.id, name:e.name||'', kind:e.kind||'strength', group:e.group_label||'', groupNote:e.group_note||'', tag:e.tag||'',
+      prescription:e.prescription||'', detail:e.detail||'', cue:e.cue||'', alternatives:e.alternatives||'',
+      refs:Array.isArray(e.refs) ? e.refs.filter(r=>typeof r==='string') : [],
+      rest:e.rest_text||'', optional:!!e.optional, variant:e.variant||null
+    }));
+    week[d.day_of_week] = { id:d.id, type:d.day_type, label:d.label||'', objective:d.objective||'', duration:d.duration_text||'', instructions:d.instructions||'', ex:exs };
+  });
+  return week;
+}
+function defaultWeek(){   // plantilla simple de respaldo si la base no responde
+  const w = {};
+  Object.keys(DEFAULT_WEEK).forEach(k=>{
+    const d = DEFAULT_WEEK[k];
+    w[k] = { id:null, type:d.type, label:d.label, objective:'', duration:'', instructions:'',
+      ex:d.ex.map((n,i)=>({ id:-(Number(k)*100+i+1), name:n, kind:'strength', group:'', groupNote:'', tag:'', prescription:'', detail:'', cue:'', alternatives:'', refs:[], rest:'', optional:false, variant:null })) };
+  });
+  return w;
+}
+async function loadCompletions(){
+  state.completions = new Set();
+  try{
+    const { data } = await sb.from('workout_completions').select('exercise_id,completed_on').eq('user_id', currentUser.id).gte('completed_on', addDays(todayISO(), -60));
+    (data||[]).forEach(r=>state.completions.add(r.exercise_id+'|'+r.completed_on));
+  }catch(e){}
+}
+// el plan alterna semana A / B a partir del lunes de plan_start_date (p. ej. jueves: tempo / intervalos)
+function variantFor(iso){
+  const start = state.settings.planStart; if(!start) return 'A';
+  const weeks = Math.round((parseISO(mondayOf(iso)) - parseISO(mondayOf(start))) / 604800000);
+  return (((weeks % 2) + 2) % 2) === 0 ? 'A' : 'B';
+}
+function dayExercises(day, iso){ const v = variantFor(iso); return day.ex.filter(e=>!e.variant || e.variant===v); }
+function requiredBlocks(day, iso){ return dayExercises(day, iso).filter(e=>REQUIRED_KINDS.includes(e.kind) && !e.optional); }
+function isDoneOn(id, iso){ return state.completions.has(id+'|'+iso); }
+function dayStatus(day, iso){
+  if(state.settings.planStart && iso < state.settings.planStart) return { st:'rest', done:0, total:0 };   // antes de que empezara el plan no hay obligación
+  const req = requiredBlocks(day, iso);
+  const done = req.filter(e=>isDoneOn(e.id, iso)).length;
+  const today = todayISO();
+  let st;
+  if(day.type==='rest' || !req.length) st = 'rest';
+  else if(done===req.length) st = 'done';
+  else if(iso > today) st = 'upcoming';
+  else if(iso === today) st = done>0 ? 'partial' : 'today';
+  else st = done>0 ? 'partial' : 'missed';
+  return { st, done, total:req.length };
+}
+function weekAdherence(){
+  const dates = weekDates(todayISO());
+  let planned = 0, done = 0;
+  WEEK_ORDER.forEach((idx,i)=>{ const day = state.week[idx]; if(!day) return; const s = dayStatus(day, dates[i]); if(s.st!=='rest'){ planned++; if(s.st==='done') done++; } });
+  return { planned, done };
+}
+function selectedISO(){ return weekDates(todayISO())[WEEK_ORDER.indexOf(selectedDow)]; }
+function imgSearchUrl(q){ return 'https://www.google.com/search?tbm=isch&q='+encodeURIComponent(q); }
+function blockIcon(e){
+  const key = e.kind==='run' ? 'run' : mapExerciseIcon(e.name);
+  return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${EX_ICONS[key]}</svg>`;
+}
+const DAY_TAGS = { run:['run','Carrera'], rest:['rest','Descanso'], str:['str','Fuerza'], tri:['tri','Triserie'] };
+function renderTraining(){
+  if(!state.week) return;
+  renderWeek(); renderSession(); renderTodayCard(); renderKPIs(); renderComplianceBars(); renderPlanNotes(); renderEventStat();
+}
 function renderWeek(){
-  const board = document.getElementById('weekBoard');
-  const todayIdx = new Date().getDay();
-  const order = [1,2,3,4,5,6,0];
+  const board = document.getElementById('weekBoard'); if(!board || !state.week) return;
+  const today = todayISO(), todayDow = parseISO(today).getDay(), dates = weekDates(today);
   board.innerHTML = '';
-  let planned=0, done=0;
-  order.forEach(idx=>{
-    const day = state.week[idx];
-    if(day.type!=='rest') planned++;
-    const isDone = day.ex.length>0 && day.done && day.ex.every((_,i)=>day.done[i]);
-    if(isDone) done++;
+  let planned = 0, done = 0;
+  WEEK_ORDER.forEach((idx,i)=>{
+    const day = state.week[idx]; if(!day) return;
+    const iso = dates[i], s = dayStatus(day, iso);
+    if(s.st!=='rest'){ planned++; if(s.st==='done') done++; }
+    const tg = DAY_TAGS[day.type] || DAY_TAGS.tri;
+    const statusTxt = { done:'✓ Completa', partial:s.done+'/'+s.total, today:'Hoy · '+s.done+'/'+s.total, missed:'Perdida', upcoming:s.total+(s.total===1?' bloque':' bloques'), rest:'' }[s.st];
     const div = document.createElement('div');
-    div.className = 'day-card '+(day.type==='rest'?'rest':'')+(idx===todayIdx?' today':'');
-    const tagClass = day.type==='tri'?'tri':day.type==='run'?'run':'rest';
-    const tagText = day.type==='tri'?'Triserie':day.type==='run'?'Carrera':'Descanso';
-    let exHtml = '';
-    if(day.ex.length){
-      exHtml = '<ul class="exlist">' + day.ex.map((ex,i)=>{
-        const checked = (day.done && day.done[i]) ? 'checked' : '';
-        return `<li><span class="ex-icon">${exIconSvg(ex)}</span><input type="checkbox" ${checked} onchange="toggleExercise(${idx},${i},this.checked)"><input type="text" value="${escapeHtml(ex)}" onchange="editExercise(${idx},${i},this.value)"></li>`;
-      }).join('') + '</ul>';
-    } else { exHtml = '<div style="flex:1;"></div>'; }
-    let dotClass = '';
-    if(day.type!=='rest'){
-      const pastDay = isPastDay(idx, todayIdx);
-      if(isDone) dotClass='done'; else if(pastDay) dotClass='missed';
-    }
+    div.className = 'day-card sum'+(day.type==='rest'?' rest':'')+(idx===todayDow?' today':'')+(idx===selectedDow?' sel':'');
+    div.setAttribute('role','button'); div.tabIndex = 0;
+    div.setAttribute('aria-label', DAY_NAMES[idx]+': '+day.label);
+    div.onclick = ()=>selectDay(idx);
+    div.onkeydown = ev=>{ if(ev.key==='Enter' || ev.key===' '){ ev.preventDefault(); selectDay(idx); } };
     div.innerHTML = `
-      ${day.type!=='rest' ? `<div class="compliance-dot ${dotClass}"></div>` : ''}
-      <div class="day-name">${DAY_NAMES[idx]}</div>
-      <span class="tag ${tagClass}">${tagText}</span>
-      <div class="day-type">${escapeHtml(day.label)}</div>
-      ${exHtml}
-      ${day.type!=='rest' ? `<button class="done-toggle ${isDone?'is-done':''}" onclick="toggleDayDone(${idx})">${isDone?'✓ Completa':'Marcar completa'}</button>`:''}
+      ${s.st!=='rest' ? `<div class="compliance-dot ${s.st==='done'?'done':s.st==='missed'?'missed':''}"></div>` : ''}
+      <div class="day-name">${DAY_NAMES[idx]} <span class="d-date">${iso.slice(8)}</span></div>
+      <span class="tag ${tg[0]}">${tg[1]}</span>
+      <div class="d-title">${escapeHtml(day.label)}</div>
+      ${day.duration ? `<div class="d-meta">${escapeHtml(day.duration)}</div>` : ''}
+      <div class="d-status ${s.st}">${statusTxt}</div>
     `;
     board.appendChild(div);
   });
   document.getElementById('weekPill').textContent = done+' / '+planned+' esta semana';
 }
-function isPastDay(idx, todayIdx){
-  const pos = i => i===0?7:i;
-  return pos(idx) < pos(todayIdx) || (pos(idx)===pos(todayIdx));
+function selectDay(idx){
+  selectedDow = idx; renderWeek(); renderSession();
+  const card = document.getElementById('sessionCard');
+  if(card && window.innerWidth < 1024) card.scrollIntoView({behavior:'smooth', block:'start'});
+}
+function blockHtml(e, iso, future){
+  if(e.kind==='note'){
+    return `<div class="note-blk"><div class="note-t">${escapeHtml(e.name)}</div>${e.prescription||e.detail ? `<div class="blk-detail">${escapeHtml([e.prescription, e.detail].filter(Boolean).join(' · '))}</div>` : ''}${e.cue ? `<div class="blk-cue">${escapeHtml(e.cue)}</div>` : ''}</div>`;
+  }
+  const done = isDoneOn(e.id, iso);
+  const lifting = e.kind==='strength' || e.kind==='core';
+  const refsHtml = e.refs.length ? '<div class="refs">'+e.refs.map(r=>`<a href="${escapeHtml(imgSearchUrl(r))}" target="_blank" rel="noopener noreferrer">${escapeHtml(r)} ↗</a>`).join('')+'</div>' : '';
+  const alt = (e.alternatives || e.refs.length) ? `<details class="alt"><summary>Si está ocupado</summary>${e.alternatives ? `<p>${escapeHtml(e.alternatives)}</p>` : ''}${refsHtml}</details>` : '';
+  const imgLink = lifting ? `<a class="img-link" href="${escapeHtml(imgSearchUrl(e.refs[0] || e.name))}" target="_blank" rel="noopener noreferrer">Ver imagen del ejercicio ↗</a>` : '';
+  const id = Number(e.id);
+  return `<div class="blk${done?' done':''}${e.optional?' opt':''}">
+    <input type="checkbox" data-bid="${id}" ${done?'checked':''} ${future?'disabled':''} aria-label="Marcar ${escapeHtml(e.name)}" onchange="toggleBlock(${id},this.checked)">
+    <span class="ex-icon">${blockIcon(e)}</span>
+    <div class="blk-main">
+      <div class="blk-top">
+        ${e.tag ? `<span class="blk-tag">${escapeHtml(e.tag)}</span>` : ''}
+        <span class="blk-name" data-bname="${id}">${escapeHtml(e.name)}</span>
+        <button type="button" class="blk-edit" title="Renombrar" aria-label="Renombrar ${escapeHtml(e.name)}" onclick="renameBlock(${id})">✎</button>
+        ${e.prescription ? `<span class="chip-x">${escapeHtml(e.prescription)}</span>` : ''}
+        ${e.rest ? `<span class="chip-rest">descanso ${escapeHtml(e.rest)}</span>` : ''}
+        ${e.optional ? '<span class="chip-opt">opcional</span>' : ''}
+      </div>
+      ${e.detail ? `<div class="blk-detail">${escapeHtml(e.detail)}</div>` : ''}
+      ${e.cue ? `<div class="blk-cue">${escapeHtml(e.cue)}</div>` : ''}
+      ${alt}${imgLink}
+    </div>
+  </div>`;
+}
+function renderSession(){
+  const card = document.getElementById('sessionCard'); if(!card) return;
+  const day = state.week && state.week[selectedDow];
+  if(!day){ card.style.display = 'none'; return; }
+  card.style.display = '';
+  const today = todayISO(), iso = selectedISO(), future = iso > today;
+  const exs = dayExercises(day, iso), s = dayStatus(day, iso);
+  const focusedId = document.activeElement && document.activeElement.dataset ? document.activeElement.dataset.bid : null;
+  const tg = DAY_TAGS[day.type] || DAY_TAGS.tri;
+  const variantChip = day.ex.some(e=>e.variant) ? `<span class="chip-x">Semana ${variantFor(iso)}</span>` : '';
+  const pct = s.total ? Math.round(s.done/s.total*100) : 0;
+  let body = '', lastGroup = null;
+  exs.forEach(e=>{
+    const g = e.group || '';
+    if(g !== lastGroup){ if(g) body += `<div class="grp-head">${escapeHtml(g)}${e.groupNote ? `<span>${escapeHtml(e.groupNote)}</span>` : ''}</div>`; lastGroup = g; }
+    body += blockHtml(e, iso, future);
+  });
+  if(!exs.length) body = '<p class="text-[12.5px]" style="color:var(--ink-soft);">Este día no tiene bloques cargados todavía.</p>';
+  card.innerHTML = `
+    <div class="flex items-start justify-between gap-3 flex-wrap">
+      <div class="min-w-0">
+        <div class="eyebrow">Sesión · ${DAY_NAMES[selectedDow]} ${iso.slice(8)}/${iso.slice(5,7)}${iso===today ? ' · hoy' : future ? ' · próximo' : ''}</div>
+        <h2 class="text-[19px] font-bold display mt-1.5" style="line-height:1.15;">${escapeHtml(day.label)}</h2>
+        ${day.objective || day.duration ? `<p class="text-[12.5px] mt-1" style="color:var(--ink-soft);">${escapeHtml([day.objective, day.duration].filter(Boolean).join(' · '))}</p>` : ''}
+      </div>
+      <div class="flex items-center gap-2 flex-wrap"><span class="tag ${tg[0]}">${tg[1]}</span>${variantChip}</div>
+    </div>
+    ${s.total ? `<div class="mt-4 flex items-center gap-3 flex-wrap">
+      <div class="progress flex-1" style="min-width:140px;"><i style="width:${pct}%"></i></div>
+      <span class="font-mono text-[12px]" style="color:var(--ink-soft);">${s.done}/${s.total} bloques</span>
+      <button class="btn-outline btn-sm" ${future?'disabled':''} onclick="markSession()">${s.st==='done' ? 'Desmarcar sesión' : 'Marcar sesión completa'}</button>
+    </div>` : ''}
+    <p class="text-[11.5px] mt-2" id="trainMsg" style="color:var(--red);"></p>
+    ${future ? '<p class="text-[11.5px] mt-1" style="color:var(--ink-faint);">Esta sesión es de un día que aún no llega: podrás marcarla ese día.</p>' : ''}
+    ${day.instructions ? `<p class="session-ins">${escapeHtml(day.instructions)}</p>` : ''}
+    <div class="mt-3">${body}</div>
+  `;
+  if(focusedId){ const el = card.querySelector(`input[data-bid="${focusedId}"]`); if(el) el.focus(); }
+}
+function renderTodayCard(){
+  const card = document.getElementById('todayCard'); if(!card || !state.week) return;
+  const today = todayISO(), dow = parseISO(today).getDay(), day = state.week[dow];
+  if(!day){ card.style.display = 'none'; return; }
+  card.style.display = '';
+  const s = dayStatus(day, today), tg = DAY_TAGS[day.type] || DAY_TAGS.tri;
+  const variantChip = day.ex.some(e=>e.variant) ? `<span class="chip-x">Semana ${variantFor(today)}</span>` : '';
+  const pct = s.total ? Math.round(s.done/s.total*100) : 0;
+  card.innerHTML = `
+    <div class="flex items-start justify-between gap-3 flex-wrap">
+      <div class="min-w-0">
+        <div class="eyebrow">Hoy · ${DAY_NAMES[dow]} ${today.slice(8)}/${today.slice(5,7)}</div>
+        <h2 class="text-[18px] font-bold display mt-1.5" style="line-height:1.15;">${escapeHtml(day.label)}</h2>
+        <p class="text-[12.5px] mt-1" style="color:var(--ink-soft);">${escapeHtml([day.objective, day.duration].filter(Boolean).join(' · '))}</p>
+      </div>
+      <div class="flex items-center gap-2 flex-wrap"><span class="tag ${tg[0]}">${tg[1]}</span>${variantChip}<button class="btn-primary btn-sm" onclick="openToday()">${s.st==='rest' ? 'Ver el día' : 'Abrir sesión'}</button></div>
+    </div>
+    ${s.total ? `<div class="mt-4 flex items-center gap-3"><div class="progress flex-1"><i style="width:${pct}%"></i></div><span class="font-mono text-[12px]" style="color:${s.st==='done'?'var(--green)':'var(--ink-soft)'};">${s.st==='done' ? '✓ sesión completa' : s.done+'/'+s.total+' bloques'}</span></div>` : ''}
+  `;
+}
+function renderPlanNotes(){
+  const eb = document.getElementById('trainEyebrow'); if(eb) eb.textContent = state.settings.planName || 'Triseries · 3-4×/semana';
+  const notes = state.settings.planNotes, list = document.getElementById('tipsList');
+  if(!list || !Array.isArray(notes) || !notes.length) return;   // sin notas del plan: quedan los tips por defecto
+  document.getElementById('tipsTitle').textContent = 'Plan y reglas';
+  document.getElementById('tipsSub').textContent = state.settings.planName || 'Tu plan de entrenamiento';
+  const cls = ['', 'green', 'gold', 'cyan'];
+  list.innerHTML = notes.slice(0,12).map((n,i)=>`<div class="tip ${cls[i%4]}"><h3>${escapeHtml(String((n&&n.title)||''))}</h3><p>${escapeHtml(String((n&&n.text)||''))}</p></div>`).join('');
+}
+function renderEventStat(){
+  const el = document.getElementById('eventStat'), side = document.getElementById('sidebarEvent'), ev = state.settings.eventDate;
+  const days = ev ? Math.round((parseISO(ev) - parseISO(todayISO())) / 86400000) : -1;
+  if(days < 0){ if(el) el.style.display = 'none'; if(side) side.style.display = 'none'; return; }
+  const name = state.settings.eventName || 'Evento', dm = ev.slice(8)+'/'+ev.slice(5,7);
+  if(el){ el.style.display = ''; document.getElementById('eventDays').textContent = days; document.getElementById('eventLbl').textContent = 'días · '+name+' '+dm; }
+  if(side){ side.style.display = ''; side.textContent = name+' '+ev+' · '+days+'d'; }
+}
+function showTrainingMsg(txt){
+  const el = document.getElementById('trainMsg'); if(!el) return;
+  el.textContent = txt; setTimeout(()=>{ if(el.textContent===txt) el.textContent = ''; }, 6000);
 }
 function escapeHtml(s){ return (s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-window.toggleExercise = async (idx,i,checked)=>{
-  if(!state.week[idx].done) state.week[idx].done = {};
-  state.week[idx].done[i] = checked;
-  const exId = state.week[idx]._ids[i];
-  await sb.from('week_plan_exercises').update({is_done: checked}).eq('id', exId);
-  renderWeek(); renderKPIs(); renderComplianceBars();
+// marcar / desmarcar un bloque en la fecha de la sesión que estás viendo (se guarda por fecha)
+window.toggleBlock = async function(id, checked){
+  const iso = selectedISO(); if(iso > todayISO()) return;
+  const key = id+'|'+iso;
+  if(checked) state.completions.add(key); else state.completions.delete(key);
+  renderTraining();
+  let error = null;
+  if(checked){
+    ({ error } = await sb.from('workout_completions').upsert({ user_id: currentUser.id, exercise_id: id, completed_on: iso }, { onConflict:'user_id,exercise_id,completed_on', ignoreDuplicates:true }));
+  } else {
+    ({ error } = await sb.from('workout_completions').delete().eq('user_id', currentUser.id).eq('exercise_id', id).eq('completed_on', iso));
+  }
+  if(error){
+    if(checked) state.completions.delete(key); else state.completions.add(key);
+    renderTraining(); showTrainingMsg('No se pudo guardar. Revisa tu conexión e inténtalo de nuevo.');
+  }
 };
-window.editExercise = async (idx,i,val)=>{
-  state.week[idx].ex[i] = val;
-  const exId = state.week[idx]._ids[i];
-  await sb.from('week_plan_exercises').update({name: val}).eq('id', exId);
-  renderWeek();
+window.markSession = async function(){
+  const iso = selectedISO(); if(iso > todayISO()) return;
+  const day = state.week[selectedDow]; if(!day) return;
+  const req = requiredBlocks(day, iso); if(!req.length) return;
+  const allDone = req.every(e=>isDoneOn(e.id, iso));
+  req.forEach(e=>{ const k = e.id+'|'+iso; if(allDone) state.completions.delete(k); else state.completions.add(k); });
+  renderTraining();
+  let error = null;
+  if(allDone){
+    ({ error } = await sb.from('workout_completions').delete().eq('user_id', currentUser.id).eq('completed_on', iso).in('exercise_id', req.map(e=>e.id)));
+  } else {
+    ({ error } = await sb.from('workout_completions').upsert(req.map(e=>({ user_id: currentUser.id, exercise_id: e.id, completed_on: iso })), { onConflict:'user_id,exercise_id,completed_on', ignoreDuplicates:true }));
+  }
+  if(error){ await loadCompletions(); renderTraining(); showTrainingMsg('No se pudo guardar. Revisa tu conexión e inténtalo de nuevo.'); }
 };
-window.toggleDayDone = async (idx)=>{
-  const day = state.week[idx];
-  const allDone = day.ex.every((_,i)=>day.done && day.done[i]);
-  const newVal = !allDone;
-  day.done = {};
-  day.ex.forEach((_,i)=> day.done[i] = newVal);
-  if(day._ids && day._ids.length) await sb.from('week_plan_exercises').update({is_done:newVal}).in('id', day._ids);
-  renderWeek(); renderKPIs(); renderComplianceBars();
+// renombrar un ejercicio (conserva la función que ya existía, ahora dentro de la sesión)
+window.renameBlock = function(id){
+  const span = document.querySelector(`[data-bname="${id}"]`); if(!span) return;
+  let ex = null; Object.values(state.week).forEach(d=>d.ex.forEach(e=>{ if(e.id===id) ex = e; })); if(!ex) return;
+  const input = document.createElement('input');
+  input.type = 'text'; input.value = ex.name; input.maxLength = 160; input.className = 'blk-name-input'; input.setAttribute('aria-label','Nuevo nombre del ejercicio');
+  span.replaceWith(input); input.focus(); input.select();
+  let cancelled = false;
+  input.addEventListener('keydown', ev=>{ if(ev.key==='Enter'){ input.blur(); } else if(ev.key==='Escape'){ cancelled = true; input.blur(); } });
+  input.addEventListener('blur', async ()=>{
+    const v = input.value.trim();
+    if(!cancelled && v && v!==ex.name){
+      const prev = ex.name; ex.name = v;
+      const { error } = await sb.from('week_plan_exercises').update({ name: v }).eq('id', id);
+      if(error){ ex.name = prev; renderTraining(); showTrainingMsg('No se pudo renombrar.'); return; }
+    }
+    renderTraining();
+  });
 };
+window.openToday = function(){ selectedDow = new Date().getDay(); renderWeek(); renderSession(); goTo('entrenamiento'); };
 /* ---------- DAILY LOG ---------- */
 document.getElementById('logDate').addEventListener('change', e=>{ currentDate = e.target.value; renderDay(); document.getElementById('nutriTipsWrap').style.display='none'; });
 function renderDay(){
@@ -993,7 +1257,7 @@ function showNutriTips(){
   const tomorrowDow = (d.getDay()+1)%7;
   const tomorrowDay = state.week[tomorrowDow];
   if(tomorrowDay){
-    if(tomorrowDay.type==='tri') tips.push({cls:'cyan', title:'Mañana entrenas triserie', text:'Prioriza carbohidratos y proteína en el desayuno/almuerzo previo para llegar con energía a la sesión.'});
+    if(tomorrowDay.type==='tri' || tomorrowDay.type==='str') tips.push({cls:'cyan', title: tomorrowDay.type==='str' ? 'Mañana toca fuerza' : 'Mañana entrenas triserie', text:'Prioriza carbohidratos y proteína en el desayuno/almuerzo previo para llegar con energía a la sesión.'});
     else if(tomorrowDay.type==='run') tips.push({cls:'cyan', title:'Mañana toca carrera', text:'Carga algo más de carbohidrato esta noche y en el desayuno de mañana antes de correr.'});
   }
   if(!tips.length){
@@ -1031,12 +1295,7 @@ function renderChart(){
 }
 /* ---------- KPIs ---------- */
 function renderKPIs(){
-  const order = [1,2,3,4,5,6,0];
-  let planned=0, done=0;
-  order.forEach(idx=>{
-    const day = state.week[idx];
-    if(day.type!=='rest'){ planned++; if(day.ex.length>0 && day.done && day.ex.every((_,i)=>day.done[i])) done++; }
-  });
+  const { planned, done } = weekAdherence();
   const adh = planned? done/planned : 0;
   drawGauge('gaugeAdherence', adh, '#8B7CFB');
   document.getElementById('kpiAdherence').textContent = Math.round(adh*100)+'%';
@@ -1052,7 +1311,7 @@ function renderKPIs(){
   let streak = 0;
   for(let i=0;i<60;i++){
     const d = new Date(); d.setDate(d.getDate()-i);
-    const iso = d.toISOString().slice(0,10);
+    const iso = isoLocal(d);
     const log = state.daylogs[iso];
     const hasLog = log && (log.breakfast||log.lunch||log.dinner||log.snacks);
     if(hasLog) streak++; else break;
@@ -1087,23 +1346,22 @@ function setBadge(id, kind, text){
 }
 function lastNDates(n){
   const arr=[];
-  for(let i=n-1;i>=0;i--){ const d=new Date(); d.setDate(d.getDate()-i); arr.push(d.toISOString().slice(0,10)); }
+  for(let i=n-1;i>=0;i--){ const d=new Date(); d.setDate(d.getDate()-i); arr.push(isoLocal(d)); }
   return arr;
 }
 function renderComplianceBars(){
   const wrap = document.getElementById('complianceBars');
-  const last7 = lastNDates(7);
   wrap.innerHTML = '';
-  last7.forEach(iso=>{
-    const d = new Date(iso+'T00:00:00');
-    const dow = d.getDay();
+  lastNDates(7).forEach(iso=>{
+    const dow = parseISO(iso).getDay();
     const day = state.week[dow];
-    const isRest = day.type==='rest';
-    const isDone = day.ex.length>0 && day.done && day.ex.every((_,i)=>day.done[i]);
+    const s = day ? dayStatus(day, iso) : { st:'rest', done:0, total:0 };
     let height=6, cls='';
-    if(isRest){ height=20; cls=''; }
-    else if(isDone){ height=90; cls='done'; }
-    else { height=34; cls='missed'; }
+    if(s.st==='rest'){ height=20; }
+    else if(s.st==='done'){ height=90; cls='done'; }
+    else if(s.st==='partial'){ height=Math.round(30 + 60*s.done/s.total); cls='partial'; }
+    else if(s.st==='missed'){ height=34; cls='missed'; }
+    else { height=34; cls='pending'; }   // hoy, todavía sin empezar
     const col = document.createElement('div');
     col.className='bar-col';
     col.innerHTML = `<div class="bar-fill ${cls}" style="height:${height}%"></div><div class="bar-lbl">${DAY_NAMES[dow].slice(0,3)}</div>`;
