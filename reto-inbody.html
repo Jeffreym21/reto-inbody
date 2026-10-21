@@ -80,7 +80,7 @@
   .hero-stat .num{font-family:'IBM Plex Mono',monospace;font-size:32px;font-weight:700;line-height:1;color:#fff;}
   .hero-stat .lbl{font-size:10px;letter-spacing:.1em;text-transform:uppercase;opacity:.7;margin-top:4px;color:#e6e6ee;}
   /* ---------- 3D BODY ---------- */
-  .body3d-wrap{position:relative;border-radius:16px;overflow:hidden;background:radial-gradient(circle at 50% 30%, #0a0a0a, #000 75%);border:1px solid var(--border);height:320px;}
+  .body3d-wrap{position:relative;border-radius:16px;overflow:hidden;background:radial-gradient(circle at 50% 30%, #0a0a0a, #000 75%);border:1px solid var(--border);height:clamp(380px,56vh,540px);}
   .body3d-wrap canvas{display:block;}
   .body3d-caption{position:absolute;bottom:10px;left:0;right:0;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:10px;color:rgba(255,255,255,.4);letter-spacing:.08em;}
   /* ---------- BODY ILLUSTRATION (flat / hotspots) ---------- */
@@ -521,38 +521,22 @@
             <div class="flex gap-6 flex-wrap justify-center">
               <svg viewBox="0 0 240 460" class="body-illustration flex-none" style="width:190px;">
                 <defs>
-                  <linearGradient id="bodyGrad" x1="0" y1="0" x2="0" y2="1">
+                  <linearGradient id="bodyGrad" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="430">
                     <stop offset="0%" stop-color="#2a3a4a"/>
                     <stop offset="100%" stop-color="#151b22"/>
                   </linearGradient>
                 </defs>
-                <circle cx="120" cy="32" r="21" class="body-fill" stroke="rgba(66,198,255,.35)" stroke-width="1.2"/>
-                <rect x="112" y="50" width="16" height="18" rx="4" class="body-fill" stroke="rgba(66,198,255,.35)" stroke-width="1.2"/>
-                <path class="body-fill" data-seg="trunk" stroke="rgba(66,198,255,.35)" stroke-width="1.2" d="
-                  M84,68 C100,60 140,60 156,68 C170,80 173,102 166,122 C160,140 150,150 148,163
-                  C150,177 161,184 169,195 L169,202 C160,208 80,208 71,202 L71,195
-                  C79,184 90,177 92,163 C90,150 80,140 74,122 C67,102 70,80 84,68 Z"/>
-                <path class="body-detail" d="M120,90 L120,160 M96,110 Q120,118 144,110 M96,132 Q120,140 144,132 M100,152 Q120,158 140,152"/>
-                <path class="body-fill" data-seg="arm_l" stroke="rgba(66,198,255,.35)" stroke-width="1.2" d="
-                  M82,72 C70,84 58,104 52,135 C48,158 48,180 50,203 L36,203
-                  C34,178 33,155 36,130 C39,102 50,80 66,68 Z"/>
-                <ellipse cx="43" cy="215" rx="11" ry="15" class="body-fill" data-seg="arm_l" stroke="rgba(66,198,255,.35)" stroke-width="1.2"/>
-                <path class="body-fill" data-seg="arm_r" stroke="rgba(66,198,255,.35)" stroke-width="1.2" d="
-                  M158,72 C170,84 182,104 188,135 C192,158 192,180 190,203 L204,203
-                  C206,178 207,155 204,130 C201,102 190,80 174,68 Z"/>
-                <ellipse cx="197" cy="215" rx="11" ry="15" class="body-fill" data-seg="arm_r" stroke="rgba(66,198,255,.35)" stroke-width="1.2"/>
-                <path class="body-fill" data-seg="leg_l" stroke="rgba(66,198,255,.35)" stroke-width="1.2" d="
-                  M98,205 C93,230 90,260 88,300 C87,330 86,365 86,395 L54,395
-                  C54,365 53,330 54,300 C56,260 60,230 74,205 Z"/>
-                <ellipse cx="68" cy="410" rx="18" ry="11" class="body-fill" data-seg="leg_l" stroke="rgba(66,198,255,.35)" stroke-width="1.2"/>
-                <path class="body-fill" data-seg="leg_r" stroke="rgba(66,198,255,.35)" stroke-width="1.2" d="
-                  M142,205 C147,230 150,260 152,300 C153,330 154,365 154,395 L186,395
-                  C186,365 187,330 186,300 C184,260 180,230 166,205 Z"/>
-                <ellipse cx="172" cy="410" rx="18" ry="11" class="body-fill" data-seg="leg_r" stroke="rgba(66,198,255,.35)" stroke-width="1.2"/>
-                <g class="zone-hot" data-zone="chest" data-label="Pecho" transform="translate(120,105)"><circle class="ring" r="10"/><circle class="dot" r="5"/></g>
-                <g class="zone-hot" data-zone="waist" data-label="Cintura" transform="translate(120,165)"><circle class="ring" r="10"/><circle class="dot" r="5"/></g>
-                <g class="zone-hot" data-zone="armL" data-label="Brazo izquierdo" transform="translate(60,150)"><circle class="ring" r="10"/><circle class="dot" r="5"/></g>
-                <g class="zone-hot" data-zone="armR" data-label="Brazo derecho" transform="translate(180,150)"><circle class="ring" r="10"/><circle class="dot" r="5"/></g>
+                <path class="body-fill" stroke="rgba(66,198,255,.35)" stroke-width="1.2" stroke-linejoin="round" d="M118.5,11.7C117.2,11.8 115.5,12.3 114.3,12.7C113.1,13.1 112.7,13.2 111.5,14.1C110.2,15 108.2,16.5 106.9,18C105.6,19.6 104.5,20.9 103.5,23.4C102.5,25.9 101.2,30.1 100.7,33C100.2,36 100.2,38.5 100.4,41C100.6,43.5 101.7,45.5 102.1,48C102.5,50.5 102.1,52.6 102.7,55.7C103.2,58.9 105,64.6 105.4,67C105.7,69.4 105.1,69.2 104.8,70.2C104.5,71.2 102.6,70.6 103.4,73C104.1,75.4 108.1,82.4 109.5,84.4C110.9,86.5 108.9,85.2 111.8,85.4C114.6,85.5 123.7,85.7 126.7,85.3C129.8,85 128.9,84.9 130,83.3C131.1,81.7 132.3,77.5 133.3,75.7C134.3,73.9 135.7,73.4 136,72.4C136.3,71.5 135.2,71.1 134.9,70.2C134.7,69.3 134,69.4 134.4,67C134.7,64.6 136.6,58.9 137.1,55.7C137.6,52.6 137.3,50.5 137.7,48C138,45.5 139.1,43.2 139.3,41C139.6,38.8 139.8,37.5 139.3,34.8C138.9,32 137.8,27.4 136.7,24.6C135.6,21.8 134,19.5 132.8,17.9C131.5,16.2 130.5,15.6 129.3,14.8C128.2,13.9 126.8,13.2 125.6,12.8C124.5,12.3 123.7,12.1 122.5,11.9C121.3,11.7 119.9,11.6 118.5,11.7Z"/>
+                <path class="body-fill" data-seg="trunk" stroke="rgba(66,198,255,.35)" stroke-width="1.2" stroke-linejoin="round" d="M136.1,72.7C135,72.8 134.3,73.9 133.3,75.7C132.3,77.5 131,81.7 130,83.3C128.9,84.9 130,85 127,85.3C123.9,85.6 114.7,85.5 111.8,85.4C108.8,85.2 110.9,86.4 109.5,84.4C108,82.4 105,74.6 103.2,73.2C101.4,71.9 101.7,74.5 98.7,76.3C95.7,78.1 87.4,82.5 85.1,84C82.8,85.5 84.7,84.3 85,85.1C85.3,86 86.6,87.9 86.8,89C87.1,90.2 87.9,87.9 86.6,92C85.3,96.1 80.4,109.6 79.2,113.8C77.9,118 78.9,116 79.2,117.2C79.5,118.4 80.5,119.6 80.8,120.8C81.1,122 81,123.7 81.2,124.5C81.4,125.3 81.9,122.9 82.1,125.5C82.3,128.1 82.2,135.5 82.4,140.3C82.6,145 83.1,150.4 83.4,153.7C83.7,157.1 83.8,157.5 84.4,160.2C85.1,162.9 86.4,165 87.1,169.8C87.8,174.5 88.6,184.9 88.6,188.8C88.7,192.6 88.2,191.3 87.4,192.8C86.6,194.3 84.7,196.3 83.9,197.6C83.1,198.8 82,199.9 82.5,200.4C83,200.8 85.7,200.3 87,200.4C88.3,200.5 88.7,200.2 90.4,201C92,201.8 95.4,204 96.8,205C98.3,206 98.3,206.2 99,207.1C99.7,208 99.8,209.1 100.8,210.3C101.8,211.6 103.5,212.7 104.9,214.5C106.3,216.3 108.4,218.8 109.2,221C110,223.1 109.1,225 109.7,227.5C110.2,230 111.5,234 112.3,235.8C113.1,237.7 113.3,237.7 114.5,238.6C115.7,239.5 117.9,241.4 119.5,241.4C121.1,241.3 123.1,239.3 124.2,238.4C125.4,237.4 125.7,237.6 126.4,235.8C127.1,234 128.1,230.1 128.6,227.7C129.1,225.3 128.4,223.6 129.3,221.4C130.1,219.2 132.3,216.3 133.5,214.7C134.8,213 135.6,212.7 136.6,211.5C137.6,210.2 137.7,208.8 139.5,207.1C141.3,205.4 145.4,202.5 147.6,201.3C149.9,200 151.5,199.8 153,199.7C154.5,199.5 155.8,200.1 156.5,200.1C157.2,200.1 157.7,201 157,199.8C156.3,198.5 153.3,194.7 152.3,192.8C151.4,190.9 151.1,192.3 151.1,188.5C151.2,184.7 152,174.5 152.7,169.8C153.3,165 154.7,162.9 155.3,160.2C155.9,157.5 156,157.1 156.3,153.7C156.7,150.4 157.2,145 157.4,140.3C157.6,135.5 157.3,129.8 157.6,125.5C158,121.2 160.2,118.8 159.6,114.3C159,109.7 155.6,101.9 154.2,98.1C152.9,94.4 151.9,93.1 151.4,91.7C150.9,90.4 151.1,91.2 151.5,89.9C151.9,88.6 154.7,85.6 153.8,83.8C152.9,82 148.5,80.3 146.2,78.9C143.9,77.6 141.5,76.6 139.8,75.6C138.1,74.5 137.1,72.7 136.1,72.7Z"/>
+                <path class="body-fill" data-seg="arm_l" stroke="rgba(66,198,255,.35)" stroke-width="1.2" stroke-linejoin="round" d="M71.5,81.9C70.5,82.1 69.6,82.3 68.5,82.8C67.3,83.4 65.9,84.2 64.7,85.1C63.6,86.1 62.6,87.1 61.7,88.6C60.8,90 60,92.1 59.4,94C58.9,96 58.5,96 58.4,100C58.3,104 59,113.2 58.9,118.3C58.7,123.3 57.7,126.3 57.4,130.3C57,134.2 57.2,138.1 56.8,141.7C56.5,145.4 56,148.9 55.3,152C54.6,155 53.1,158.1 52.4,160.3C51.8,162.5 51.8,163 51.6,165.3C51.5,167.5 51.8,170.5 51.6,173.8C51.5,177 50.6,180.3 50.6,184.5C50.6,188.7 51.6,192.3 51.6,199C51.6,205.7 50.5,219.3 50.6,224.5C50.7,229.7 52,228.5 52.1,230C52.3,231.5 51.7,230.8 51.6,233.8C51.6,236.7 51.9,243.3 51.9,247.5C51.8,251.7 51.2,256.1 51.4,259C51.5,261.9 52.3,264 52.8,265.1C53.2,266.3 53.8,266 54.3,265.9C54.7,265.9 55.2,265.6 55.6,264.9C56,264.3 56.4,263.5 56.8,262C57.2,260.4 57.7,257.8 57.9,255.5C58.1,253.2 57.8,249.5 57.9,248C58,246.5 57.9,247 58.2,246.6C58.6,246.2 59.4,248 59.8,245.5C60.3,242.9 60.8,234.2 60.9,231.3C61,228.3 60.2,228.8 60.3,227.5C60.5,226.2 60.7,228.1 61.6,223.5C62.4,218.9 64.2,206.3 65.4,200C66.7,193.8 68.2,190.5 69.1,186C70,181.5 70.1,176.7 70.7,173.3C71.2,169.8 72.2,168.6 72.6,165.2C73,161.9 72.4,158 73.2,153.3C73.9,148.5 75.6,141.3 76.9,136.5C78.3,131.8 80.4,127.2 81.1,124.7C81.8,122.3 81.4,123.1 81.1,121.8C80.7,120.5 79.5,118.3 79.2,117C78.8,115.7 78.3,116.9 79.2,113.8C80,110.6 83.1,101.1 84.3,97.9C85.4,94.6 85.6,95.5 86.1,94.2C86.5,92.9 86.8,91.2 86.9,90C86.9,88.8 86.6,88.1 86.2,87.1C85.9,86.2 85.3,84.8 84.6,84.2C84,83.7 83.9,84.4 82.3,84.1C80.7,83.7 76.8,82.3 75,81.9C73.2,81.6 72.6,81.8 71.5,81.9Z"/>
+                <path class="body-fill" data-seg="arm_r" stroke="rgba(66,198,255,.35)" stroke-width="1.2" stroke-linejoin="round" d="M164.5,81.9C162.8,82.3 159,83.8 157.2,84.1C155.5,84.4 155,83.3 154.1,84C153.2,84.7 152.4,87.3 151.9,88.5C151.5,89.8 151,90.1 151.4,91.7C151.8,93.3 152.9,94.4 154.2,98.1C155.6,101.9 159,110 159.6,114.3C160.2,118.5 157.9,121.8 157.9,123.7C157.9,125.7 158.8,124.3 159.5,126.1C160.2,128 161.1,130.3 162.3,134.8C163.5,139.3 165.8,148.2 166.6,153.3C167.4,158.3 166.7,161.7 167.2,165.2C167.6,168.8 168.8,171 169.3,174.5C169.9,178 169.8,181.7 170.7,186C171.5,190.2 173.1,193.8 174.3,200C175.6,206.3 177.3,218.9 178.2,223.5C179,228.1 179.4,226.5 179.5,227.8C179.6,229 178.8,228.1 178.9,231C178.9,233.9 179.6,242.7 179.9,245.2C180.2,247.8 180.1,246 180.4,246.2C180.7,246.4 181.3,246.4 181.5,246.6C181.7,246.9 181.8,246.3 181.8,247.8C181.9,249.2 181.7,253.1 181.9,255.5C182.1,257.9 182.5,260.3 182.9,262C183.4,263.6 183.9,264.6 184.3,265.3C184.8,265.9 185.3,265.9 185.7,265.9C186.2,265.9 186.6,265.6 186.9,265.2C187.2,264.9 187.2,264.9 187.5,263.9C187.7,262.8 188.3,261.7 188.4,259C188.4,256.3 187.9,251.7 187.9,247.5C187.8,243.3 188.2,236.9 188.1,234C188.1,231.1 187.5,231.8 187.6,230.3C187.8,228.7 189,229.3 189.1,224.5C189.2,219.8 188.1,208.5 188.1,201.8C188.1,195 189.1,188.7 189.1,184C189.1,179.3 188.3,177.3 188.1,173.8C187.9,170.2 188.5,166.4 187.8,162.8C187.2,159.1 185.3,155.5 184.4,152C183.6,148.4 183.2,145.1 182.9,141.5C182.5,137.9 182.7,134.1 182.4,130.3C182,126.4 181.1,123.3 180.9,118.3C180.7,113.2 181.5,103.8 181.3,99.8C181.2,95.7 180.9,95.9 180.3,93.9C179.6,91.8 178.2,88.9 177.3,87.4C176.3,85.9 175.7,85.6 174.7,84.9C173.8,84.2 172.7,83.5 171.6,83C170.5,82.5 169.2,82.1 168,81.9C166.8,81.7 166.3,81.6 164.5,81.9Z"/>
+                <path class="body-fill" data-seg="leg_l" stroke="rgba(66,198,255,.35)" stroke-width="1.2" stroke-linejoin="round" d="M85,200.4C84.2,200.5 83,200.4 82.4,200.7C81.7,201.1 81.8,201.1 81.3,202.6C80.7,204.1 79.5,207.7 78.9,209.8C78.4,211.9 78.1,211.3 78.1,215.5C78.2,219.7 79.2,226.5 79.4,235C79.5,243.5 79.1,259.8 79.1,266.5C79.2,273.2 79.3,271.8 79.6,275C79.9,278.2 80.3,281.9 80.9,285.5C81.5,289.1 82.7,292.7 83.1,296.8C83.5,300.8 83,306.2 83.4,310C83.8,313.8 85.5,315.3 85.6,319.5C85.7,323.7 84.4,330.8 84.1,335C83.9,339.3 83.8,341 84.1,345C84.4,349 85.3,353.3 85.9,359.3C86.4,365.3 87.1,374.6 87.4,381C87.7,387.4 87.7,393.6 87.6,397.5C87.6,401.4 87.5,402.4 87.1,404.2C86.7,406.1 85.7,407.4 85.4,408.8C85.2,410.2 85.5,411.5 85.3,412.5C85.2,413.5 84.6,413.9 84.4,414.5C84.3,415.2 84.3,415.7 84.4,416.3C84.5,416.8 84.6,417.3 85,417.8C85.5,418.3 86.2,418.9 87.1,419.3C87.9,419.7 88.9,420.1 90,420.3C91.2,420.6 92.5,420.7 94,420.6C95.5,420.5 98,420.1 99.2,419.6C100.5,419.1 101.1,418.3 101.6,417.7C102.1,417.2 102.1,417.2 102.2,416.5C102.2,415.8 101.8,415.1 101.9,413.8C102.1,412.5 103.2,410.1 103.3,408.5C103.5,406.9 103.5,406.3 103.1,404.3C102.7,402.2 101.5,398.2 101.2,396.2C100.8,394.3 100.5,399.4 101.1,392.8C101.8,386.1 103.7,365.5 104.9,356.3C106.1,347 107.6,342.4 108.1,337.5C108.7,332.6 108.2,330 108.1,327C108,324 107.1,322.7 107.4,319.5C107.7,316.3 109.3,311.9 109.8,308C110.3,304.1 109.7,300.3 110.4,296C111.1,291.7 113.1,286.3 114.1,282.2C115,278.1 115.5,275.6 116.1,271.5C116.7,267.4 117.3,261.9 117.6,257.5C118,253.1 117.8,247.9 118.2,245.3C118.5,242.6 120.1,242.9 119.5,241.8C118.9,240.7 115.7,239.6 114.5,238.6C113.3,237.6 113.1,237.7 112.3,235.8C111.5,234 110.2,230 109.7,227.5C109.1,225 110,223.1 109.2,221C108.4,218.8 106.3,216.3 104.9,214.5C103.5,212.7 101.7,211.6 100.8,210.3C99.8,209.1 99.8,208.2 99.1,207.3C98.5,206.4 98.1,206 96.8,205C95.6,204.1 93,202.2 91.4,201.4C89.8,200.7 88.3,200.6 87.2,200.4C86.2,200.2 85.9,200.4 85,200.4Z"/>
+                <path class="body-fill" data-seg="leg_r" stroke="rgba(66,198,255,.35)" stroke-width="1.2" stroke-linejoin="round" d="M152.8,199.7C151.1,199.8 149.6,200.2 147.5,201.3C145.4,202.4 142.1,204.7 140.3,206.4C138.5,208.1 137.7,210.1 136.6,211.5C135.5,212.8 134.9,212.8 133.6,214.5C132.4,216.2 130,219.3 129.2,221.5C128.4,223.8 129.1,225.4 128.6,227.7C128.1,230.1 127.1,234 126.4,235.8C125.7,237.6 125.3,237.4 124.2,238.4C123.1,239.3 120.3,240.8 119.7,241.5C119.2,242.2 120.6,242.1 120.9,242.7C121.2,243.3 121.4,242.5 121.6,245C121.8,247.5 121.8,253.1 122.1,257.5C122.5,261.9 123.1,267.4 123.7,271.5C124.2,275.6 124.7,278.1 125.7,282.2C126.6,286.3 128.6,291.7 129.3,296C130,300.3 129.4,304.1 129.9,308C130.4,311.9 132.1,316.3 132.3,319.5C132.6,322.7 131.7,324 131.6,327C131.5,330 131.1,332.6 131.6,337.5C132.2,342.4 133.7,347 134.8,356.3C136,365.5 138,386 138.6,392.8C139.2,399.5 139,394.3 138.6,396.5C138.2,398.7 136.7,403.7 136.4,406C136.1,408.3 136.4,408.9 136.7,410.2C136.9,411.6 137.7,413 137.8,414C138,415 137.5,415.8 137.6,416.5C137.7,417.2 137.8,417.4 138.4,418C138.9,418.5 139.5,419.4 140.8,419.8C142.1,420.2 144.5,420.5 146,420.6C147.5,420.7 148.7,420.5 149.7,420.3C150.8,420.2 151.5,419.9 152.4,419.5C153.2,419 154.3,418.2 154.8,417.7C155.3,417.1 155.3,416.8 155.4,416.3C155.5,415.7 155.5,415.2 155.3,414.5C155.1,413.9 154.6,413.4 154.4,412.5C154.2,411.5 154.6,410.2 154.3,408.8C154,407.4 153,406.1 152.7,404.2C152.3,402.4 152.2,401.4 152.1,397.5C152.1,393.6 152.1,387.4 152.4,381C152.7,374.6 153.3,365.3 153.9,359.3C154.4,353.3 155.3,349 155.6,345C155.9,341 155.9,339.2 155.6,335C155.4,330.8 154,323.9 154.1,319.8C154.3,315.6 155.9,313.8 156.3,310C156.8,306.2 156.2,301.4 156.7,296.8C157.2,292.1 158.7,287 159.3,282C160,277 160.4,274.5 160.6,266.8C160.8,259 160.2,243.5 160.4,235.3C160.5,227 161.5,221.2 161.6,217.5C161.8,213.8 161.6,214.4 161.3,212.8C161.1,211.1 160.9,209.7 160.3,207.6C159.6,205.6 158.6,201.8 157.4,200.5C156.2,199.2 154.5,199.6 152.8,199.7Z"/>
+                <path class="body-detail" stroke-linecap="round" d="M116.8,89.9Q100.5,85.3 85.2,92.2M117.3,129.7Q104,137.5 93,134.3Q86.1,132 83.8,120.6M118.6,162.5Q113.1,163.8 107.2,162.5M118.6,173Q113.1,174.4 107.2,173M118.6,183.5Q113.1,184.9 107.2,183.5M103.5,194.3Q109.9,208 116.8,218.1M90.7,301.5Q96.6,306.5 102.6,301.5M105.3,237.8Q102.1,260.7 103.1,292.8M86.6,240.1Q87.9,265.3 88.9,292.8M113.1,59.2Q114,72.9 115,82.5M123.2,89.9Q139.5,85.3 154.8,92.2M122.7,129.7Q136,137.5 147,134.3Q153.9,132 156.2,120.6M121.4,162.5Q126.9,163.8 132.8,162.5M121.4,173Q126.9,174.4 132.8,173M121.4,183.5Q126.9,184.9 132.8,183.5M136.5,194.3Q130.1,208 123.2,218.1M137.4,301.5Q143.4,306.5 149.3,301.5M134.7,237.8Q137.9,260.7 136.9,292.8M153.4,240.1Q152.1,265.3 151.1,292.8M126.9,59.2Q126,72.9 125,82.5M120,98.1L120,125.6M120,149.6L120,193.1"/>
+                <g class="zone-hot" data-zone="chest" data-label="Pecho" transform="translate(120,122)"><circle class="ring" r="10"/><circle class="dot" r="5"/></g>
+                <g class="zone-hot" data-zone="waist" data-label="Cintura" transform="translate(120,176)"><circle class="ring" r="10"/><circle class="dot" r="5"/></g>
+                <g class="zone-hot" data-zone="armL" data-label="Brazo izquierdo" transform="translate(68,150)"><circle class="ring" r="10"/><circle class="dot" r="5"/></g>
+                <g class="zone-hot" data-zone="armR" data-label="Brazo derecho" transform="translate(172,150)"><circle class="ring" r="10"/><circle class="dot" r="5"/></g>
                 <g class="zone-hot" data-zone="legs" data-label="Piernas" transform="translate(120,300)"><circle class="ring" r="10"/><circle class="dot" r="5"/></g>
               </svg>
               <div class="flex-1 min-w-[220px]">
@@ -1480,97 +1464,381 @@ window.setBodyLayer = function(layer){
   bodyLayer = (layer==='lean' || layer==='fat') ? layer : 'off';
   applyBodyLayer();
 };
-/* ---------- 3D BODY (Three.js) ---------- */
+/* ---------- 3D BODY (Three.js) ----------
+   El cuerpo se genera por código (sin archivos externos): anatomía = unión suave de elipsoides y conos
+   (campo de distancia con signo) → malla con "surface nets". Se dibuja con isolíneas de profundidad,
+   como un escáner topográfico: las líneas siguen el relieve real (pectorales, abdomen, muslos…).
+   Unidades en metros · y arriba · +z = frente · x negativo = lado "izq." de la app (igual que el diagrama plano). */
+const BodyGen = (function(){
+  const D2R = Math.PI/180, INF = 1e9;
+  const NEUTRAL=0, ARM_L=1, ARM_R=2, TRUNK=3, LEG_L=4, LEG_R=5;
+  const sq = a=>a*a;
+  function mul3(A,B){ const C=[0,0,0,0,0,0,0,0,0]; for(let i=0;i<3;i++) for(let j=0;j<3;j++) C[i*3+j]=A[i*3]*B[j]+A[i*3+1]*B[3+j]+A[i*3+2]*B[6+j]; return C; }
+  function rotX(a){ const c=Math.cos(a), s=Math.sin(a); return [1,0,0, 0,c,-s, 0,s,c]; }
+  function rotY(a){ const c=Math.cos(a), s=Math.sin(a); return [c,0,s, 0,1,0, -s,0,c]; }
+  function rotZ(a){ const c=Math.cos(a), s=Math.sin(a); return [c,-s,0, s,c,0, 0,0,1]; }
+  function tr3(M){ return [M[0],M[3],M[6],M[1],M[4],M[7],M[2],M[5],M[8]]; }
+  function norm3(v){ const l=Math.sqrt(v[0]*v[0]+v[1]*v[1]+v[2]*v[2])||1; return [v[0]/l,v[1]/l,v[2]/l]; }
+  function smin(a,b,k){ const h=Math.max(k-Math.abs(a-b),0)/k; return Math.min(a,b)-h*h*k*0.25; }
+  // eje de un miembro (A→B): u = lateral (≈ +x), f = hacia delante (≈ +z)
+  function limbFrame(A,B){
+    const w=norm3([B[0]-A[0],B[1]-A[1],B[2]-A[2]]), d=w[0], u=norm3([1-d*w[0], -d*w[1], -d*w[2]]);
+    return {w, u, f:[w[1]*u[2]-w[2]*u[1], w[2]*u[0]-w[0]*u[2], w[0]*u[1]-w[1]*u[0]]};
+  }
+
+  /* ---- anatomía: cada pieza es un elipsoide (E, EL) o un cono redondeado (C) con su radio de mezcla k ---- */
+  function buildPrims(){
+    const prims=[];
+    function put(p, lo, hi){ const pad=p.k+0.012; p.bb=[lo[0]-pad,lo[1]-pad,lo[2]-pad,hi[0]+pad,hi[1]+pad,hi[2]+pad]; prims.push(p); }
+    function mkE(g,k,c,r,R,sub){
+      const hx=Math.sqrt(sq(R[0]*r[0])+sq(R[1]*r[1])+sq(R[2]*r[2]));
+      const hy=Math.sqrt(sq(R[3]*r[0])+sq(R[4]*r[1])+sq(R[5]*r[2]));
+      const hz=Math.sqrt(sq(R[6]*r[0])+sq(R[7]*r[1])+sq(R[8]*r[2]));
+      put({t:0,g,k,sub:!!sub,cx:c[0],cy:c[1],cz:c[2],rx:r[0],ry:r[1],rz:r[2],m:tr3(R),rmin:Math.min(r[0],r[1],r[2]),vol:r[0]*r[1]*r[2]},
+          [c[0]-hx,c[1]-hy,c[2]-hz],[c[0]+hx,c[1]+hy,c[2]+hz]);
+    }
+    // elipsoide con ángulos de Euler en grados (x, y, z)
+    function E(g,k,c,r,ang,sub){
+      ang=ang||[0,0,0];
+      mkE(g,k,c,r,mul3(mul3(rotZ(ang[2]*D2R),rotX(ang[0]*D2R)),rotY(ang[1]*D2R)),sub);
+    }
+    // elipsoide alineado con un miembro: centro = A + t·(B−A) + lateral·u + adelante·f · radios [lateral, largo, adelante-atrás]
+    function EL(g,k,A,B,t,off,r,sub){
+      const F=limbFrame(A,B), c=[0,0,0];
+      for(let i=0;i<3;i++) c[i]=A[i]+t*(B[i]-A[i])+F.u[i]*off[0]+F.f[i]*off[1];
+      mkE(g,k,c,r,[F.u[0],F.w[0],F.f[0], F.u[1],F.w[1],F.f[1], F.u[2],F.w[2],F.f[2]],sub);
+    }
+    // cono redondeado entre A y B (radios r1→r2) con sección elíptica (su lateral, sv delante-atrás)
+    function C(g,k,A,B,r1,r2,su,sv){
+      su=su||1; sv=sv||1;
+      const F=limbFrame(A,B), h=Math.sqrt(sq(B[0]-A[0])+sq(B[1]-A[1])+sq(B[2]-A[2]));
+      const b=(r1-r2)/h, a=Math.sqrt(1-b*b), rm=Math.max(r1,r2)*Math.max(su,sv);
+      put({t:1,g,k,sub:false,ax:A[0],ay:A[1],az:A[2],wx:F.w[0],wy:F.w[1],wz:F.w[2],ux:F.u[0],uy:F.u[1],uz:F.u[2],fx:F.f[0],fy:F.f[1],fz:F.f[2],
+           isu:1/su,isv:1/sv,r1,r2,h,a,b,ds:Math.min(su,sv),vol:Math.PI*rm*rm*h*0.5},
+          [Math.min(A[0],B[0])-rm,Math.min(A[1],B[1])-rm,Math.min(A[2],B[2])-rm],[Math.max(A[0],B[0])+rm,Math.max(A[1],B[1])+rm,Math.max(A[2],B[2])+rm]);
+    }
+    let s, sg;
+    /* cabeza y cuello (neutral: el InBody no mide esta zona) */
+    const N=NEUTRAL;
+    E(N,.035,[0,1.690,-.012],[.081,.097,.102]);                    // cráneo
+    E(N,.035,[0,1.628,.020],[.070,.081,.082]);                     // cara
+    E(N,.022,[0,1.578,.058],[.033,.026,.032]);                     // mentón
+    C(N,.035,[0,1.562,-.014],[0,1.452,-.024],.054,.064,1.02,.96);  // cuello
+    E(N,.020,[0,1.693,.081],[.050,.008,.014]);                     // arco superciliar
+    E(N,.014,[0,1.652,.094],[.008,.027,.015]);                     // nariz
+    E(N,.010,[0,1.629,.105],[.010,.010,.012]);                     // punta de la nariz
+    E(N,.008,[0,1.598,.080],[.021,.006,.009]);                     // labios
+    for(let si=0; si<2; si++){
+      s = si ? 1 : -1;
+      E(N,.022,[s*.052,1.598,-.012],[.020,.038,.040],[0,0,s*-8]);   // ángulo de la mandíbula
+      E(N,.018,[s*.044,1.652,.058],[.025,.019,.022]);               // pómulo
+      E(N,.014,[s*.078,1.668,-.010],[.005,.024,.014]);              // oreja
+      E(N,.008,[s*.014,1.631,.097],[.007,.008,.008]);               // ala de la nariz
+      C(N,.016,[s*.030,1.470,.020],[s*.052,1.572,-.030],.015,.012); // esternocleidomastoideo
+    }
+    /* tronco */
+    const T=TRUNK;
+    E(T,.050,[0,1.272,-.008],[.158,.172,.110]);   // caja torácica
+    E(T,.050,[0,1.078,.002],[.134,.160,.096]);    // abdomen
+    E(T,.050,[0,.930,0],[.148,.095,.098]);        // pelvis
+    E(T,.080,[0,1.400,-.008],[.172,.050,.076]);   // cintura escapular
+    E(T,.030,[0,.838,.030],[.058,.044,.048]);     // ingle
+    for(let si=0; si<2; si++){
+      s = si ? 1 : -1;
+      E(T,.040,[s*.083,1.322,.062],[.086,.054,.038]);              // pectoral
+      E(T,.040,[s*.070,1.372,.046],[.062,.032,.032],[0,0,s*-5]);   // pectoral superior
+      E(T,.050,[s*.112,1.215,-.050],[.044,.118,.044],[0,0,s*6]);   // dorsal ancho
+      E(T,.020,[s*.126,1.190,.016],[.014,.056,.036]);              // serrato
+      E(T,.040,[s*.075,1.468,-.030],[.095,.040,.050],[0,0,s*-22]); // trapecio superior
+      E(T,.035,[s*.050,1.340,-.088],[.060,.108,.028]);             // trapecio medio
+      E(T,.025,[s*.032,1.140,-.078],[.028,.130,.030]);             // erectores espinales
+      E(T,.025,[s*.118,1.345,-.082],[.056,.056,.024],[0,0,s*8]);   // omóplato
+      E(T,.040,[s*.098,1.078,.014],[.030,.095,.068],[0,0,s*4]);    // oblicuos
+      E(T,.045,[s*.078,.890,-.060],[.074,.076,.056]);              // glúteo mayor
+      E(T,.040,[s*.116,.950,-.036],[.040,.040,.048]);              // glúteo medio
+      [1.150,1.104,1.058,1.012].forEach(y=>E(T,.014,[s*.031,y,.080],[.028,.019,.012]));  // recto abdominal
+    }
+    E(T,.030,[0,1.335,.104],[.009,.050,.010],null,true);  // surco entre los pectorales
+    E(T,.020,[0,1.25,-.126],[.007,.16,.022],null,true);   // surco de la columna
+    E(T,.020,[0,.885,-.126],[.008,.07,.030],null,true);   // hendidura glútea
+    /* brazos */
+    for(let si=0; si<2; si++){
+      s = si ? 1 : -1; sg = s<0 ? ARM_L : ARM_R;
+      const S=[s*.200,1.415,-.005], El=[s*.252,1.1196,-.012], Wr=[s*.279,.861,.020];
+      const hd=norm3([s*.045,-1,.08]), Hd=[Wr[0]+hd[0]*.185, Wr[1]+hd[1]*.185, Wr[2]+hd[2]*.185];
+      E(sg,.035,[s*.208,1.398,-.002],[.058,.080,.064],[0,0,s*6]);   // deltoides
+      E(sg,.030,[s*.192,1.435,-.004],[.046,.022,.044]);             // acromion
+      C(sg,.035,S,El,.047,.037,1,1.05);                             // brazo
+      EL(sg,.025,S,El,.42,[0,.020],[.032,.082,.036]);               // bíceps
+      EL(sg,.025,S,El,.40,[s*.008,-.018],[.035,.086,.033]);         // tríceps
+      E(sg,.012,[El[0],El[1]-.010,El[2]-.026],[.020,.024,.020]);    // olécranon
+      C(sg,.030,El,Wr,.039,.024,1,1.1);                             // antebrazo
+      EL(sg,.022,El,Wr,.28,[s*.010,.010],[.028,.075,.028]);         // extensores
+      EL(sg,.022,El,Wr,.30,[-s*.008,.012],[.028,.070,.028]);        // flexores
+      EL(sg,.014,Wr,Hd,.28,[0,0],[.017,.050,.040]);                 // palma
+      EL(sg,.012,Wr,Hd,.70,[0,.003],[.0145,.058,.034]);             // dedos
+      C(sg,.010,[Wr[0]+hd[0]*.025-s*.012,Wr[1]+hd[1]*.025,Wr[2]+hd[2]*.025+.030],
+                [Wr[0]+hd[0]*.095-s*.014,Wr[1]+hd[1]*.095,Wr[2]+hd[2]*.095+.042],.011,.008); // pulgar
+    }
+    /* piernas */
+    for(let si=0; si<2; si++){
+      s = si ? 1 : -1; sg = s<0 ? LEG_L : LEG_R;
+      const H=[s*.090,.890,-.005], K=[s*.102,.497,.012], An=[s*.112,.095,-.012];
+      C(sg,.040,H,K,.092,.053,1,1);                                  // muslo
+      EL(sg,.030,H,K,.50,[s*.034,.015],[.043,.150,.051]);            // vasto lateral
+      EL(sg,.025,H,K,.48,[0,.058],[.038,.155,.034]);                 // recto femoral
+      EL(sg,.025,H,K,.80,[-s*.022,.040],[.034,.075,.038]);           // vasto medial
+      EL(sg,.030,H,K,.45,[-s*.040,-.005],[.040,.140,.048]);          // aductores
+      EL(sg,.030,H,K,.48,[s*.002,-.045],[.053,.165,.043]);           // isquiotibiales
+      E(sg,.015,[K[0],K[1]-.002,K[2]+.040],[.024,.026,.016]);        // rótula
+      C(sg,.030,K,An,.050,.030,.95,.92);                             // pierna
+      EL(sg,.025,K,An,.30,[-s*.022,-.034],[.032,.095,.039]);         // gemelo medial
+      EL(sg,.025,K,An,.34,[s*.022,-.030],[.028,.085,.035]);          // gemelo lateral
+      EL(sg,.025,K,An,.58,[0,-.020],[.034,.090,.034]);               // sóleo
+      EL(sg,.018,K,An,.50,[s*.002,.028],[.018,.110,.018]);           // tibial anterior
+      C(sg,.012,[An[0],.190,-.030],[An[0],.092,-.034],.012,.011);    // tendón de Aquiles
+      E(sg,.030,[s*.112,.050,.060],[.037,.040,.125],[8,s*6,0]);      // pie
+      E(sg,.025,[s*.110,.045,-.040],[.032,.042,.042]);               // talón
+      E(sg,.022,[s*.116,.022,.172],[.040,.020,.038],[0,s*8,0]);      // antepié
+      E(sg,.012,[s*.095,.020,.205],[.014,.016,.026]);                // dedo gordo
+      E(sg,.012,[s*.098,-.004,.040],[.030,.020,.060],null,true);     // arco plantar (corte)
+    }
+    // primero lo grande (más descartes rápidos) y al final los cortes
+    prims.sort((a,b)=>(a.sub-b.sub) || (b.vol-a.vol));
+    return prims;
+  }
+
+  /* ---- campo de distancia con signo (negativo = dentro del cuerpo) ---- */
+  function makeField(prims){
+    const n=prims.length, GD=new Float64Array(6);
+    // índice por franjas de altura: en cada punto solo se miran las piezas cercanas
+    const SL=0.05, Y0=-0.1, nS=Math.ceil((2.0-Y0)/SL), slabs=[], GB=[INF,INF,INF,-INF,-INF,-INF];
+    for(let j=0;j<nS;j++) slabs.push([]);
+    for(let i=0;i<n;i++){
+      const bb=prims[i].bb, a=Math.max(0,Math.floor((bb[1]-Y0)/SL)), b=Math.min(nS-1,Math.floor((bb[4]-Y0)/SL));
+      for(let j=a;j<=b;j++) slabs[j].push(i);
+      for(let k=0;k<3;k++){ GB[k]=Math.min(GB[k],bb[k]); GB[k+3]=Math.max(GB[k+3],bb[k+3]); }
+    }
+    function D(x,y,z){
+      GD[0]=GD[1]=GD[2]=GD[3]=GD[4]=GD[5]=INF;
+      const si=Math.floor((y-Y0)/SL), list=(si>=0 && si<nS) ? slabs[si] : null;
+      if(!list || !list.length){
+        // fuera de todas las franjas: distancia (por debajo) a la caja que contiene todo el cuerpo, para que ningún bloque cercano se descarte por error
+        let dx=GB[0]-x; if(dx<0){ dx=x-GB[3]; if(dx<0) dx=0; }
+        let dy=GB[1]-y; if(dy<0){ dy=y-GB[4]; if(dy<0) dy=0; }
+        let dz=GB[2]-z; if(dz<0){ dz=z-GB[5]; if(dz<0) dz=0; }
+        return Math.max(Math.sqrt(dx*dx+dy*dy+dz*dz),0.001);
+      }
+      {
+        for(let q=0;q<list.length;q++){
+          const P=prims[list[q]], bb=P.bb, g=P.g, k=P.k, acc=GD[g];
+          let dx=bb[0]-x; if(dx<0){ dx=x-bb[3]; if(dx<0) dx=0; }
+          let dy=bb[1]-y; if(dy<0){ dy=y-bb[4]; if(dy<0) dy=0; }
+          let dz=bb[2]-z; if(dz<0){ dz=z-bb[5]; if(dz<0) dz=0; }
+          const db=dx*dx+dy*dy+dz*dz;
+          if(db>0){
+            const th = P.sub ? (k-acc) : (acc+k);          // si la pieza está más lejos que esto, no cambia el resultado
+            if(th<=0 || db>=th*th) continue;
+          }
+          let d;
+          if(P.t===0){
+            const ex=x-P.cx, ey=y-P.cy, ez=z-P.cz, m=P.m;
+            const qx=(m[0]*ex+m[1]*ey+m[2]*ez)/P.rx, qy=(m[3]*ex+m[4]*ey+m[5]*ez)/P.ry, qz=(m[6]*ex+m[7]*ey+m[8]*ez)/P.rz;
+            const k0=Math.sqrt(qx*qx+qy*qy+qz*qz), bx=qx/P.rx, by=qy/P.ry, bz=qz/P.rz, k1=Math.sqrt(bx*bx+by*by+bz*bz);
+            d = k1<1e-12 ? -P.rmin : k0*(k0-1)/k1;
+          } else {
+            const cx=x-P.ax, cy=y-P.ay, cz=z-P.az;
+            const tt=cx*P.wx+cy*P.wy+cz*P.wz;
+            const qu=(cx*P.ux+cy*P.uy+cz*P.uz)*P.isu, qv=(cx*P.fx+cy*P.fy+cz*P.fz)*P.isv;
+            const qr=Math.sqrt(qu*qu+qv*qv), kk=-P.b*qr+P.a*tt;
+            if(kk<0) d=Math.sqrt(qr*qr+tt*tt)-P.r1;
+            else if(kk>P.a*P.h){ const t2=tt-P.h; d=Math.sqrt(qr*qr+t2*t2)-P.r2; }
+            else d=P.a*qr+P.b*tt-P.r1;
+            d*=P.ds;
+          }
+          if(P.sub){ const h1=Math.max(k-Math.abs(acc+d),0)/k; GD[g]=Math.max(acc,-d)+h1*h1*k*0.25; }   // corte suave
+          else { const h2=Math.max(k-Math.abs(acc-d),0)/k; GD[g]=Math.min(acc,d)-h2*h2*k*0.25; }          // unión suave
+        }
+      }
+      const legs=smin(GD[LEG_L],GD[LEG_R],.012);
+      let v=GD[TRUNK];
+      v=smin(v,GD[NEUTRAL],.040); v=smin(v,GD[ARM_L],.030); v=smin(v,GD[ARM_R],.030); v=smin(v,legs,.035);
+      return v>-y ? v : -y;      // suelo plano bajo los pies
+    }
+    function owner(){ let b=0, bv=GD[0]; for(let g=1;g<6;g++) if(GD[g]<bv){ bv=GD[g]; b=g; } return b; }
+    return { D, owner };
+  }
+
+  /* ---- malla con "surface nets"; es un generador para poder trocear el trabajo entre fotogramas ---- */
+  function* run(opts){
+    const h=opts.h||0.01, L=opts.safety||1.6;
+    const F=makeField(buildPrims()), D=F.D;
+    const X0=-0.64, Y0=-0.04, Z0=-0.30;
+    const nx=Math.ceil(1.28/h/32)*32, ny=Math.ceil(1.92/h/32)*32, nz=Math.ceil(0.64/h/32)*32;
+    const px=nx+1, py=ny+1, field=new Float32Array(px*py*(nz+1)); field.fill(NaN);
+    const val=(i,j,k)=>{ const id=(k*py+j)*px+i; let v=field[id]; if(v!==v){ v=field[id]=D(X0+i*h,Y0+j*h,Z0+k*h); } return v; };
+
+    // 1) bloques: se descartan los lejanos a la superficie y se subdividen los cercanos hasta celdas de 2×2×2
+    const leaves=[], stack=[]; let n=0;
+    for(let bk=0;bk<nz;bk+=32) for(let bj=0;bj<ny;bj+=32) for(let bi=0;bi<nx;bi+=32) stack.push(bi,bj,bk,32);
+    while(stack.length){
+      if((++n&63)===0) yield;
+      const s=stack.pop(), k0=stack.pop(), j0=stack.pop(), i0=stack.pop();
+      const d=D(X0+(i0+s*.5)*h,Y0+(j0+s*.5)*h,Z0+(k0+s*.5)*h);
+      if(Math.abs(d)>L*s*h*0.8660254+0.002) continue;
+      if(s===2){ leaves.push(i0,j0,k0); continue; }
+      const s2=s>>1;
+      for(let a=0;a<2;a++) for(let b=0;b<2;b++) for(let c=0;c<2;c++) stack.push(i0+a*s2,j0+b*s2,k0+c*s2,s2);
+    }
+    // 2) un vértice por cada celda que cruza la superficie
+    const cellV=new Int32Array(nx*ny*nz); cellV.fill(-1);
+    const CX=[0,1,0,1,0,1,0,1], CY=[0,0,1,1,0,0,1,1], CZ=[0,0,0,0,1,1,1,1];
+    const ED=[0,1,2,3,4,5,6,7,0,2,1,3,4,6,5,7,0,4,1,5,2,6,3,7];
+    const pos=[], vcell=[], cv=new Float64Array(8);
+    for(let q=0;q<leaves.length;q+=3){
+      for(let o=0;o<8;o++){
+        const ci=leaves[q]+(o&1), cj=leaves[q+1]+((o>>1)&1), ck=leaves[q+2]+((o>>2)&1);
+        let mask=0;
+        for(let c=0;c<8;c++){ cv[c]=val(ci+CX[c],cj+CY[c],ck+CZ[c]); if(cv[c]<0) mask|=1<<c; }
+        if(mask===0 || mask===255) continue;
+        let sx=0, sy=0, sz=0, cnt=0;
+        for(let e=0;e<12;e++){
+          const a=ED[e*2], b=ED[e*2+1];
+          if((cv[a]<0)!==(cv[b]<0)){
+            const t=cv[a]/(cv[a]-cv[b]);
+            sx+=CX[a]+t*(CX[b]-CX[a]); sy+=CY[a]+t*(CY[b]-CY[a]); sz+=CZ[a]+t*(CZ[b]-CZ[a]); cnt++;
+          }
+        }
+        cellV[(ck*ny+cj)*nx+ci]=pos.length/3;
+        pos.push(X0+(ci+sx/cnt)*h, Y0+(cj+sy/cnt)*h, Z0+(ck+sz/cnt)*h);
+        vcell.push(ci,cj,ck);
+      }
+      if(((q/3)&63)===63) yield;
+    }
+    const nv=pos.length/3;
+    // 3) caras: un cuadrilátero por cada arista que cambia de signo (orientadas hacia afuera)
+    const tris=[];
+    const vid=(i,j,k)=>(i<0||j<0||k<0||i>=nx||j>=ny||k>=nz) ? -1 : cellV[(k*ny+j)*nx+i];
+    const quad=(a,b,c,d,inside0)=>{ if(a<0||b<0||c<0||d<0) return; if(inside0) tris.push(a,b,c,a,c,d); else tris.push(a,d,c,a,c,b); };
+    for(let v=0; v<nv; v++){
+      const i=vcell[v*3], j=vcell[v*3+1], k=vcell[v*3+2], f0=val(i,j,k)<0;
+      if((val(i+1,j,k)<0)!==f0) quad(vid(i,j-1,k-1),vid(i,j,k-1),vid(i,j,k),vid(i,j-1,k),f0);
+      if((val(i,j+1,k)<0)!==f0) quad(vid(i-1,j,k-1),vid(i-1,j,k),vid(i,j,k),vid(i,j,k-1),f0);
+      if((val(i,j,k+1)<0)!==f0) quad(vid(i-1,j-1,k),vid(i,j-1,k),vid(i,j,k),vid(i-1,j,k),f0);
+      if((v&511)===511) yield;
+    }
+    // 4) normales (gradiente del campo), un paso hacia la superficie real y segmento de cada vértice
+    const P=new Float32Array(pos), N=new Float32Array(nv*3), seg=new Uint8Array(nv), e=h*0.4;
+    for(let v=0; v<nv; v++){
+      let x=P[v*3], y=P[v*3+1], z=P[v*3+2];
+      const f1=D(x+e,y-e,z-e); seg[v]=F.owner();
+      const f2=D(x-e,y-e,z+e), f3=D(x-e,y+e,z-e), f4=D(x+e,y+e,z+e);
+      let gx=f1-f2-f3+f4, gy=-f1-f2+f3+f4, gz=-f1+f2-f3+f4;
+      const gl=Math.sqrt(gx*gx+gy*gy+gz*gz)||1;
+      gx/=gl; gy/=gl; gz/=gl;
+      let step=(f1+f2+f3+f4)*0.25/(gl/(4*e));            // distancia al borde real (≈ SDF/|∇SDF|)
+      step=Math.max(-h*0.6,Math.min(h*0.6,step));
+      P[v*3]=x-gx*step; P[v*3+1]=y-gy*step; P[v*3+2]=z-gz*step;
+      N[v*3]=gx; N[v*3+1]=gy; N[v*3+2]=gz;
+      if((v&63)===63) yield;
+    }
+    // 5) un índice por segmento (cada parte del cuerpo se tiñe por separado según el InBody)
+    const idx=[[],[],[],[],[],[]];
+    for(let q=0; q<tris.length; q+=3){
+      const a=tris[q], b=tris[q+1], c=tris[q+2];
+      idx[seg[b]===seg[c] ? seg[b] : seg[a]].push(a,b,c);
+    }
+    const Idx = nv<65535 ? Uint16Array : Uint32Array;
+    return { positions:P, normals:N, index:idx.map(a=>Idx.from(a)) };
+  }
+
+  // genera la malla en tandas de ~8 ms (cediendo el control entre una y otra) para no congelar la página
+  function generate(opts, budget){
+    budget = budget || 8;
+    return new Promise((resolve,reject)=>{
+      let it; try{ it = run(opts||{}); }catch(err){ reject(err); return; }
+      const tick = ()=>{
+        const t0 = performance.now();
+        try{
+          let r; do{ r = it.next(); }while(!r.done && performance.now()-t0 < (document.hidden ? 40 : budget));
+          if(r.done) resolve(r.value); else setTimeout(tick, 0);
+        }catch(err){ reject(err); }
+      };
+      tick();
+    });
+  }
+  return { generate };
+})();
+
+const BODY_SEGS = ['neutral','arm_l','arm_r','trunk','leg_l','leg_r'];   // mismo orden que el índice de segmentos del generador
 function initBody3D(){
   const wrap = document.getElementById('body3dWrap');
   if(!wrap || typeof THREE === 'undefined') return;
+  if(body3D){ body3D.update(); return; }
+  const caption = wrap.querySelector('.body3d-caption');
+  const calm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   const w = wrap.clientWidth, h = wrap.clientHeight;
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(38, w/h, 0.1, 100);
   camera.position.set(0, 0.4, 5.6);
-  const renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
+  let renderer;
+  try{ renderer = new THREE.WebGLRenderer({antialias:true, alpha:true}); }
+  catch(err){ if(caption) caption.textContent = 'tu navegador no pudo iniciar el 3D'; return; }
   renderer.setSize(w, h); renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  renderer.domElement.setAttribute('role','img');
+  renderer.domElement.setAttribute('aria-label','Modelo 3D de tu cuerpo; arrástralo para girarlo');
   wrap.appendChild(renderer.domElement);
   const group = new THREE.Group();
+  scene.add(group);
+
+  // isolíneas de profundidad (distancia a la cámara), como un escáner topográfico: el color va de azul (bordes) a
+  // amarillo (superficie de frente); con una capa InBody activa cada segmento toma el color de su evaluación
   const VERT_SRC = `
-      varying vec3 vWorldPos;
-      varying vec3 vNormalW;
+      varying vec3 vVP;
+      varying vec3 vNv;
       void main(){
-        vec4 wp = modelMatrix * vec4(position, 1.0);
-        vWorldPos = wp.xyz;
-        vNormalW = normalize(mat3(modelMatrix) * normal);
-        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        vec4 mv = modelViewMatrix * vec4(position, 1.0);
+        vVP = mv.xyz;
+        vNv = normalize(normalMatrix * normal);
+        gl_Position = projectionMatrix * mv;
       }
     `;
-  // uMix=0 → degradado azul→amarillo por altura (look original); uMix=1 → color del segmento (InBody)
   const FRAG_SRC = `
       uniform vec3 uTint;
       uniform float uMix;
       uniform float uDim;
-      varying vec3 vWorldPos;
-      varying vec3 vNormalW;
+      uniform float uFreq;
+      uniform float uFade;
+      varying vec3 vVP;
+      varying vec3 vNv;
+      vec3 pal(float t){
+        vec3 a = vec3(0.06,0.28,1.00), b = vec3(0.05,0.78,1.00), c = vec3(0.60,0.95,0.50), d = vec3(1.00,0.93,0.20);
+        return t < 0.30 ? mix(a,b,t/0.30) : (t < 0.65 ? mix(b,c,(t-0.30)/0.35) : mix(c,d,(t-0.65)/0.35));
+      }
       void main(){
-        float t = clamp((vWorldPos.y + 1.55) / 3.6, 0.0, 1.0);
-        vec3 blue = vec3(0.16, 0.55, 0.98);
-        vec3 yellow = vec3(0.97, 0.92, 0.30);
-        vec3 lineColor = mix(mix(blue, yellow, t), uTint, uMix) * uDim;
-        float bands = fract(vWorldPos.y * 38.0);
-        float d = min(bands, 1.0 - bands);
-        float line = 1.0 - smoothstep(0.0, 0.09, d);
-        vec3 viewDir = normalize(cameraPosition - vWorldPos);
-        float fres = pow(1.0 - max(dot(normalize(vNormalW), viewDir), 0.0), 2.5);
-        vec3 base = vec3(0.01, 0.01, 0.015) + lineColor * fres * 0.12;
-        vec3 col = mix(base, lineColor, line);
-        gl_FragColor = vec4(col, 1.0);
+        vec3 N = normalize(vNv), V = normalize(-vVP);
+        float ndv = clamp(dot(N,V), 0.0, 1.0);
+        float f = -vVP.z * uFreq;
+        float ph = fract(f), dd = min(ph, 1.0-ph);
+        float aa = fwidth(f);
+        float hw = max(0.08, aa*0.7);
+        float line = 1.0 - smoothstep(hw - aa*0.5, hw + aa*0.5, dd);
+        float dense = smoothstep(0.45, 1.0, aa);            // líneas más juntas que ~2 px → brillo continuo (sin moiré)
+        float L = mix(line, 0.32, dense);
+        vec3 base = mix(pal(pow(ndv,1.9)), uTint, uMix) * uDim;
+        vec3 col = base*(L*(0.80+0.40*ndv) + 0.035) + base*pow(1.0-ndv,3.0)*0.30;
+        gl_FragColor = vec4(col*uFade, 1.0);
       }
     `;
-  // un material por segmento: cada parte del cuerpo puede teñirse según el análisis segmental
+  const BODY_SCALE = 1.8;
+  const freqFor = px => px*0.15;                               // líneas por unidad: más lienzo → más líneas, misma densidad en pantalla
   const mats = {};
-  function matFor(seg){
-    if(!mats[seg]) mats[seg] = new THREE.ShaderMaterial({
-      uniforms: { uTint:{value:new THREE.Color(0x42C6FF)}, uMix:{value:0}, uDim:{value:1} },
-      vertexShader: VERT_SRC, fragmentShader: FRAG_SRC
+  BODY_SEGS.forEach(seg=>{
+    mats[seg] = new THREE.ShaderMaterial({
+      uniforms: { uTint:{value:new THREE.Color(0x42C6FF)}, uMix:{value:0}, uDim:{value:1}, uFreq:{value:freqFor(h)}, uFade:{value:0} },
+      vertexShader: VERT_SRC, fragmentShader: FRAG_SRC, extensions:{derivatives:true}
     });
-    return mats[seg];
-  }
-  function lathe(seg, profile, x,y,z, rx=0,ry=0,rz=0){
-    const pts = profile.map(p=>new THREE.Vector2(p[0], p[1]));
-    const m = new THREE.Mesh(new THREE.LatheGeometry(pts, 28), matFor(seg));
-    m.position.set(x,y,z); m.rotation.set(rx,ry,rz); group.add(m);
-    return m;
-  }
-  function blob(seg, r, x,y,z, sx=1,sy=1,sz=1){
-    const m = new THREE.Mesh(new THREE.SphereGeometry(r,16,16), matFor(seg));
-    m.position.set(x,y,z); m.scale.set(sx,sy,sz); group.add(m);
-    return m;
-  }
-  const ARM = [[0.115,-0.31],[0.12,-0.15],[0.10,0.05],[0.082,0.31]];
-  const FOREARM = [[0.085,-0.29],[0.078,-0.05],[0.065,0.15],[0.05,0.29]];
-  const THIGH = [[0.185,-0.39],[0.195,-0.20],[0.16,0.05],[0.135,0.39]];
-  const SHIN = [[0.125,-0.36],[0.115,-0.15],[0.095,0.10],[0.07,0.36]];
-  // head + neck ('neutral': no tienen dato segmental)
-  blob('neutral', 0.26, 0,1.78,0, 0.92,1.08,0.96);
-  lathe('neutral', [[0.09,-0.09],[0.095,0],[0.08,0.09]], 0,1.55,0);
-  // torso + hips (one smooth silhouette: waist taper + chest + hip curve)
-  lathe('trunk', [
-    [0.27,-0.78],[0.29,-0.60],[0.305,-0.48],[0.26,-0.32],[0.225,-0.16],
-    [0.25,0.00],[0.305,0.18],[0.29,0.34],[0.22,0.46],[0.15,0.56],[0.10,0.60]
-  ], 0,0.85,0);
-  // arms + hands (x negativo = izquierdo, igual que el diagrama plano)
-  lathe('arm_l', ARM, -0.30,1.18,0, 0,0,0.32);
-  lathe('arm_l', FOREARM, -0.44,0.66,0, 0,0,0.18);
-  blob('arm_l', 0.075, -0.48,0.36,0.03, 1.1,1.3,0.85);
-  lathe('arm_r', ARM, 0.30,1.18,0, 0,0,-0.32);
-  lathe('arm_r', FOREARM, 0.44,0.66,0, 0,0,-0.18);
-  blob('arm_r', 0.075, 0.48,0.36,0.03, 1.1,1.3,0.85);
-  // legs + feet
-  lathe('leg_l', THIGH, -0.19,-0.32,0);
-  lathe('leg_l', SHIN, -0.19,-1.05,0);
-  blob('leg_l', 0.09, -0.19,-1.43,0.09, 1.0,0.55,1.6);
-  lathe('leg_r', THIGH, 0.19,-0.32,0);
-  lathe('leg_r', SHIN, 0.19,-1.05,0);
-  blob('leg_r', 0.09, 0.19,-1.43,0.09, 1.0,0.55,1.6);
-  scene.add(group);
+  });
   // tiñe cada segmento según la capa activa (masa magra / grasa) del último InBody
   function updateLayer(){
     SEGMENTS.forEach(seg=>{
@@ -1578,15 +1846,41 @@ function initBody3D(){
       const c = bodyLayer!=='off' ? segmentColor(bodyLayer, seg) : null;
       if(c){ m.uniforms.uTint.value.set(c); m.uniforms.uMix.value = 1; } else { m.uniforms.uMix.value = 0; }
     });
-    if(mats.neutral) mats.neutral.uniforms.uDim.value = (bodyLayer!=='off' && state.inbody) ? 0.45 : 1;
+    mats.neutral.uniforms.uDim.value = (bodyLayer!=='off' && state.inbody) ? 0.45 : 1;
   }
   body3D = { update: updateLayer };
   updateLayer();
-  let dragging=false, lastX=0, userRotY=0;
+
+  // el modelo se genera en segundo plano; al terminar aparece con un fundido
+  let readyAt = 0;
+  if(caption) caption.textContent = 'preparando el modelo…';
+  const startGen = ()=>BodyGen.generate({ h: Math.min(window.innerWidth, window.innerHeight) < 600 ? 0.0125 : 0.01 }).then(m=>{
+    const pa = new THREE.BufferAttribute(m.positions,3), na = new THREE.BufferAttribute(m.normals,3);
+    const body = new THREE.Group();
+    m.index.forEach((ix,i)=>{
+      if(!ix.length) return;
+      const g = new THREE.BufferGeometry();
+      g.setAttribute('position', pa); g.setAttribute('normal', na); g.setIndex(new THREE.BufferAttribute(ix,1));
+      body.add(new THREE.Mesh(g, mats[BODY_SEGS[i]]));
+    });
+    body.scale.setScalar(BODY_SCALE); body.position.y = -1.06;     // pies abajo, cabeza arriba, centrado en el encuadre
+    group.add(body);
+    readyAt = performance.now();
+    if(caption) caption.textContent = 'arrastra para orbitar';
+  }).catch(()=>{ if(caption) caption.textContent = 'no se pudo generar el modelo 3D'; });
+  // se genera con calma: con la página ya cargada y la pestaña a la vista (en segundo plano el navegador frena los temporizadores)
+  setTimeout(()=>{
+    if(!document.hidden){ startGen(); return; }
+    document.addEventListener('visibilitychange', function f(){ if(!document.hidden){ document.removeEventListener('visibilitychange', f); startGen(); } });
+  }, 2000);
+
+  let dragging=false, lastX=0, userRotY=0, visible=true;
   renderer.domElement.style.cursor='grab';
+  renderer.domElement.style.touchAction='pan-y';              // el scroll vertical de la página sigue funcionando en móvil
   renderer.domElement.addEventListener('pointerdown', e=>{dragging=true; lastX=e.clientX; renderer.domElement.style.cursor='grabbing';});
   window.addEventListener('pointerup', ()=>{dragging=false; renderer.domElement.style.cursor='grab';});
   window.addEventListener('pointermove', e=>{ if(dragging){ userRotY += (e.clientX-lastX)*0.006; lastX=e.clientX; } });
+  if('IntersectionObserver' in window) new IntersectionObserver(es=>{ visible = es[0].isIntersecting; }).observe(wrap);   // fuera de pantalla no se dibuja
   function scrollProgress(){
     const rect = wrap.getBoundingClientRect();
     const vh = window.innerHeight;
@@ -1595,11 +1889,13 @@ function initBody3D(){
   }
   function animate(t){
     requestAnimationFrame(animate);
-    const autorot = t*0.00025;
+    if(!readyAt || !visible) return;
     const sp = scrollProgress();
-    group.rotation.y = autorot + userRotY + sp*Math.PI*1.4;
-    group.rotation.x = Math.sin(t*0.0005)*0.05 + sp*0.15;
-    group.position.y = Math.sin(t*0.0007)*0.05 - 0.15;
+    const fade = Math.min(1, (performance.now()-readyAt)/900);
+    BODY_SEGS.forEach(seg=>{ mats[seg].uniforms.uFade.value = fade; });
+    group.rotation.y = (calm ? 0.5 : t*0.00018) + userRotY + (calm ? 0 : sp*Math.PI*1.4);
+    group.rotation.x = calm ? 0.05 : Math.sin(t*0.0005)*0.05 + sp*0.15;
+    group.position.y = (calm ? 0 : Math.sin(t*0.0007)*0.05) - 0.15;
     renderer.render(scene, camera);
   }
   requestAnimationFrame(animate);
@@ -1607,6 +1903,7 @@ function initBody3D(){
     const nw = wrap.clientWidth, nh = wrap.clientHeight;
     camera.aspect = nw/nh; camera.updateProjectionMatrix();
     renderer.setSize(nw, nh);
+    BODY_SEGS.forEach(seg=>{ mats[seg].uniforms.uFreq.value = freqFor(nh); });
   });
 }
 initAuth();
