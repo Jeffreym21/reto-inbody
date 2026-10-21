@@ -80,19 +80,23 @@
   .hero-stat .num{font-family:'IBM Plex Mono',monospace;font-size:32px;font-weight:700;line-height:1;color:#fff;}
   .hero-stat .lbl{font-size:10px;letter-spacing:.1em;text-transform:uppercase;opacity:.7;margin-top:4px;color:#e6e6ee;}
   /* ---------- 3D BODY ---------- */
-  .body3d-wrap{position:relative;border-radius:16px;overflow:hidden;background:radial-gradient(circle at 50% 30%, #0a0a0a, #000 75%);border:1px solid var(--border);height:clamp(380px,56vh,540px);}
+  .body3d-wrap{position:relative;border-radius:16px;overflow:hidden;background:radial-gradient(circle at 50% 30%, #0a0a0a, #000 75%);border:1px solid var(--border);height:clamp(420px,66vh,700px);}
   .body3d-wrap canvas{display:block;}
-  .body3d-caption{position:absolute;bottom:10px;left:0;right:0;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:10px;color:rgba(255,255,255,.4);letter-spacing:.08em;}
-  /* ---------- BODY ILLUSTRATION (flat / hotspots) ---------- */
-  .body-illustration{filter:drop-shadow(0 12px 30px rgba(66,198,255,.15));}
-  .body-fill{fill:url(#bodyGrad);}
-  .body-detail{fill:none;stroke:rgba(66,198,255,.35);stroke-width:1;}
+  .body3d-caption{position:absolute;bottom:10px;left:0;right:0;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:10px;color:rgba(255,255,255,.4);letter-spacing:.08em;pointer-events:none;}
+  /* puntos de medida sobre el cuerpo 3D (se colocan cada fotograma sobre la zona real) */
   .zone-hot{cursor:pointer;}
-  .zone-hot circle.ring{fill:none;stroke:var(--cyan);stroke-width:1.4;opacity:.55;animation:pulse 2.4s ease-in-out infinite;}
-  .zone-hot circle.dot{fill:var(--cyan);stroke:#0a0a0e;stroke-width:2;transition:r .15s;}
-  .zone-hot.has-data circle.dot{fill:var(--green);}
-  .zone-hot:hover circle.dot{r:7;}
+  .hot3d-layer{position:absolute;inset:0;pointer-events:none;z-index:3;}
+  .hot3d{position:absolute;left:0;top:0;width:38px;height:38px;padding:0;margin:0;border:0;background:transparent;opacity:0;pointer-events:none;will-change:transform,opacity;}
+  .hot3d .ring{position:absolute;inset:8px;border:1.5px solid var(--cyan);border-radius:50%;opacity:.6;animation:pulse 2.4s ease-in-out infinite;}
+  .hot3d .dot{position:absolute;inset:13px;box-sizing:border-box;border-radius:50%;background:var(--cyan);border:2px solid #0a0a0e;transition:transform .15s,background .15s;}
+  .hot3d.has-data .dot{background:var(--green);}
+  .hot3d:hover .dot,.hot3d:focus-visible .dot,.hot3d.active .dot{transform:scale(1.35);}
+  .hot3d:focus-visible{outline:2px solid var(--violet);outline-offset:-3px;border-radius:50%;}
+  .hot3d::after{content:attr(data-label);position:absolute;left:50%;bottom:calc(100% - 6px);transform:translateX(-50%);padding:2px 8px;border-radius:7px;background:rgba(10,10,14,.92);border:1px solid var(--border);font-family:'IBM Plex Mono',monospace;font-size:10px;color:#fff;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .15s;}
+  .hot3d:hover::after,.hot3d:focus-visible::after,.hot3d.active::after{opacity:1;}
   @keyframes pulse{0%{transform:scale(.7);opacity:.6;}70%{transform:scale(1.9);opacity:0;}100%{opacity:0;}}
+  .body3d-wrap #formZone{position:absolute;left:12px;right:12px;bottom:34px;z-index:6;margin:0;flex-direction:row;flex-wrap:wrap;align-items:center;gap:8px 10px;padding:10px 12px;background:rgba(14,14,20,.94);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);}
+  .body3d-wrap #formZone label{flex:1;min-width:160px;}
   .measure-form{display:none;flex-direction:column;gap:8px;margin-bottom:12px;padding:14px;background:var(--surface-2);border:1px solid var(--border);border-radius:12px;}
   .measure-form.active{display:flex;}
   .measure-form label{font-size:11.5px;color:var(--ink-soft);display:flex;justify-content:space-between;align-items:center;gap:8px;}
@@ -101,6 +105,9 @@
   .metrics-table td{padding:8px 4px;border-bottom:1px solid var(--border);}
   .metrics-table td:first-child{color:var(--ink-soft);}
   .metrics-table td:last-child{font-family:'IBM Plex Mono',monospace;text-align:right;font-weight:700;}
+  .metrics-table tr[data-zone],.metrics-table tr[data-form]{cursor:pointer;}
+  .metrics-table tr[data-zone]:hover td,.metrics-table tr[data-form]:hover td{background:rgba(139,124,251,.07);}
+  .metrics-table tr:focus-visible{outline:2px solid var(--violet);outline-offset:-2px;}
   .delta.up{color:var(--green);}
   .delta.down{color:var(--red);}
   /* ---------- WEEK BOARD ---------- */
@@ -131,7 +138,7 @@
   .meal-block textarea{width:100%;min-height:70px;margin-top:5px;padding:10px;border:1px solid var(--border);border-radius:11px;font-family:'Inter',sans-serif;font-size:12.5px;resize:vertical;background:var(--surface-2);color:var(--ink);}
   .meal-block textarea:focus{outline:none;border-color:var(--green);background:#0d0d12;}
   /* ---------- CHART / BARS ---------- */
-  svg.chart{width:100%;height:170px;}
+  svg.chart{width:100%;height:190px;}
   .legend span{display:inline-flex;align-items:center;gap:5px;}
   .dot{width:8px;height:8px;border-radius:50%;display:inline-block;}
   .bars{display:flex;align-items:flex-end;gap:9px;height:100px;}
@@ -487,18 +494,56 @@
             </div>
           </div>
         </div>
-        <div class="card p-6 mb-5 reveal">
+        <div class="card p-6 mb-5 reveal" id="bodyCard">
           <div class="flex items-start justify-between gap-3 flex-wrap mb-4">
             <div>
-              <h2 class="text-[15px] font-bold display mb-1">Vista 3D</h2>
-              <p class="text-[12px]" style="color:var(--ink-soft);">Gira sola y responde al scroll de la página</p>
+              <h2 class="text-[15px] font-bold display mb-1">Tu cuerpo</h2>
+              <p class="text-[12px]" style="color:var(--ink-soft);">Arrástralo para girarlo · toca un punto para registrar una medida de hoy</p>
             </div>
             <div data-layer-ctl style="display:none;"></div>
           </div>
-          <div class="body3d-wrap" id="body3dWrap">
-            <div class="body3d-caption">arrastra para orbitar</div>
+          <div class="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-6">
+            <div class="min-w-0">
+              <div class="body3d-wrap" id="body3dWrap">
+                <div class="body3d-caption">arrastra para orbitar</div>
+                <div class="hot3d-layer">
+                  <button type="button" class="zone-hot hot3d" tabindex="-1" data-zone="chest" data-anchor="chest" data-label="Pecho" aria-label="Registrar medida del pecho"><i class="ring"></i><i class="dot"></i></button>
+                  <button type="button" class="zone-hot hot3d" tabindex="-1" data-zone="waist" data-anchor="waist" data-label="Cintura" aria-label="Registrar medida de la cintura"><i class="ring"></i><i class="dot"></i></button>
+                  <button type="button" class="zone-hot hot3d" tabindex="-1" data-zone="armL" data-anchor="armL" data-label="Brazo izq." aria-label="Registrar medida del brazo izquierdo"><i class="ring"></i><i class="dot"></i></button>
+                  <button type="button" class="zone-hot hot3d" tabindex="-1" data-zone="armR" data-anchor="armR" data-label="Brazo der." aria-label="Registrar medida del brazo derecho"><i class="ring"></i><i class="dot"></i></button>
+                  <button type="button" class="zone-hot hot3d" tabindex="-1" data-zone="legs" data-anchor="legL" data-label="Piernas" aria-label="Registrar medida de las piernas"><i class="ring"></i><i class="dot"></i></button>
+                  <button type="button" class="zone-hot hot3d" tabindex="-1" data-zone="legs" data-anchor="legR" data-label="Piernas" aria-label="Registrar medida de las piernas"><i class="ring"></i><i class="dot"></i></button>
+                </div>
+                <div class="measure-form" id="formZone">
+                  <label id="zoneFormLabel">Zona (cm) <input type="number" step="0.1" inputmode="decimal" id="mZoneValue"></label>
+                  <button class="btn-primary btn-sm" onclick="saveMeasurement('zone')">Guardar</button>
+                  <button class="btn-outline btn-sm" onclick="closeZoneForm()" aria-label="Cerrar">✕</button>
+                </div>
+              </div>
+              <div class="layer-legend" data-layer-legend style="display:none;margin-top:10px;"></div>
+            </div>
+            <div class="min-w-0">
+              <button class="btn-outline btn-sm mb-3" onclick="toggleForm('formGeneral')">+ Registrar peso / InBody de hoy</button>
+              <div class="measure-form" id="formGeneral">
+                <label>Peso (kg) <input type="number" step="0.1" inputmode="decimal" id="mWeight"></label>
+                <label>% Grasa corporal <input type="number" step="0.1" inputmode="decimal" id="mFat"></label>
+                <label>Masa muscular (kg) <input type="number" step="0.1" inputmode="decimal" id="mMuscle"></label>
+                <label>Meta de peso (kg) <input type="number" step="0.1" inputmode="decimal" id="mGoal"></label>
+                <button class="btn-primary btn-sm" onclick="saveMeasurement('general')">Guardar peso / InBody</button>
+              </div>
+              <table class="metrics-table" id="metricsTable"></table>
+              <p class="text-[11px] mt-2" style="color:var(--ink-faint);">Toca una fila o un punto del cuerpo para registrar esa medida de hoy.</p>
+              <div class="mt-6 pt-5" style="border-top:1px solid var(--border);">
+                <h3 class="text-[13px] font-bold display mb-1">Avance</h3>
+                <p class="text-[12px] mb-2" style="color:var(--ink-soft);">Peso y % grasa registrados desde el inicio del reto</p>
+                <svg class="chart" id="progressChart" viewBox="0 0 560 190"></svg>
+                <div class="legend flex gap-4 mt-2 text-[11px]" style="color:var(--ink-soft);">
+                  <span><span class="dot" style="background:var(--cyan)"></span>Peso (kg)</span>
+                  <span><span class="dot" style="background:var(--gold)"></span>% Grasa</span>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="layer-legend" data-layer-legend style="display:none;margin-top:10px;"></div>
         </div>
         <div class="card p-6 mb-5 reveal" id="inbodyCard" style="display:none;">
           <div class="flex items-start justify-between gap-3 flex-wrap">
@@ -511,60 +556,6 @@
           <div class="ib-grid" id="inbodyMetrics"></div>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4" id="inbodySegments"></div>
           <p class="text-[12px] mt-4" style="color:var(--ink-soft);line-height:1.6;" id="inbodyNote"></p>
-        </div>
-        <div class="grid grid-cols-1 lg:grid-cols-[0.85fr_1.15fr] gap-5">
-          <div class="card p-6 reveal">
-            <h2 class="text-[15px] font-bold display mb-1">Registra medidas</h2>
-            <p class="text-[12px] mb-4" style="color:var(--ink-soft);">Toca un punto para registrar una medida de hoy</p>
-            <div data-layer-ctl class="mb-3" style="display:none;"></div>
-            <div class="layer-legend" data-layer-legend style="display:none;margin-bottom:16px;"></div>
-            <div class="flex gap-6 flex-wrap justify-center">
-              <svg viewBox="0 0 240 460" class="body-illustration flex-none" style="width:190px;">
-                <defs>
-                  <linearGradient id="bodyGrad" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="430">
-                    <stop offset="0%" stop-color="#2a3a4a"/>
-                    <stop offset="100%" stop-color="#151b22"/>
-                  </linearGradient>
-                </defs>
-                <path class="body-fill" stroke="rgba(66,198,255,.35)" stroke-width="1.2" stroke-linejoin="round" d="M118.5,11.7C117.2,11.8 115.5,12.3 114.3,12.7C113.1,13.1 112.7,13.2 111.5,14.1C110.2,15 108.2,16.5 106.9,18C105.6,19.6 104.5,20.9 103.5,23.4C102.5,25.9 101.2,30.1 100.7,33C100.2,36 100.2,38.5 100.4,41C100.6,43.5 101.7,45.5 102.1,48C102.5,50.5 102.1,52.6 102.7,55.7C103.2,58.9 105,64.6 105.4,67C105.7,69.4 105.1,69.2 104.8,70.2C104.5,71.2 102.6,70.6 103.4,73C104.1,75.4 108.1,82.4 109.5,84.4C110.9,86.5 108.9,85.2 111.8,85.4C114.6,85.5 123.7,85.7 126.7,85.3C129.8,85 128.9,84.9 130,83.3C131.1,81.7 132.3,77.5 133.3,75.7C134.3,73.9 135.7,73.4 136,72.4C136.3,71.5 135.2,71.1 134.9,70.2C134.7,69.3 134,69.4 134.4,67C134.7,64.6 136.6,58.9 137.1,55.7C137.6,52.6 137.3,50.5 137.7,48C138,45.5 139.1,43.2 139.3,41C139.6,38.8 139.8,37.5 139.3,34.8C138.9,32 137.8,27.4 136.7,24.6C135.6,21.8 134,19.5 132.8,17.9C131.5,16.2 130.5,15.6 129.3,14.8C128.2,13.9 126.8,13.2 125.6,12.8C124.5,12.3 123.7,12.1 122.5,11.9C121.3,11.7 119.9,11.6 118.5,11.7Z"/>
-                <path class="body-fill" data-seg="trunk" stroke="rgba(66,198,255,.35)" stroke-width="1.2" stroke-linejoin="round" d="M136.1,72.7C135,72.8 134.3,73.9 133.3,75.7C132.3,77.5 131,81.7 130,83.3C128.9,84.9 130,85 127,85.3C123.9,85.6 114.7,85.5 111.8,85.4C108.8,85.2 110.9,86.4 109.5,84.4C108,82.4 105,74.6 103.2,73.2C101.4,71.9 101.7,74.5 98.7,76.3C95.7,78.1 87.4,82.5 85.1,84C82.8,85.5 84.7,84.3 85,85.1C85.3,86 86.6,87.9 86.8,89C87.1,90.2 87.9,87.9 86.6,92C85.3,96.1 80.4,109.6 79.2,113.8C77.9,118 78.9,116 79.2,117.2C79.5,118.4 80.5,119.6 80.8,120.8C81.1,122 81,123.7 81.2,124.5C81.4,125.3 81.9,122.9 82.1,125.5C82.3,128.1 82.2,135.5 82.4,140.3C82.6,145 83.1,150.4 83.4,153.7C83.7,157.1 83.8,157.5 84.4,160.2C85.1,162.9 86.4,165 87.1,169.8C87.8,174.5 88.6,184.9 88.6,188.8C88.7,192.6 88.2,191.3 87.4,192.8C86.6,194.3 84.7,196.3 83.9,197.6C83.1,198.8 82,199.9 82.5,200.4C83,200.8 85.7,200.3 87,200.4C88.3,200.5 88.7,200.2 90.4,201C92,201.8 95.4,204 96.8,205C98.3,206 98.3,206.2 99,207.1C99.7,208 99.8,209.1 100.8,210.3C101.8,211.6 103.5,212.7 104.9,214.5C106.3,216.3 108.4,218.8 109.2,221C110,223.1 109.1,225 109.7,227.5C110.2,230 111.5,234 112.3,235.8C113.1,237.7 113.3,237.7 114.5,238.6C115.7,239.5 117.9,241.4 119.5,241.4C121.1,241.3 123.1,239.3 124.2,238.4C125.4,237.4 125.7,237.6 126.4,235.8C127.1,234 128.1,230.1 128.6,227.7C129.1,225.3 128.4,223.6 129.3,221.4C130.1,219.2 132.3,216.3 133.5,214.7C134.8,213 135.6,212.7 136.6,211.5C137.6,210.2 137.7,208.8 139.5,207.1C141.3,205.4 145.4,202.5 147.6,201.3C149.9,200 151.5,199.8 153,199.7C154.5,199.5 155.8,200.1 156.5,200.1C157.2,200.1 157.7,201 157,199.8C156.3,198.5 153.3,194.7 152.3,192.8C151.4,190.9 151.1,192.3 151.1,188.5C151.2,184.7 152,174.5 152.7,169.8C153.3,165 154.7,162.9 155.3,160.2C155.9,157.5 156,157.1 156.3,153.7C156.7,150.4 157.2,145 157.4,140.3C157.6,135.5 157.3,129.8 157.6,125.5C158,121.2 160.2,118.8 159.6,114.3C159,109.7 155.6,101.9 154.2,98.1C152.9,94.4 151.9,93.1 151.4,91.7C150.9,90.4 151.1,91.2 151.5,89.9C151.9,88.6 154.7,85.6 153.8,83.8C152.9,82 148.5,80.3 146.2,78.9C143.9,77.6 141.5,76.6 139.8,75.6C138.1,74.5 137.1,72.7 136.1,72.7Z"/>
-                <path class="body-fill" data-seg="arm_l" stroke="rgba(66,198,255,.35)" stroke-width="1.2" stroke-linejoin="round" d="M71.5,81.9C70.5,82.1 69.6,82.3 68.5,82.8C67.3,83.4 65.9,84.2 64.7,85.1C63.6,86.1 62.6,87.1 61.7,88.6C60.8,90 60,92.1 59.4,94C58.9,96 58.5,96 58.4,100C58.3,104 59,113.2 58.9,118.3C58.7,123.3 57.7,126.3 57.4,130.3C57,134.2 57.2,138.1 56.8,141.7C56.5,145.4 56,148.9 55.3,152C54.6,155 53.1,158.1 52.4,160.3C51.8,162.5 51.8,163 51.6,165.3C51.5,167.5 51.8,170.5 51.6,173.8C51.5,177 50.6,180.3 50.6,184.5C50.6,188.7 51.6,192.3 51.6,199C51.6,205.7 50.5,219.3 50.6,224.5C50.7,229.7 52,228.5 52.1,230C52.3,231.5 51.7,230.8 51.6,233.8C51.6,236.7 51.9,243.3 51.9,247.5C51.8,251.7 51.2,256.1 51.4,259C51.5,261.9 52.3,264 52.8,265.1C53.2,266.3 53.8,266 54.3,265.9C54.7,265.9 55.2,265.6 55.6,264.9C56,264.3 56.4,263.5 56.8,262C57.2,260.4 57.7,257.8 57.9,255.5C58.1,253.2 57.8,249.5 57.9,248C58,246.5 57.9,247 58.2,246.6C58.6,246.2 59.4,248 59.8,245.5C60.3,242.9 60.8,234.2 60.9,231.3C61,228.3 60.2,228.8 60.3,227.5C60.5,226.2 60.7,228.1 61.6,223.5C62.4,218.9 64.2,206.3 65.4,200C66.7,193.8 68.2,190.5 69.1,186C70,181.5 70.1,176.7 70.7,173.3C71.2,169.8 72.2,168.6 72.6,165.2C73,161.9 72.4,158 73.2,153.3C73.9,148.5 75.6,141.3 76.9,136.5C78.3,131.8 80.4,127.2 81.1,124.7C81.8,122.3 81.4,123.1 81.1,121.8C80.7,120.5 79.5,118.3 79.2,117C78.8,115.7 78.3,116.9 79.2,113.8C80,110.6 83.1,101.1 84.3,97.9C85.4,94.6 85.6,95.5 86.1,94.2C86.5,92.9 86.8,91.2 86.9,90C86.9,88.8 86.6,88.1 86.2,87.1C85.9,86.2 85.3,84.8 84.6,84.2C84,83.7 83.9,84.4 82.3,84.1C80.7,83.7 76.8,82.3 75,81.9C73.2,81.6 72.6,81.8 71.5,81.9Z"/>
-                <path class="body-fill" data-seg="arm_r" stroke="rgba(66,198,255,.35)" stroke-width="1.2" stroke-linejoin="round" d="M164.5,81.9C162.8,82.3 159,83.8 157.2,84.1C155.5,84.4 155,83.3 154.1,84C153.2,84.7 152.4,87.3 151.9,88.5C151.5,89.8 151,90.1 151.4,91.7C151.8,93.3 152.9,94.4 154.2,98.1C155.6,101.9 159,110 159.6,114.3C160.2,118.5 157.9,121.8 157.9,123.7C157.9,125.7 158.8,124.3 159.5,126.1C160.2,128 161.1,130.3 162.3,134.8C163.5,139.3 165.8,148.2 166.6,153.3C167.4,158.3 166.7,161.7 167.2,165.2C167.6,168.8 168.8,171 169.3,174.5C169.9,178 169.8,181.7 170.7,186C171.5,190.2 173.1,193.8 174.3,200C175.6,206.3 177.3,218.9 178.2,223.5C179,228.1 179.4,226.5 179.5,227.8C179.6,229 178.8,228.1 178.9,231C178.9,233.9 179.6,242.7 179.9,245.2C180.2,247.8 180.1,246 180.4,246.2C180.7,246.4 181.3,246.4 181.5,246.6C181.7,246.9 181.8,246.3 181.8,247.8C181.9,249.2 181.7,253.1 181.9,255.5C182.1,257.9 182.5,260.3 182.9,262C183.4,263.6 183.9,264.6 184.3,265.3C184.8,265.9 185.3,265.9 185.7,265.9C186.2,265.9 186.6,265.6 186.9,265.2C187.2,264.9 187.2,264.9 187.5,263.9C187.7,262.8 188.3,261.7 188.4,259C188.4,256.3 187.9,251.7 187.9,247.5C187.8,243.3 188.2,236.9 188.1,234C188.1,231.1 187.5,231.8 187.6,230.3C187.8,228.7 189,229.3 189.1,224.5C189.2,219.8 188.1,208.5 188.1,201.8C188.1,195 189.1,188.7 189.1,184C189.1,179.3 188.3,177.3 188.1,173.8C187.9,170.2 188.5,166.4 187.8,162.8C187.2,159.1 185.3,155.5 184.4,152C183.6,148.4 183.2,145.1 182.9,141.5C182.5,137.9 182.7,134.1 182.4,130.3C182,126.4 181.1,123.3 180.9,118.3C180.7,113.2 181.5,103.8 181.3,99.8C181.2,95.7 180.9,95.9 180.3,93.9C179.6,91.8 178.2,88.9 177.3,87.4C176.3,85.9 175.7,85.6 174.7,84.9C173.8,84.2 172.7,83.5 171.6,83C170.5,82.5 169.2,82.1 168,81.9C166.8,81.7 166.3,81.6 164.5,81.9Z"/>
-                <path class="body-fill" data-seg="leg_l" stroke="rgba(66,198,255,.35)" stroke-width="1.2" stroke-linejoin="round" d="M85,200.4C84.2,200.5 83,200.4 82.4,200.7C81.7,201.1 81.8,201.1 81.3,202.6C80.7,204.1 79.5,207.7 78.9,209.8C78.4,211.9 78.1,211.3 78.1,215.5C78.2,219.7 79.2,226.5 79.4,235C79.5,243.5 79.1,259.8 79.1,266.5C79.2,273.2 79.3,271.8 79.6,275C79.9,278.2 80.3,281.9 80.9,285.5C81.5,289.1 82.7,292.7 83.1,296.8C83.5,300.8 83,306.2 83.4,310C83.8,313.8 85.5,315.3 85.6,319.5C85.7,323.7 84.4,330.8 84.1,335C83.9,339.3 83.8,341 84.1,345C84.4,349 85.3,353.3 85.9,359.3C86.4,365.3 87.1,374.6 87.4,381C87.7,387.4 87.7,393.6 87.6,397.5C87.6,401.4 87.5,402.4 87.1,404.2C86.7,406.1 85.7,407.4 85.4,408.8C85.2,410.2 85.5,411.5 85.3,412.5C85.2,413.5 84.6,413.9 84.4,414.5C84.3,415.2 84.3,415.7 84.4,416.3C84.5,416.8 84.6,417.3 85,417.8C85.5,418.3 86.2,418.9 87.1,419.3C87.9,419.7 88.9,420.1 90,420.3C91.2,420.6 92.5,420.7 94,420.6C95.5,420.5 98,420.1 99.2,419.6C100.5,419.1 101.1,418.3 101.6,417.7C102.1,417.2 102.1,417.2 102.2,416.5C102.2,415.8 101.8,415.1 101.9,413.8C102.1,412.5 103.2,410.1 103.3,408.5C103.5,406.9 103.5,406.3 103.1,404.3C102.7,402.2 101.5,398.2 101.2,396.2C100.8,394.3 100.5,399.4 101.1,392.8C101.8,386.1 103.7,365.5 104.9,356.3C106.1,347 107.6,342.4 108.1,337.5C108.7,332.6 108.2,330 108.1,327C108,324 107.1,322.7 107.4,319.5C107.7,316.3 109.3,311.9 109.8,308C110.3,304.1 109.7,300.3 110.4,296C111.1,291.7 113.1,286.3 114.1,282.2C115,278.1 115.5,275.6 116.1,271.5C116.7,267.4 117.3,261.9 117.6,257.5C118,253.1 117.8,247.9 118.2,245.3C118.5,242.6 120.1,242.9 119.5,241.8C118.9,240.7 115.7,239.6 114.5,238.6C113.3,237.6 113.1,237.7 112.3,235.8C111.5,234 110.2,230 109.7,227.5C109.1,225 110,223.1 109.2,221C108.4,218.8 106.3,216.3 104.9,214.5C103.5,212.7 101.7,211.6 100.8,210.3C99.8,209.1 99.8,208.2 99.1,207.3C98.5,206.4 98.1,206 96.8,205C95.6,204.1 93,202.2 91.4,201.4C89.8,200.7 88.3,200.6 87.2,200.4C86.2,200.2 85.9,200.4 85,200.4Z"/>
-                <path class="body-fill" data-seg="leg_r" stroke="rgba(66,198,255,.35)" stroke-width="1.2" stroke-linejoin="round" d="M152.8,199.7C151.1,199.8 149.6,200.2 147.5,201.3C145.4,202.4 142.1,204.7 140.3,206.4C138.5,208.1 137.7,210.1 136.6,211.5C135.5,212.8 134.9,212.8 133.6,214.5C132.4,216.2 130,219.3 129.2,221.5C128.4,223.8 129.1,225.4 128.6,227.7C128.1,230.1 127.1,234 126.4,235.8C125.7,237.6 125.3,237.4 124.2,238.4C123.1,239.3 120.3,240.8 119.7,241.5C119.2,242.2 120.6,242.1 120.9,242.7C121.2,243.3 121.4,242.5 121.6,245C121.8,247.5 121.8,253.1 122.1,257.5C122.5,261.9 123.1,267.4 123.7,271.5C124.2,275.6 124.7,278.1 125.7,282.2C126.6,286.3 128.6,291.7 129.3,296C130,300.3 129.4,304.1 129.9,308C130.4,311.9 132.1,316.3 132.3,319.5C132.6,322.7 131.7,324 131.6,327C131.5,330 131.1,332.6 131.6,337.5C132.2,342.4 133.7,347 134.8,356.3C136,365.5 138,386 138.6,392.8C139.2,399.5 139,394.3 138.6,396.5C138.2,398.7 136.7,403.7 136.4,406C136.1,408.3 136.4,408.9 136.7,410.2C136.9,411.6 137.7,413 137.8,414C138,415 137.5,415.8 137.6,416.5C137.7,417.2 137.8,417.4 138.4,418C138.9,418.5 139.5,419.4 140.8,419.8C142.1,420.2 144.5,420.5 146,420.6C147.5,420.7 148.7,420.5 149.7,420.3C150.8,420.2 151.5,419.9 152.4,419.5C153.2,419 154.3,418.2 154.8,417.7C155.3,417.1 155.3,416.8 155.4,416.3C155.5,415.7 155.5,415.2 155.3,414.5C155.1,413.9 154.6,413.4 154.4,412.5C154.2,411.5 154.6,410.2 154.3,408.8C154,407.4 153,406.1 152.7,404.2C152.3,402.4 152.2,401.4 152.1,397.5C152.1,393.6 152.1,387.4 152.4,381C152.7,374.6 153.3,365.3 153.9,359.3C154.4,353.3 155.3,349 155.6,345C155.9,341 155.9,339.2 155.6,335C155.4,330.8 154,323.9 154.1,319.8C154.3,315.6 155.9,313.8 156.3,310C156.8,306.2 156.2,301.4 156.7,296.8C157.2,292.1 158.7,287 159.3,282C160,277 160.4,274.5 160.6,266.8C160.8,259 160.2,243.5 160.4,235.3C160.5,227 161.5,221.2 161.6,217.5C161.8,213.8 161.6,214.4 161.3,212.8C161.1,211.1 160.9,209.7 160.3,207.6C159.6,205.6 158.6,201.8 157.4,200.5C156.2,199.2 154.5,199.6 152.8,199.7Z"/>
-                <path class="body-detail" stroke-linecap="round" d="M116.8,89.9Q100.5,85.3 85.2,92.2M117.3,129.7Q104,137.5 93,134.3Q86.1,132 83.8,120.6M118.6,162.5Q113.1,163.8 107.2,162.5M118.6,173Q113.1,174.4 107.2,173M118.6,183.5Q113.1,184.9 107.2,183.5M103.5,194.3Q109.9,208 116.8,218.1M90.7,301.5Q96.6,306.5 102.6,301.5M105.3,237.8Q102.1,260.7 103.1,292.8M86.6,240.1Q87.9,265.3 88.9,292.8M113.1,59.2Q114,72.9 115,82.5M123.2,89.9Q139.5,85.3 154.8,92.2M122.7,129.7Q136,137.5 147,134.3Q153.9,132 156.2,120.6M121.4,162.5Q126.9,163.8 132.8,162.5M121.4,173Q126.9,174.4 132.8,173M121.4,183.5Q126.9,184.9 132.8,183.5M136.5,194.3Q130.1,208 123.2,218.1M137.4,301.5Q143.4,306.5 149.3,301.5M134.7,237.8Q137.9,260.7 136.9,292.8M153.4,240.1Q152.1,265.3 151.1,292.8M126.9,59.2Q126,72.9 125,82.5M120,98.1L120,125.6M120,149.6L120,193.1"/>
-                <g class="zone-hot" data-zone="chest" data-label="Pecho" transform="translate(120,122)"><circle class="ring" r="10"/><circle class="dot" r="5"/></g>
-                <g class="zone-hot" data-zone="waist" data-label="Cintura" transform="translate(120,176)"><circle class="ring" r="10"/><circle class="dot" r="5"/></g>
-                <g class="zone-hot" data-zone="armL" data-label="Brazo izquierdo" transform="translate(68,150)"><circle class="ring" r="10"/><circle class="dot" r="5"/></g>
-                <g class="zone-hot" data-zone="armR" data-label="Brazo derecho" transform="translate(172,150)"><circle class="ring" r="10"/><circle class="dot" r="5"/></g>
-                <g class="zone-hot" data-zone="legs" data-label="Piernas" transform="translate(120,300)"><circle class="ring" r="10"/><circle class="dot" r="5"/></g>
-              </svg>
-              <div class="flex-1 min-w-[220px]">
-                <div class="measure-form" id="formGeneral">
-                  <label>Peso (kg) <input type="number" step="0.1" id="mWeight"></label>
-                  <label>% Grasa corporal <input type="number" step="0.1" id="mFat"></label>
-                  <label>Masa muscular (kg) <input type="number" step="0.1" id="mMuscle"></label>
-                  <label>Meta de peso (kg) <input type="number" step="0.1" id="mGoal"></label>
-                  <button class="btn-primary btn-sm" onclick="saveMeasurement('general')">Guardar peso / InBody</button>
-                </div>
-                <div class="measure-form" id="formZone">
-                  <label id="zoneFormLabel">Zona (cm) <input type="number" step="0.1" id="mZoneValue"></label>
-                  <button class="btn-primary btn-sm" onclick="saveMeasurement('zone')">Guardar medida</button>
-                </div>
-                <button class="btn-outline btn-sm mb-3" onclick="toggleForm('formGeneral')">+ Registrar peso / InBody de hoy</button>
-                <table class="metrics-table" id="metricsTable"></table>
-              </div>
-            </div>
-          </div>
-          <div class="card p-6 reveal">
-            <h2 class="text-[15px] font-bold display mb-1">Avance</h2>
-            <p class="text-[12px] mb-3" style="color:var(--ink-soft);">Peso y % grasa registrados desde el inicio del reto</p>
-            <svg class="chart" id="progressChart" viewBox="0 0 600 170" preserveAspectRatio="none"></svg>
-            <div class="legend flex gap-4 mt-2 text-[11px]" style="color:var(--ink-soft);">
-              <span><span class="dot" style="background:var(--cyan)"></span>Peso (kg)</span>
-              <span><span class="dot" style="background:var(--gold)"></span>% Grasa</span>
-            </div>
-          </div>
         </div>
       </section>
       <!-- ===================== AJUSTES ===================== -->
@@ -838,66 +829,100 @@ function drawGauge(id, pct, color){
       transform="rotate(-90 ${cx} ${cy})"/>
   `;
 }
-/* ---------- BODY DIAGRAM (flat/hotspots) ---------- */
-document.querySelectorAll('.zone-hot').forEach(z=>{
-  z.addEventListener('click', ()=>{
-    const zone = z.dataset.zone;
-    activeZone = zone;
-    document.getElementById('zoneFormLabel').firstChild.textContent = ZONE_LABELS[zone]+' (cm) ';
-    toggleForm('formZone');
-  });
-});
+/* ---------- MEDIDAS: puntos sobre el cuerpo 3D + tabla ---------- */
+const ZONE_SHORT = {chest:'Pecho',waist:'Cintura',armL:'Brazo izq.',armR:'Brazo der.',legs:'Piernas'};
+function openZone(zone, fromRow){
+  activeZone = zone;
+  document.getElementById('zoneFormLabel').firstChild.textContent = ZONE_LABELS[zone]+' (cm) ';
+  toggleForm('formZone');
+  document.querySelectorAll('.zone-hot').forEach(h=>h.classList.toggle('active', h.dataset.zone===zone));
+  const last = [...state.measurements].reverse().find(m=>m[zone]!==undefined);
+  const inp = document.getElementById('mZoneValue'); inp.value = last ? last[zone] : '';
+  if(body3D && body3D.focus) body3D.focus(zone);          // el cuerpo gira para mostrar la zona
+  if(fromRow){                                            // la fila está bajo el visor: súbelo a la vista para ver el formulario
+    const w = document.getElementById('body3dWrap'), r = w.getBoundingClientRect();
+    if(r.top < 0 || r.bottom > window.innerHeight) w.scrollIntoView({behavior:'smooth', block:'center'});
+  }
+  setTimeout(()=>{
+    inp.focus({preventScroll:true}); inp.select();
+    if(window.innerWidth < 1024) inp.scrollIntoView({block:'center', behavior:'smooth'});   // en móvil, que el teclado no tape el campo
+  }, 80);
+}
+function closeZoneForm(){
+  document.querySelectorAll('.measure-form').forEach(f=>f.classList.remove('active'));
+  document.querySelectorAll('.zone-hot.active').forEach(h=>h.classList.remove('active'));
+  if(body3D && body3D.release) body3D.release();
+}
 function toggleForm(id){
   document.querySelectorAll('.measure-form').forEach(f=>f.classList.remove('active'));
   document.getElementById(id).classList.add('active');
+  if(id!=='formZone'){ document.querySelectorAll('.zone-hot.active').forEach(h=>h.classList.remove('active')); if(body3D && body3D.release) body3D.release(); }
 }
+function activateRow(tr){ if(tr.dataset.zone) openZone(tr.dataset.zone, true); else if(tr.dataset.form) toggleForm(tr.dataset.form); }
+document.querySelectorAll('.zone-hot').forEach(z=>{ z.addEventListener('click', ()=>openZone(z.dataset.zone)); });
+document.getElementById('metricsTable').addEventListener('click', e=>{ const tr = e.target.closest('tr'); if(tr) activateRow(tr); });
+document.getElementById('metricsTable').addEventListener('keydown', e=>{
+  if(e.key!=='Enter' && e.key!==' ') return;
+  const tr = e.target.closest('tr'); if(tr){ e.preventDefault(); activateRow(tr); }
+});
+document.getElementById('mZoneValue').addEventListener('keydown', e=>{ if(e.key==='Enter') saveMeasurement('zone'); else if(e.key==='Escape') closeZoneForm(); });
 async function saveMeasurement(kind){
   const date = todayISO();
-  let entry = state.measurements.find(m=>m.date===date);
-  if(!entry){ entry = {date}; state.measurements.push(entry); }
+  const entry = state.measurements.find(m=>m.date===date) || {date};
+  let changed = false;
   if(kind==='general'){
     const w = document.getElementById('mWeight').value;
     const f = document.getElementById('mFat').value;
     const m = document.getElementById('mMuscle').value;
     const g = document.getElementById('mGoal').value;
-    if(w) entry.weight = parseFloat(w);
-    if(f) entry.fat = parseFloat(f);
-    if(m) entry.muscle = parseFloat(m);
+    if(w){ entry.weight = parseFloat(w); changed = true; }
+    if(f){ entry.fat = parseFloat(f); changed = true; }
+    if(m){ entry.muscle = parseFloat(m); changed = true; }
     if(g){ state.settings.weightGoal = parseFloat(g); await saveSettings(); }
   } else if(kind==='zone' && activeZone){
-    entry[activeZone] = parseFloat(document.getElementById('mZoneValue').value);
+    const v = parseFloat(document.getElementById('mZoneValue').value);
+    if(!isFinite(v) || v<=0) return;                      // sin un número válido no se guarda y el formulario sigue abierto
+    entry[activeZone] = v; changed = true;
   }
-  state.measurements.sort((a,b)=>a.date.localeCompare(b.date));
-  await saveMeasurementRow(entry);
-  document.querySelectorAll('.measure-form').forEach(f=>f.classList.remove('active'));
+  if(changed){
+    if(!state.measurements.includes(entry)) state.measurements.push(entry);
+    state.measurements.sort((a,b)=>a.date.localeCompare(b.date));
+    await saveMeasurementRow(entry);
+  }
+  closeZoneForm();
   renderBody(); renderChart(); renderKPIs();
 }
 function renderBody(){
-  const latest = state.measurements[state.measurements.length-1];
-  const prev = state.measurements[state.measurements.length-2];
+  const today = todayISO(), todayEntry = state.measurements.find(m=>m.date===today);
+  // para cada medida: el último valor conocido y su cambio respecto al anterior
+  const last2 = key=>{ const s = state.measurements.filter(m=>m[key]!==undefined); return [s[s.length-1], s[s.length-2]]; };
   document.querySelectorAll('.zone-hot').forEach(z=>{
-    const zone = z.dataset.zone;
-    z.classList.toggle('has-data', !!(latest && latest[zone]!==undefined));
+    const zone = z.dataset.zone, [a] = last2(zone);
+    z.classList.toggle('has-data', !!(todayEntry && todayEntry[zone]!==undefined));   // verde = ya registrada hoy
+    z.dataset.label = ZONE_SHORT[zone] + (a ? ' · '+a[zone]+' cm' : '');
   });
-  const rows = [];
-  if(latest){
-    const fmt=(v,unit)=> v!==undefined ? v+unit : '—';
-    const delta=(key)=>{
-      if(!prev || latest[key]===undefined || prev[key]===undefined) return '';
-      const d = (latest[key]-prev[key]).toFixed(1);
-      const cls = key==='weight'||key==='fat' ? (d<0?'up':d>0?'down':'') : (d>0?'up':d<0?'down':'');
-      return d==0?'':` <span class="delta ${cls}">(${d>0?'+':''}${d})</span>`;
-    };
-    rows.push(['Peso', fmt(latest.weight,' kg')+delta('weight')]);
-    rows.push(['% Grasa', fmt(latest.fat,'%')+delta('fat')]);
-    rows.push(['Masa muscular', fmt(latest.muscle,' kg')+delta('muscle')]);
-    rows.push(['Pecho', fmt(latest.chest,' cm')+delta('chest')]);
-    rows.push(['Cintura', fmt(latest.waist,' cm')+delta('waist')]);
-    rows.push(['Brazo izq.', fmt(latest.armL,' cm')+delta('armL')]);
-    rows.push(['Brazo der.', fmt(latest.armR,' cm')+delta('armR')]);
-    rows.push(['Piernas', fmt(latest.legs,' cm')+delta('legs')]);
-  } else { rows.push(['Sin registros aún','—']); }
-  document.getElementById('metricsTable').innerHTML = rows.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join('');
+  const row = (label, key, unit, act)=>{
+    const [a,b] = last2(key);
+    let val = '—', delta = '', tip = 'Aún sin registro';
+    if(a){
+      val = a[key]+unit; tip = 'Medido el '+fmtDateEs(a.date);
+      if(b){
+        const d = Number((a[key]-b[key]).toFixed(1));
+        if(d!==0){ const good = (key==='weight'||key==='fat') ? d<0 : d>0; delta = ` <span class="delta ${good?'up':'down'}">(${d>0?'+':''}${d})</span>`; }
+      }
+    }
+    return `<tr ${act} tabindex="0" role="button" title="${tip}"><td>${label}</td><td>${val}${delta}</td></tr>`;
+  };
+  document.getElementById('metricsTable').innerHTML = [
+    row('Peso','weight',' kg','data-form="formGeneral"'),
+    row('% Grasa','fat','%','data-form="formGeneral"'),
+    row('Masa muscular','muscle',' kg','data-form="formGeneral"'),
+    row('Pecho','chest',' cm','data-zone="chest"'),
+    row('Cintura','waist',' cm','data-zone="waist"'),
+    row('Brazo izq.','armL',' cm','data-zone="armL"'),
+    row('Brazo der.','armR',' cm','data-zone="armR"'),
+    row('Piernas','legs',' cm','data-zone="legs"')
+  ].join('');
 }
 /* ---------- ENTRENAMIENTO: plan por fecha ---------- */
 const REQUIRED_KINDS = ['strength','core','run'];   // 'note' no cuenta; los bloques opcionales tampoco
@@ -1253,29 +1278,49 @@ function showNutriTips(){
 /* ---------- CHART ---------- */
 function renderChart(){
   const svg = document.getElementById('progressChart');
+  const W = Math.max(280, Math.round(svg.clientWidth || 560)), H = 190;      // el viewBox sigue el ancho real: sin deformar
+  svg.setAttribute('viewBox', '0 0 '+W+' '+H);
   const data = state.measurements.filter(m=>m.weight!==undefined || m.fat!==undefined);
   if(data.length < 2){
-    svg.innerHTML = `<text x="300" y="85" text-anchor="middle" font-family="IBM Plex Mono" font-size="12" fill="#5B5B69">Registra al menos 2 pesajes para ver la curva</text>`;
+    svg.innerHTML = `<text x="${W/2}" y="${H/2}" text-anchor="middle" font-family="IBM Plex Mono" font-size="12" fill="#5B5B69">Registra al menos 2 pesajes para ver la curva</text>`;
     return;
   }
-  const W=600,H=170,pad=22;
-  const weights = data.map(d=>d.weight).filter(v=>v!==undefined);
-  const fats = data.map(d=>d.fat).filter(v=>v!==undefined);
-  const wMin=Math.min(...weights)-1, wMax=Math.max(...weights)+1;
-  const fMin = fats.length?Math.min(...fats)-1:0, fMax = fats.length?Math.max(...fats)+1:1;
-  const x = i => pad + i*(W-2*pad)/(data.length-1);
-  const yW = v => H-pad - (v-wMin)/(wMax-wMin||1)*(H-2*pad);
-  const yF = v => H-pad - (v-fMin)/(fMax-fMin||1)*(H-2*pad);
-  const lineFor = (key, yfn) => {
-    let pts = [];
-    data.forEach((d,i)=>{ if(d[key]!==undefined) pts.push([x(i), yfn(d[key])]); });
-    return pts.map((p,i)=> (i===0?'M':'L')+p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ');
-  };
-  let svgContent = `<line x1="${pad}" y1="${H-pad}" x2="${W-pad}" y2="${H-pad}" stroke="#20202a"/>`;
-  svgContent += `<path d="${lineFor('weight',yW)}" fill="none" stroke="#42C6FF" stroke-width="2.2"/>`;
-  if(fats.length) svgContent += `<path d="${lineFor('fat',yF)}" fill="none" stroke="#F7C948" stroke-width="2.2" stroke-dasharray="4 3"/>`;
-  data.forEach((d,i)=>{ if(d.weight!==undefined) svgContent += `<circle cx="${x(i)}" cy="${yW(d.weight)}" r="3.2" fill="#42C6FF"/>`; });
-  svg.innerHTML = svgContent;
+  const padL=16, padR=16, padT=24, padB=30;
+  const t0 = Date.parse(data[0].date), span = (Date.parse(data[data.length-1].date) - t0) || 1;
+  const x = d => padL + (Date.parse(d.date)-t0)/span*(W-padL-padR);              // el eje X es el tiempo real
+  const series = key => data.filter(d=>d[key]!==undefined);
+  const range = (arr, key)=>{ const v = arr.map(d=>d[key]), lo = Math.min(...v), hi = Math.max(...v), m = Math.max((hi-lo)*0.15, 0.5); return [lo-m, hi+m]; };
+  const wS = series('weight'), fS = series('fat');
+  const [wLo,wHi] = wS.length ? range(wS,'weight') : [0,1], [fLo,fHi] = fS.length ? range(fS,'fat') : [0,1];
+  const yOf = (v,lo,hi) => H-padB - (v-lo)/((hi-lo)||1)*(H-padT-padB);
+  const line = (arr,key,lo,hi) => arr.map((d,i)=>(i?'L':'M')+x(d).toFixed(1)+','+yOf(d[key],lo,hi).toFixed(1)).join(' ');
+  const num = v => String(Number(v.toFixed(1)));
+  let s = `<line x1="${padL}" y1="${H-padB}" x2="${W-padR}" y2="${H-padB}" stroke="#20202a"/>`;
+  if(wS.length>1) s += `<path d="${line(wS,'weight',wLo,wHi)}" fill="none" stroke="#42C6FF" stroke-width="2.2" stroke-linejoin="round"/>`;
+  if(fS.length>1) s += `<path d="${line(fS,'fat',fLo,fHi)}" fill="none" stroke="#F7C948" stroke-width="2.2" stroke-dasharray="4 3" stroke-linejoin="round"/>`;
+  wS.forEach(d=>{ s += `<circle cx="${x(d).toFixed(1)}" cy="${yOf(d.weight,wLo,wHi).toFixed(1)}" r="3.2" fill="#42C6FF"/>`; });
+  fS.forEach(d=>{ s += `<circle cx="${x(d).toFixed(1)}" cy="${yOf(d.fat,fLo,fHi).toFixed(1)}" r="2.6" fill="#F7C948"/>`; });
+  // valores de los extremos; cada etiqueta va del lado contrario al de la otra serie para no taparse
+  [[0,'start'],[1,'end']].forEach(([last, anchor])=>{
+    const wd = wS.length ? wS[last ? wS.length-1 : 0] : null, fd = fS.length ? fS[last ? fS.length-1 : 0] : null;
+    const wy = wd ? yOf(wd.weight,wLo,wHi) : null, fy = fd ? yOf(fd.fat,fLo,fHi) : null;
+    const wUp = wy===null || fy===null || wy <= fy;
+    const put = (d, y, txt, color, up)=>{
+      const ty = Math.max(12, Math.min(H-padB-4, y + (up ? -9 : 16)));
+      s += `<text x="${x(d).toFixed(1)}" y="${ty.toFixed(1)}" text-anchor="${anchor}" font-family="IBM Plex Mono" font-size="10.5" font-weight="700" fill="${color}">${txt}</text>`;
+    };
+    if(wd) put(wd, wy, num(wd.weight)+' kg', '#42C6FF', wUp);
+    if(fd) put(fd, fy, num(fd.fat)+'%', '#F7C948', !wUp);
+  });
+  const mixedYears = data[0].date.slice(0,4)!==data[data.length-1].date.slice(0,4);
+  const dm = d => d.date.slice(8)+'/'+d.date.slice(5,7)+(mixedYears ? '/'+d.date.slice(2,4) : '');
+  s += `<text x="${padL}" y="${H-10}" font-family="IBM Plex Mono" font-size="10" fill="#5B5B69">${dm(data[0])}</text>`;
+  s += `<text x="${W-padR}" y="${H-10}" text-anchor="end" font-family="IBM Plex Mono" font-size="10" fill="#5B5B69">${dm(data[data.length-1])}</text>`;
+  svg.innerHTML = s;
+}
+if('ResizeObserver' in window){                                   // se redibuja cuando cambia el ancho de la tarjeta
+  let chartW = 0;
+  new ResizeObserver(es=>{ const w = Math.round(es[0].contentRect.width); if(w && w!==chartW){ chartW = w; renderChart(); } }).observe(document.getElementById('progressChart'));
 }
 /* ---------- KPIs ---------- */
 function renderKPIs(){
@@ -1303,9 +1348,9 @@ function renderKPIs(){
   drawGauge('gaugeLog', Math.min(1,streak/7), '#4EE597');
   document.getElementById('kpiStreak').textContent = streak+(streak===1?' día':' días');
   setBadge('badgeStreak', streak>=5?'good':streak>=2?'warn':'bad', streak>=5?'▲ sólida':streak>=2?'● sigue así':'▼ reinicia hoy');
-  const latest = state.measurements[state.measurements.length-1];
+  const latest = [...state.measurements].reverse().find(m=>m.weight!==undefined);   // último peso conocido (aunque hoy solo hayas medido una zona)
   const goal = state.settings.weightGoal;
-  if(latest && latest.weight!==undefined){
+  if(latest){
     document.getElementById('kpiWeight').textContent = latest.weight+' kg';
     if(goal){
       const diff = latest.weight - goal;
@@ -1452,10 +1497,6 @@ function applyBodyLayer(){
     const c = LAYER_COLORS[bodyLayer];
     el.style.display = '';
     el.innerHTML = ['low','normal','high'].map(k=>`<span><i style="background:${c[k]}"></i>${EVAL_LABELS[k]}</span>`).join('') + `<span style="color:var(--ink-faint);">· ${LAYER_NAMES[bodyLayer].toLowerCase()} por segmento · InBody del ${fmtDateEs(state.inbody.measured_on)}</span>`;
-  });
-  document.querySelectorAll('.body-illustration [data-seg]').forEach(el=>{
-    const c = bodyLayer!=='off' ? segmentColor(bodyLayer, el.dataset.seg) : null;
-    if(c){ el.style.fill = c; el.style.fillOpacity = '.5'; el.style.stroke = c; } else { el.style.fill = ''; el.style.fillOpacity = ''; el.style.stroke = ''; }
   });
   if(body3D) body3D.update();
   renderInbodySegments();
@@ -1771,6 +1812,16 @@ const BodyGen = (function(){
 })();
 
 const BODY_SEGS = ['neutral','arm_l','arm_r','trunk','leg_l','leg_r'];   // mismo orden que el índice de segmentos del generador
+// puntos de medida sobre la piel (metros, en el modelo) y su dirección hacia afuera; "legs" lleva un punto por muslo
+const HOT_ANCHORS = {
+  chest:{p:[0,1.333,.102], n:[-.006,.056,.998]},
+  waist:{p:[0,1.075,.110], n:[0,-.011,1]},
+  armL:{p:[-.263,1.27,.043], n:[-.736,.024,.677]},
+  armR:{p:[.263,1.27,.043], n:[.736,.024,.677]},
+  legL:{p:[-.098,.70,.108], n:[-.025,.026,.999]},
+  legR:{p:[.098,.70,.108], n:[.025,.026,.999]}
+};
+const FOCUS_YAW = {chest:0, waist:0, legs:0, armL:.6, armR:-.6};   // hacia dónde gira el cuerpo al tocar cada zona
 function initBody3D(){
   const wrap = document.getElementById('body3dWrap');
   if(!wrap || typeof THREE === 'undefined') return;
@@ -1787,7 +1838,7 @@ function initBody3D(){
   renderer.setSize(w, h); renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
   renderer.domElement.setAttribute('role','img');
   renderer.domElement.setAttribute('aria-label','Modelo 3D de tu cuerpo; arrástralo para girarlo');
-  wrap.appendChild(renderer.domElement);
+  wrap.insertBefore(renderer.domElement, wrap.firstChild);       // el lienzo queda debajo de los puntos y del formulario
   const group = new THREE.Group();
   scene.add(group);
 
@@ -1848,11 +1899,24 @@ function initBody3D(){
     });
     mats.neutral.uniforms.uDim.value = (bodyLayer!=='off' && state.inbody) ? 0.45 : 1;
   }
-  body3D = { update: updateLayer };
   updateLayer();
 
+  // movimiento: el cuerpo se balancea de frente (para que los puntos de medida se puedan tocar) y se gira arrastrando;
+  // al tocar una zona se detiene y gira para mostrarla
+  let readyAt = 0, dragging = false, lastX = 0, userYaw = 0, yaw = 0.3, phase = 0, paused = false, focusYaw = null, lastT = 0, visible = true;
+  const angDiff = (a,b)=>{ let d = (b-a)%(2*Math.PI); if(d>Math.PI) d -= 2*Math.PI; else if(d<-Math.PI) d += 2*Math.PI; return d; };
+  const swayOf = p => calm ? 0 : Math.sin(p)*0.5;
+  function focus(zone){ if(FOCUS_YAW[zone]!==undefined) focusYaw = FOCUS_YAW[zone]; }
+  function release(){ if(focusYaw===null) return; userYaw = yaw - swayOf(phase) - 0.1; focusYaw = null; }
+  body3D = { update: updateLayer, focus, release };
+
+  const hots = [...wrap.querySelectorAll('.hot3d')].map(el=>({ el, anchor:null, n:new THREE.Vector3(...HOT_ANCHORS[el.dataset.anchor].n).normalize() }));
+  hots.forEach(hh=>{
+    hh.el.addEventListener('pointerenter', ()=>{ paused = true; });      // con el puntero encima el cuerpo se queda quieto
+    hh.el.addEventListener('pointerleave', ()=>{ paused = false; });
+  });
+
   // el modelo se genera en segundo plano; al terminar aparece con un fundido
-  let readyAt = 0;
   if(caption) caption.textContent = 'preparando el modelo…';
   const startGen = ()=>BodyGen.generate({ h: Math.min(window.innerWidth, window.innerHeight) < 600 ? 0.0125 : 0.01 }).then(m=>{
     const pa = new THREE.BufferAttribute(m.positions,3), na = new THREE.BufferAttribute(m.normals,3);
@@ -1864,6 +1928,9 @@ function initBody3D(){
       body.add(new THREE.Mesh(g, mats[BODY_SEGS[i]]));
     });
     body.scale.setScalar(BODY_SCALE); body.position.y = -1.06;     // pies abajo, cabeza arriba, centrado en el encuadre
+    hots.forEach(hh=>{                                              // cada punto de medida va "pegado" al cuerpo
+      const o = new THREE.Object3D(); o.position.set(...HOT_ANCHORS[hh.el.dataset.anchor].p); body.add(o); hh.anchor = o;
+    });
     group.add(body);
     readyAt = performance.now();
     if(caption) caption.textContent = 'arrastra para orbitar';
@@ -1874,29 +1941,43 @@ function initBody3D(){
     document.addEventListener('visibilitychange', function f(){ if(!document.hidden){ document.removeEventListener('visibilitychange', f); startGen(); } });
   }, 2000);
 
-  let dragging=false, lastX=0, userRotY=0, visible=true;
   renderer.domElement.style.cursor='grab';
   renderer.domElement.style.touchAction='pan-y';              // el scroll vertical de la página sigue funcionando en móvil
-  renderer.domElement.addEventListener('pointerdown', e=>{dragging=true; lastX=e.clientX; renderer.domElement.style.cursor='grabbing';});
-  window.addEventListener('pointerup', ()=>{dragging=false; renderer.domElement.style.cursor='grab';});
-  window.addEventListener('pointermove', e=>{ if(dragging){ userRotY += (e.clientX-lastX)*0.006; lastX=e.clientX; } });
+  renderer.domElement.addEventListener('pointerdown', e=>{ dragging=true; lastX=e.clientX; release(); renderer.domElement.style.cursor='grabbing'; });
+  window.addEventListener('pointerup', ()=>{ dragging=false; renderer.domElement.style.cursor='grab'; });
+  window.addEventListener('pointermove', e=>{ if(dragging){ userYaw += (e.clientX-lastX)*0.006; lastX=e.clientX; } });
   if('IntersectionObserver' in window) new IntersectionObserver(es=>{ visible = es[0].isIntersecting; }).observe(wrap);   // fuera de pantalla no se dibuja
-  function scrollProgress(){
-    const rect = wrap.getBoundingClientRect();
-    const vh = window.innerHeight;
-    const p = 1 - Math.max(0, Math.min(1, rect.top / (vh*0.9)));
-    return Math.max(0, Math.min(1, p));
+
+  const _v = new THREE.Vector3(), _n = new THREE.Vector3(), _q = new THREE.Quaternion(), _d = new THREE.Vector3();
+  function updateHots(fade){
+    const cw = wrap.clientWidth, ch = wrap.clientHeight;
+    hots.forEach(hh=>{
+      if(!hh.anchor) return;
+      hh.anchor.getWorldPosition(_v);
+      hh.anchor.getWorldQuaternion(_q);
+      _n.copy(hh.n).applyQuaternion(_q);
+      _d.copy(camera.position).sub(_v).normalize();
+      const op = Math.max(0, Math.min(1, (_n.dot(_d) - 0.12)/0.30)) * fade;       // se apaga cuando la zona da la espalda
+      _v.project(camera);
+      hh.el.style.transform = 'translate('+((_v.x*0.5+0.5)*cw).toFixed(1)+'px,'+((-_v.y*0.5+0.5)*ch).toFixed(1)+'px) translate(-50%,-50%)';
+      hh.el.style.opacity = op.toFixed(2);
+      hh.el.style.pointerEvents = op>0.45 ? 'auto' : 'none';
+    });
   }
   function animate(t){
     requestAnimationFrame(animate);
+    const dt = Math.min(0.1, Math.max(0, (t-lastT)/1000)); lastT = t;
     if(!readyAt || !visible) return;
-    const sp = scrollProgress();
     const fade = Math.min(1, (performance.now()-readyAt)/900);
     BODY_SEGS.forEach(seg=>{ mats[seg].uniforms.uFade.value = fade; });
-    group.rotation.y = (calm ? 0.5 : t*0.00018) + userRotY + (calm ? 0 : sp*Math.PI*1.4);
-    group.rotation.x = calm ? 0.05 : Math.sin(t*0.0005)*0.05 + sp*0.15;
-    group.position.y = (calm ? 0 : Math.sin(t*0.0007)*0.05) - 0.15;
+    if(!calm && !paused && !dragging && focusYaw===null) phase += dt*0.32;
+    const target = focusYaw!==null ? focusYaw : userYaw + swayOf(phase) + 0.1;
+    yaw += angDiff(yaw, target) * (1 - Math.exp(-dt*(dragging ? 30 : 5)));
+    group.rotation.y = yaw;
+    group.rotation.x = calm ? 0.05 : 0.06 + Math.sin(t*0.0004)*0.03;
+    group.position.y = -0.15;
     renderer.render(scene, camera);
+    updateHots(fade);
   }
   requestAnimationFrame(animate);
   window.addEventListener('resize', ()=>{
